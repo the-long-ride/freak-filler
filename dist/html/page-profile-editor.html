@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Profile Editor</title>
+  <link rel="icon" type="image/x-icon" href="../icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon-16.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/icon-48.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="../icons/icon-128.png">
+  <link rel="stylesheet" href="../css/cyberpunk-buttons.css">
+  <link rel="stylesheet" href="../css/action-buttons.css">
+  <link rel="stylesheet" href="../css/toast.css">
+  <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="../css/guide-overlay.css">
+  <link rel="stylesheet" href="../css/page-profile-editor.css">
+  <link rel="stylesheet" href="../css/scrollbar.css">
+</head>
+
+<body id="page-profile-editor">
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div>
+          <h1>Page Profile Editor</h1>
+          <div class="app-version" data-version></div>
+        </div>
+        <button id="settingsBtn" class="theme-toggle" title="Settings" data-icons="Gear"></button>
+        <button id="themeToggle" class="theme-toggle" title="Toggle dark mode">
+          <svg class="theme-icon light-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88" width="20" height="20">
+            <path fill="currentColor" d="M30,13.21A3.93,3.93,0,1,1,36.8,9.27L41.86,18A3.94,3.94,0,1,1,35.05,22L30,13.21Zm31.45,13A35.23,35.23,0,1,1,36.52,36.52,35.13,35.13,0,0,1,61.44,26.2ZM58.31,4A3.95,3.95,0,1,1,66.2,4V14.06a3.95,3.95,0,1,1-7.89,0V4ZM87.49,10.1A3.93,3.93,0,1,1,94.3,14l-5.06,8.76a3.93,3.93,0,1,1-6.81-3.92l5.06-8.75ZM109.67,30a3.93,3.93,0,1,1,3.94,6.81l-8.75,5.06a3.94,3.94,0,1,1-4-6.81L109.67,30Zm9.26,28.32a3.95,3.95,0,1,1,0,7.89H108.82a3.95,3.95,0,1,1,0-7.89Zm-6.15,29.18a3.93,3.93,0,1,1-3.91,6.81l-8.76-5.06A3.93,3.93,0,1,1,104,82.43l8.75,5.06ZM92.89,109.67a3.93,3.93,0,1,1-6.81,3.94L81,104.86a3.94,3.94,0,0,1,6.81-4l5.06,8.76Zm-28.32,9.26a3.95,3.95,0,1,1-7.89,0V108.82a3.95,3.95,0,1,1,7.89,0v10.11Zm-29.18-6.15a3.93,3.93,0,0,1-6.81-3.91l5.06-8.76A3.93,3.93,0,1,1,40.45,104l-5.06,8.75ZM13.21,92.89a3.93,3.93,0,1,1-3.94-6.81L18,81A3.94,3.94,0,1,1,22,87.83l-8.76,5.06ZM4,64.57a3.95,3.95,0,1,1,0-7.89H14.06a3.95,3.95,0,1,1,0,7.89ZM10.1,35.39A3.93,3.93,0,1,1,14,28.58l8.76,5.06a3.93,3.93,0,1,1-3.92,6.81L10.1,35.39Z" />
+          </svg>
+          <svg class="theme-icon dark-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.56 122.88" width="20" height="20">
+            <path fill="currentColor" d="M121.85,87.3A64.31,64.31,0,1,1,36.88.4c2.94-1.37,5.92.91,4.47,4.47a56.29,56.29,0,0,0,75.75,77.4l.49-.27a3.41,3.41,0,0,1,4.61,4.61l-.35.69ZM92.46,74.67H92A16.11,16.11,0,0,0,76.2,58.93v-.52a15.08,15.08,0,0,0,11-4.72,15.19,15.19,0,0,0,4.72-11h.51a15.12,15.12,0,0,0,4.72,11,15.12,15.12,0,0,0,11,4.72v.51A16.13,16.13,0,0,0,92.46,74.67Zm10.09-46.59h-.27a7.94,7.94,0,0,0-2.49-5.81A7.94,7.94,0,0,0,94,19.78v-.27A7.94,7.94,0,0,0,99.79,17a8,8,0,0,0,2.49-5.8h.27A8,8,0,0,0,105,17a8,8,0,0,0,5.81,2.49v.27A8,8,0,0,0,105,22.27a7.94,7.94,0,0,0-2.49,5.81Zm-41.5,8h-.41a12.06,12.06,0,0,0-3.78-8.82A12.06,12.06,0,0,0,48,23.5v-.41a12.07,12.07,0,0,0,8.82-3.78,12.09,12.09,0,0,0,3.78-8.82h.41a12.08,12.08,0,0,0,3.77,8.82,12.09,12.09,0,0,0,8.83,3.78v.41a12.09,12.09,0,0,0-8.83,3.78,12.08,12.08,0,0,0-3.77,8.82Z" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-content" id="sidebarContent">
+        <span class="note invisible" data-group="isPresetOnlyMode">
+          Note: In preset-only mode, page information is not editable.
+        </span>
+
+        <h3 style="margin-top: 16px; font-size: 14px; color: var(--text-secondary);" data-group="pageInfo">
+          Page Information
+        </h3>
+
+        <div class="info-item" data-group="pageInfo">
+          <label for="pageId">Page ID:</label>
+          <span id="pageId">null</span>
+        </div>
+
+        <div class="form-group" data-group="pageInfo">
+          <label for="pageTitle">Page Title:</label>
+          <input type="text" id="pageTitle" placeholder="Page title" />
+        </div>
+
+        <div class="form-group" data-group="pageInfo">
+          <label for="pageUrl">URL:</label>
+          <input type="text" id="pageUrl" placeholder="Page URL" />
+        </div>
+
+        <div class="form-group" data-group="pageInfo">
+          <label for="pageDescription">Description:</label>
+          <textarea id="pageDescription" rows="3" placeholder="Page description"></textarea>
+        </div>
+
+        <div class="form-group" data-group="pageInfo">
+          <label for="pageMatchIdentify">URL Match Type:</label>
+          <select id="pageMatchIdentify" class="match-select">
+            <option value="prefixMatch">Prefix Match</option>
+            <option value="exactMatch">Exact Match</option>
+          </select>
+        </div>
+
+        <div class="sidebar-actions" data-group="pageInfo">
+          <button id="saveBtn" class="cyber-btn" style="display: none;" data-icons="Disk">
+            Save Page Info
+            <span class="cyber-btn__glitch"></span>
+            <span class="cyber-btn__label">save</span>
+          </button>
+          <button id="cancelBtn" class="cyber-btn cyber-btn--secondary" style="display: none;">
+            Cancel
+            <span class="cyber-btn__glitch"></span>
+            <span class="cyber-btn__label">back</span>
+          </button>
+          <button id="linkPresetsBtn" class="cyber-btn cyber-btn--secondary" title="Link presets to current page" data-icons="Link">
+            Link With Other Presets
+            <span class="cyber-btn__glitch"></span>
+            <span class="cyber-btn__label">link</span>
+          </button>
+          <button id="exportBtn" class="cyber-btn cyber-btn--secondary" data-icons="Export">
+            Export JSON
+            <span class="cyber-btn__glitch"></span>
+            <span class="cyber-btn__label">out</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="content">
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button class="tab-btn active" data-tab="preset-tab">
+          <span>Preset Editor</span>
+        </button>
+        <button class="tab-btn" data-tab="saved-values-tab" data-group="pageInfo">
+          <span>Saved Values</span>
+        </button>
+      </div>
+
+      <!-- Tab 1: Preset Editor -->
+      <div id="preset-tab" class="tab-content active">
+        <div class="preset-header">
+          <div class="preset-selector-group">
+            <label for="presetSelector">
+              Select Preset:
+            </label>
+            <div style="display: flex; gap: 8px; align-items: flex-start; flex: 1;">
+              <div style="flex: 1; position: relative;">
+                <select id="presetSelector" class="preset-selector">
+                  <option value="">Create New Preset</option>
+                </select>
+                <div id="presetIdDisplay"
+                  style="font-size: 10px; color: var(--text-secondary); margin-top: 2px; padding-left: 4px; display: none;">
+                  ID: <span id="presetIdValue"></span>
+                </div>
+              </div>
+              <button id="importPresetJsonBtn" class="cyber-btn cyber-btn--compact" title="Import Preset from JSON"
+                data-icons="Import">
+                Import
+                <span class="cyber-btn__glitch"></span>
+                <span class="cyber-btn__label">in</span>
+              </button>
+              <button id="exportPresetJsonBtn" class="cyber-btn cyber-btn--compact" title="Export Preset to JSON"
+                data-icons="Export">
+                Export
+                <span class="cyber-btn__glitch"></span>
+                <span class="cyber-btn__label">out</span>
+              </button>
+              <button id="linkPresetToPagesBtn" class="cyber-btn cyber-btn--compact cyber-btn--secondary"
+                title="Link this preset to existing page(s)" data-icons="Link">
+                Link to Pages
+                <span class="cyber-btn__glitch"></span>
+                <span class="cyber-btn__label">link</span>
+              </button>
+              <button class="guide-trigger-btn" data-guide="preset-editor-guide" title="Show guide for Preset Editor"
+                data-icons="Info"></button>
+            </div>
+          </div>
+          <input type="file" id="importPresetFile" accept=".json" style="display: none;" />
+
+          <div class="preset-info-group">
+            <div class="form-row">
+              <div class="form-col">
+                <label for="presetName">Preset Name:</label>
+                <input type="text" id="presetName" placeholder="Enter preset name" required />
+              </div>
+              <div class="form-col">
+                <label for="presetDescription">Description:</label>
+                <input type="text" id="presetDescription" placeholder="Preset description" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-grid-header">
+          <div class="data-grid-actions-left">
+            <button id="savePresetBtn" class="cyber-btn cyber-btn--compact" style="display: none;" data-icons="Disk">
+              Save
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">Save</span>
+            </button>
+            <button id="rollbackPresetBtn" class="cyber-btn cyber-btn--compact cyber-btn--secondary"
+              style="display: none;">
+              Rollback
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">reset</span>
+            </button>
+            <button id="deletePresetBtn" class="cyber-btn cyber-btn--compact cyber-btn--danger" style="display: none;"
+              data-icons="Trash">
+              Delete This Preset
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">del</span>
+            </button>
+          </div>
+          <div class="data-grid-actions-right">
+            <button id="addFormDataBtn" class="cyber-btn cyber-btn--compact" data-icons="Plus">
+              Field
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">add</span>
+            </button>
+          </div>
+        </div>
+        <span class="record-count" id="formDataCount"></span>
+        <div class="table-container compact-presets">
+          <table id="formDataTable">
+            <thead>
+              <tr>
+                <th class="order-column" title="Drag rows to reorder">Order</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Test ID</th>
+                <th>Selector</th>
+                <th>Delay (ms)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="formDataBody">
+              <!-- Rows will be dynamically generated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Saved Values -->
+      <div id="saved-values-tab" class="tab-content" data-group="pageInfo">
+        <div class="data-grid-header">
+          <div class="data-grid-actions-left">
+            <button id="saveSavedValuesBtn" class="cyber-btn cyber-btn--compact" style="display: none;"
+              data-icons="Disk">
+              Save
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">save</span>
+            </button>
+            <button id="rollbackSavedValuesBtn" class="cyber-btn cyber-btn--compact cyber-btn--secondary"
+              style="display: none;">
+              Rollback
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">reset</span>
+            </button>
+          </div>
+          <div class="data-grid-actions-right">
+            <button id="importSavedValuesBtn" class="cyber-btn cyber-btn--compact" title="Import Saved Values from JSON"
+              data-icons="Import">
+              Import
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">import</span>
+            </button>
+            <button id="exportSavedValuesBtn" class="cyber-btn cyber-btn--compact" title="Export Saved Values to JSON"
+              data-icons="Export">
+              Export
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">export</span>
+            </button>
+            <button id="addSavedValueBtn" class="cyber-btn cyber-btn--compact" data-icons="Plus">
+              Add Value
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">add</span>
+            </button>
+            <button class="guide-trigger-btn" data-guide="saved-values-guide" title="Show guide for Saved Values"
+              data-icons="Info"></button>
+          </div>
+        </div>
+        <input type="file" id="importSavedValuesFile" accept=".json" style="display: none;" />
+        <span class="record-count" id="savedValuesCount"></span>
+        <div class="table-container compact-presets">
+          <table id="savedValuesTable">
+            <thead>
+              <tr>
+                <th>Field Label</th>
+                <th>Value</th>
+                <th>Test ID</th>
+                <th>Selector</th>
+                <th>Last Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="savedValuesBody">
+              <!-- Saved values will be dynamically generated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Guide Overlays -->
+  <!-- Preset Editor Guide -->
+  <div id="preset-editor-guide" class="guide-overlay">
+    <div class="guide-container">
+      <div class="guide-header">
+        <h2 class="guide-title">Preset Editor Guide</h2>
+        <button class="guide-close">×</button>
+      </div>
+      <div class="guide-body">
+        <div class="guide-section">
+          <h3 class="guide-section-title">What is Preset Editor?</h3>
+          <p>The Preset Editor is where you create and manage form presets - collections of form field configurations
+            that can automatically fill forms on your pages.</p>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Creating a Preset</h3>
+          <ul>
+            <li>Select <strong>"Create New Preset"</strong> from the dropdown</li>
+            <li>Enter a <strong>Preset Name</strong> and optional <strong>Description</strong></li>
+            <li>Click <strong>"Add Field"</strong> to manually add form fields</li>
+            <li>Or use content script to scan the page for existing fields</li>
+            <li>Click <strong>"Save"</strong> when done</li>
+          </ul>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Field Configuration</h3>
+          <p>Each form field can be configured with:</p>
+          <ul>
+            <li><strong>Title:</strong> Display name for the field</li>
+            <li><strong>Type:</strong> Input type (text, checkbox, radio, dropdown, etc.)</li>
+            <li><strong>Value:</strong> The value to fill into the field</li>
+            <li><strong>Test ID:</strong> data-testid attribute for precise targeting</li>
+            <li><strong>Selector:</strong> CSS selector for finding the element</li>
+            <li><strong>Delay (ms):</strong> Wait time before filling the field (useful for dynamic forms)</li>
+          </ul>
+        </div>
+
+        <div class="guide-tip">
+          <p><strong data-icons="Lightbub">Pro Tip:</strong> Use Test ID when available - it's more reliable than CSS selectors. Many modern
+            web apps use data-testid attributes for testing.</p>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Field Actions</h3>
+          <ul>
+            <li><strong>Drag & Drop:</strong> Click and drag the order column to reorder fields</li>
+            <li><strong>Insert After:</strong> Add a new field below the current one</li>
+            <li><strong>Duplicate:</strong> Create a copy of the field</li>
+            <li><strong>Delete:</strong> Remove the field from the preset</li>
+            <li><strong>Move (Re-order):</strong> Use the move action to jump this field to a specific position in the list</li>
+            <li><strong>Share:</strong> Click the share icon to copy or share this field's configuration with other presets</li>
+          </ul>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Import/Export</h3>
+          <ul>
+            <li><strong>Export:</strong> Save your preset as a JSON file for backup or sharing</li>
+            <li><strong>Import:</strong> Load a preset from a JSON file</li>
+            <li><strong>Link to Pages:</strong> Associate this preset with multiple page profiles</li>
+          </ul>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Keyboard Shortcuts</h3>
+          <div class="guide-code">
+            Ctrl + F - Search for fields in the table<br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Values Guide -->
+  <div id="saved-values-guide" class="guide-overlay">
+    <div class="guide-container">
+      <div class="guide-header">
+        <h2 class="guide-title">Saved Values Guide</h2>
+        <button class="guide-close">×</button>
+      </div>
+      <div class="guide-body">
+        <div class="guide-section">
+          <h3 class="guide-section-title">What are Saved Values?</h3>
+          <p>Saved Values are individual form field values that you've saved while filling out forms. They're stored
+            per-page and can be quickly accessed through the Live Assistant popup.</p>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">How Saved Values Work</h3>
+          <p>When you're filling out a form on a page:</p>
+          <ul>
+            <li>Click on any input field to trigger the Live Assistant popup</li>
+            <li>The popup shows previously saved values for similar fields</li>
+            <li>Click a saved value to instantly fill the field</li>
+            <li>Or save a new value by typing and using the save option</li>
+          </ul>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Managing Saved Values</h3>
+          <p>In this tab, you can:</p>
+          <ul>
+            <li><strong>View:</strong> See all saved values for this page</li>
+            <li><strong>Edit:</strong> Modify field labels, values, or selectors</li>
+            <li><strong>Delete:</strong> Remove values you no longer need</li>
+            <li><strong>Import/Export:</strong> Backup or share your saved values</li>
+          </ul>
+        </div>
+
+        <div class="guide-tip">
+          <p><strong data-icons="Lightbub">Pro Tip:</strong> Saved Values are perfect for storing frequently-used information like email
+            addresses, phone numbers, or addresses without creating full presets.</p>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Saved Values vs Presets</h3>
+          <ul>
+            <li><strong>Saved Values:</strong> Individual field values, accessed one at a time through Live Assistant
+            </li>
+            <li><strong>Presets:</strong> Complete form configurations, applied all at once with a button click</li>
+          </ul>
+          <p>Use Saved Values for quick, ad-hoc filling. Use Presets for repeatedly filling entire forms.</p>
+        </div>
+
+        <div class="guide-section">
+          <h3 class="guide-section-title">Field Identification</h3>
+          <p>Each saved value stores:</p>
+          <ul>
+            <li><strong>Field Label:</strong> Human-readable name</li>
+            <li><strong>Value:</strong> The actual content to fill</li>
+            <li><strong>Test ID:</strong> data-testid for reliable targeting</li>
+            <li><strong>Selector:</strong> CSS selector as fallback</li>
+            <li><strong>Last Updated:</strong> Timestamp of last modification</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div id="modalOverlay" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Modal Title</h2>
+        <button class="modal-close" id="modalClose" data-icons="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Modal content will be dynamically generated -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../page-profile-editor.js"></script>
+</body>
+
+</html>

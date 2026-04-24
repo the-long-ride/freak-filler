@@ -1,0 +1,2 @@
+export declare function setupSaveSection(popup: HTMLElement, inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, pageData: any): Promise<void>;
+//# sourceMappingURL=save-section.d.ts.map

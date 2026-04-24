@@ -1,0 +1,79 @@
+{
+  "schema": "form-filler.export.v1",
+  "exportedAt": "2026-01-21T00:00:00.000Z",
+  "included": {
+    "settings": false,
+    "pages": false,
+    "presets": false,
+    "presetPageLinks": false,
+    "savedValues": false,
+    "regexPatterns": true,
+    "lengthConfigurations": false
+  },
+  "settings": {
+    "enableSaveValue": true,
+    "enableImportValue": true,
+    "enableLiveAssistant": false,
+    "defaultSaveItemTo": "savedValues",
+    "theme": "light",
+    "enableLocatorRetriever": false,
+    "enableRegexPattern": false,
+    "enableRandomStringSectionInPopup": false,
+    "enableRandomStringInAssistant": false,
+    "randomStringCharset": "alphanumeric-special",
+    "randomStringLength": 100
+  },
+  "data": {
+    "pages": [],
+    "presets": [],
+    "presetPageLinks": [],
+    "savedValues": [],
+    "regexPatterns": [
+      {
+        "name": "Shortest email",
+        "regex": "^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$"
+      },
+      {
+        "name": "Standard email",
+        "regex": "^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$"
+      },
+      {
+        "name": "Longest email",
+        "regex": "^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$"
+      },
+      {
+        "name": "Standard US Phone No.",
+        "regex": "[2-9]\\d{2}-[2-9]\\d{2}-\\d{4}"
+      },
+      {
+        "name": "US Phone [#*10 x####]",
+        "regex": "[2-9]\\d{2}-[2-9]\\d{2}-\\d{4} x\\d{4}"
+      },
+      {
+        "name": "ZIP Code",
+        "regex": "\\d{5}"
+      },
+      {
+        "name": "CD Price < $99k",
+        "regex": "[1-9]\\d{,4}\\.\\d{2}"
+      },
+      {
+        "name": "dtei1b7b - Broker",
+        "regex": "dtei1b7b"
+      },
+      {
+        "name": "Latte@2024 - dtei1b7b",
+        "regex": "Latte@2024"
+      },
+      {
+        "name": "dtv8s96i - Broker",
+        "regex": "dtv8s96i"
+      },
+      {
+        "name": "TeSt!2#4 - dtv8s96i",
+        "regex": "TeSt!2#4"
+      }
+    ],
+    "lengthConfigurations": []
+  }
+}

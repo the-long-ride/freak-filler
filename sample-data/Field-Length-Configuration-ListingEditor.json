@@ -1,0 +1,179 @@
+{
+  "schema": "form-filler.export.v1",
+  "exportedAt": "2026-01-21T00:00:00.000Z",
+  "included": {
+    "settings": false,
+    "pages": false,
+    "presets": false,
+    "presetPageLinks": false,
+    "savedValues": false,
+    "regexPatterns": false,
+    "lengthConfigurations": true
+  },
+  "settings": {
+    "enableSaveValue": true,
+    "enableImportValue": true,
+    "enableLiveAssistant": false,
+    "defaultSaveItemTo": "savedValues",
+    "theme": "light",
+    "enableLocatorRetriever": false,
+    "enableRegexPattern": false,
+    "enableRandomStringSectionInPopup": false,
+    "enableRandomStringInAssistant": false,
+    "randomStringCharset": "alphanumeric-special",
+    "randomStringLength": 100
+  },
+  "data": {
+    "pages": [],
+    "presets": [],
+    "presetPageLinks": [],
+    "savedValues": [],
+    "regexPatterns": [],
+    "lengthConfigurations": [
+      {
+        "description": "Listing Editor",
+        "locator": "input-listings_editor_pickup-stop-location-name",
+        "maxLength": 200,
+        "name": "Pickup Location name"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "input-listings_editor_delivery-stop-location-name",
+        "maxLength": 200,
+        "name": "Delivery Location name"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_pickup-stop-contact-name",
+        "maxLength": 150,
+        "name": "Pickup Contact"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_delivery-stop-contact-name",
+        "maxLength": 150,
+        "name": "Delivery Contact"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_pickup-stop-buyer-number",
+        "maxLength": 70,
+        "name": "Pickup Buyer reference number"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_delivery-stop-buyer-number",
+        "maxLength": 70,
+        "name": "Delivery Buyer reference number"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "#ids-input-layout-grid-container > div > div > input[type='text'][name='color']",
+        "maxLength": 100,
+        "name": "Vehicle Color"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "#ids-input-layout-grid-container > div > div > input[type='text'][name='lot-number']",
+        "maxLength": 100,
+        "name": "Lot Number"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "#ids-input-layout-grid-container > div > div > input[type='text'][name='license-plate']",
+        "maxLength": 25,
+        "name": "License Plate"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "#ids-input-layout-grid-container > div > div > textarea[name='vehicle-detail-text-area-row']",
+        "maxLength": 500,
+        "name": "Additional vehicle information"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_yourLoadId",
+        "maxLength": 50,
+        "name": "Your Load ID"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_pre-dispatch-notes",
+        "maxLength": 4000,
+        "name": "Pre-dispatch Notes"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_transportation-release-notes",
+        "maxLength": 4000,
+        "name": "Transport Special Instructions"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_loadSpecificTerms",
+        "maxLength": 500,
+        "name": "Load-Specific Terms"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_pickup-zip-input",
+        "maxLength": 5,
+        "name": "Pickup ZIP code"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_pickup-city-input",
+        "maxLength": 75,
+        "name": "Pickup City"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_delivery-zip-input",
+        "maxLength": 5,
+        "name": "Delivery ZIP code"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_delivery-city-input",
+        "maxLength": 75,
+        "name": "Delivery City"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_pickup-address1-input",
+        "maxLength": 150,
+        "name": "Pickup Address 1"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_delivery-address1-input",
+        "maxLength": 150,
+        "name": "Delivery Address 1"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_pickup-address2-input",
+        "maxLength": 150,
+        "name": "Pickup Address 2"
+      },
+      {
+        "description": "Listing Editor - Enter Address Manually",
+        "locator": "listing-editor_delivery-address2-input",
+        "maxLength": 150,
+        "name": "Delivery Address 2"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_pickup-stop-contact-email",
+        "maxLength": 256,
+        "name": "Pickup Email"
+      },
+      {
+        "description": "Listing Editor",
+        "locator": "listings_editor_delivery-stop-contact-email",
+        "maxLength": 256,
+        "name": "Delivery Email"
+      }
+    ]
+  }
+}

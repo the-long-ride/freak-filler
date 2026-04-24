@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freak Filler Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .vertical-layout {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            color: white;
+            margin-top: 0;
+            font-size: 18px;
+            border-bottom: 1px solid #495057;
+            padding-bottom: 10px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            margin-bottom: 10px;
+            display: block;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar button:hover {
+            opacity: 0.9;
+        }
+
+        .main-content {
+            margin-right: 220px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            break-inside: avoid;
+        }
+
+        .form-section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .submit-btn {
+            background: #28a745;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            font-size: 14px;
+            max-width: 300px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #28a745;
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        .toast.info {
+            background: #17a2b8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <h1>Freak Filler Test Page</h1>
+    <p>This page contains various input fields for testing the Freak Filler Chrome Extension.</p>
+
+    <div class="main-content">
+        <form id="testForm" data-testid="test-form">
+            <div class="form-grid">
+                <!-- Text Inputs -->
+                <div class="form-section">
+                    <h2>Text Inputs</h2>
+
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" data-testid="first-name" placeholder="Enter first name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" data-testid="last-name" placeholder="Enter last name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" data-testid="username" placeholder="Enter username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" data-testid="email" placeholder="Enter email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" data-testid="password" placeholder="Enter password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" data-testid="phone" placeholder="Enter phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url">Website:</label>
+                        <input type="url" id="url" data-testid="url" placeholder="Enter website URL">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" data-testid="age" placeholder="Enter age" min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthdate">Birth Date:</label>
+                        <input type="date" id="birthdate" data-testid="birthdate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search">Search:</label>
+                        <input type="search" id="search" data-testid="search" placeholder="Search...">
+                    </div>
+                </div>
+
+                <div class="vertical-layout">
+                    <!-- Textarea -->
+                    <div class="form-section">
+                        <h2>Textarea</h2>
+                        <div class="form-group">
+                            <label for="comments">Comments:</label>
+                            <textarea id="comments" data-testid="comments"
+                                placeholder="Enter your comments here..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bio">Bio:</label>
+                            <textarea id="bio" data-testid="bio" placeholder="Tell us about yourself..."></textarea>
+                        </div>
+                    </div>
+                    <!-- Select Dropdowns -->
+                    <div class="form-section">
+                        <h2>Select Dropdowns</h2>
+
+                        <div class="form-group">
+                            <label for="country">Country:</label>
+                            <select id="country" data-testid="country">
+                                <option value="">Select a country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                                <option value="de">Germany</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="state">State/Province:</label>
+                            <select id="state" data-testid="state">
+                                <option value="">Select a state</option>
+                                <option value="ca">California</option>
+                                <option value="ny">New York</option>
+                                <option value="tx">Texas</option>
+                                <option value="fl">Florida</option>
+                                <option value="il">Illinois</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <select id="department" data-testid="department">
+                                <option value="">Select department</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="sales">Sales</option>
+                                <option value="hr">Human Resources</option>
+                                <option value="finance">Finance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkboxes -->
+                <div class="form-section">
+                    <h2>Checkboxes</h2>
+
+                    <div class="form-group">
+                        <label>Interests:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="interestTech" data-testid="interest-tech" value="tech">
+                                Technology</label>
+                            <label><input type="checkbox" id="interestSports" data-testid="interest-sports"
+                                    value="sports"> Sports</label>
+                            <label><input type="checkbox" id="interestMusic" data-testid="interest-music" value="music">
+                                Music</label>
+                            <label><input type="checkbox" id="interestArt" data-testid="interest-art" value="art">
+                                Art</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><input type="checkbox" id="newsletter" data-testid="newsletter"> Subscribe to
+                            newsletter</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label><input type="checkbox" id="terms" data-testid="terms"> I agree to the terms and
+                            conditions</label>
+                    </div>
+                </div>
+
+                <!-- Radio Buttons -->
+                <div class="form-section">
+                    <h2>Radio Buttons</h2>
+
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="gender" id="genderMale" data-testid="gender-male"
+                                    value="male"> Male</label>
+                            <label><input type="radio" name="gender" id="genderFemale" data-testid="gender-female"
+                                    value="female"> Female</label>
+                            <label><input type="radio" name="gender" id="genderOther" data-testid="gender-other"
+                                    value="other"> Other</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Experience Level:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="experience" id="expBeginner" data-testid="exp-beginner"
+                                    value="beginner"> Beginner</label>
+                            <label><input type="radio" name="experience" id="expIntermediate"
+                                    data-testid="exp-intermediate" value="intermediate"> Intermediate</label>
+                            <label><input type="radio" name="experience" id="expAdvanced" data-testid="exp-advanced"
+                                    value="advanced"> Advanced</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Range Input -->
+                <div class="form-section">
+                    <h2>Range Input</h2>
+                    <div class="form-group">
+                        <label for="satisfaction">Satisfaction Level: <span id="satisfactionValue">5</span></label>
+                        <input type="range" id="satisfaction" data-testid="satisfaction" min="1" max="10" value="5"
+                            step="1">
+                    </div>
+                </div>
+
+                <!-- Color Input -->
+                <div class="form-section">
+                    <h2>Color Input</h2>
+                    <div class="form-group">
+                        <label for="favoriteColor">Favorite Color:</label>
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <input type="color" id="favoriteColor" data-testid="favorite-color" value="#007bff">
+                                                    <input type="text" id="favoriteColorHex" aria-label="Favorite color hex" placeholder="#007bff" style="width:100px;padding:6px;border:1px solid #ddd;border-radius:4px;" value="#007bff">
+                                                    <div id="favoriteColorPreview" aria-hidden="false" title="Color preview" style="width:28px;height:22px;border:1px solid #ccc;border-radius:4px;background:#007bff"></div>
+                                                </div>
+                    </div>
+                </div>
+
+                <!-- File Input -->
+                <div class="form-section">
+                    <h2>File Input</h2>
+                    <div class="form-group">
+                        <label for="profilePicture">Profile Picture:</label>
+                        <input type="file" id="profilePicture" data-testid="profile-picture" accept="image/*">
+                    </div>
+                </div>
+            </div>
+    </div>
+    </form>
+
+    <!-- Fixed Sidebar with Buttons -->
+    <div class="sidebar">
+        <h2>Test Controls</h2>
+        <button type="button" id="fillAllBtn" data-testid="fill-all-btn" style="background: #17a2b8;">Fill All
+            Data</button>
+        <button type="button" id="clearAllBtn" data-testid="clear-all-btn" style="background: #dc3545;">Clear All
+            Data</button>
+        <button type="button" id="saveBtn" data-testid="save-btn">Save Draft</button>
+        <button type="button" id="previewBtn" data-testid="preview-btn">Preview</button>
+        <button type="submit" id="submitBtn" data-testid="submit-btn" style="background: #28a745;">Submit Form</button>
+        <button type="reset" id="resetBtn" data-testid="reset-btn" style="background: #6c757d;">Reset</button>
+    </div>
+
+    <script>
+        // Toast notification function
+        function showToast(message, type = 'info', duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+
+            // Hide toast after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Update range value display
+        const satisfaction = document.getElementById('satisfaction');
+        const satisfactionValue = document.getElementById('satisfactionValue');
+
+        satisfaction.addEventListener('input', function () {
+            satisfactionValue.textContent = this.value;
+        });
+
+        // Form submission handler
+        document.getElementById('testForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            showToast('Form submitted! Check the console for form data.', 'success');
+            console.log('Form Data:', new FormData(this));
+        });
+
+        // Fill all data function
+        function fillAllData() {
+            // Text inputs
+            document.getElementById('firstName').value = 'John';
+            document.getElementById('lastName').value = 'Doe';
+            document.getElementById('username').value = 'johndoe123';
+            document.getElementById('email').value = 'john.doe@example.com';
+            document.getElementById('password').value = 'password123';
+            document.getElementById('phone').value = '+1-555-123-4567';
+            document.getElementById('url').value = 'https://www.example.com';
+            document.getElementById('age').value = '30';
+            document.getElementById('birthdate').value = '1994-01-15';
+            document.getElementById('search').value = 'test search query';
+
+            // Textareas
+            document.getElementById('comments').value = 'This is a test comment for the Freak Filler extension. It includes multiple lines of text to test textarea functionality.';
+            document.getElementById('bio').value = 'I am a software developer with 5 years of experience in web development. I enjoy working with JavaScript, TypeScript, and modern web technologies.';
+
+            // Select dropdowns
+            document.getElementById('country').value = 'us';
+            document.getElementById('state').value = 'ca';
+            document.getElementById('department').value = 'engineering';
+
+            // Checkboxes
+            document.getElementById('interestTech').checked = true;
+            document.getElementById('interestSports').checked = true;
+            document.getElementById('interestMusic').checked = false;
+            document.getElementById('interestArt').checked = true;
+            document.getElementById('newsletter').checked = true;
+            document.getElementById('terms').checked = true;
+
+            // Radio buttons
+            document.getElementById('genderMale').checked = true;
+            document.getElementById('expIntermediate').checked = true;
+
+            // Range input
+            document.getElementById('satisfaction').value = '8';
+            document.getElementById('satisfactionValue').textContent = '8';
+
+            // Color input
+            document.getElementById('favoriteColor').value = '#ff6b6b';
+            // keep hex and preview in sync
+            const hexInput = document.getElementById('favoriteColorHex');
+            const preview = document.getElementById('favoriteColorPreview');
+            if (hexInput) hexInput.value = '#ff6b6b';
+            if (preview) preview.style.background = '#ff6b6b';
+
+            showToast('All form fields have been filled with dummy data!', 'success');
+        }
+
+        // Clear all data function
+        function clearAllData() {
+            // Reset the form (this clears most inputs)
+            document.getElementById('testForm').reset();
+
+            // Clear textareas explicitly (sometimes reset doesn't clear them)
+            document.getElementById('comments').value = '';
+            document.getElementById('bio').value = '';
+
+            // Reset range value display
+            document.getElementById('satisfactionValue').textContent = '5';
+
+            showToast('All form fields have been cleared!', 'info');
+        }
+
+        // Button click handlers
+        document.getElementById('fillAllBtn').addEventListener('click', fillAllData);
+        document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
+
+        document.getElementById('saveBtn').addEventListener('click', function () {
+            showToast('Draft saved!', 'success');
+        });
+
+        document.getElementById('previewBtn').addEventListener('click', function () {
+            showToast('Preview mode activated!', 'info');
+        });
+
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            document.getElementById('testForm').submit();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function () {
+            document.getElementById('testForm').reset();
+            // Also clear textareas and reset range display
+            document.getElementById('comments').value = '';
+            document.getElementById('bio').value = '';
+            document.getElementById('satisfactionValue').textContent = '5';
+            // reset color preview and hex
+            const picker = document.getElementById('favoriteColor');
+            const hexInputReset = document.getElementById('favoriteColorHex');
+            const previewReset = document.getElementById('favoriteColorPreview');
+            if (picker && hexInputReset) {
+                const val = picker.value || '#007bff';
+                hexInputReset.value = val;
+                if (previewReset) previewReset.style.background = val;
+            }
+        });
+
+        // Color picker and hex input sync
+        (function() {
+            const picker = document.getElementById('favoriteColor');
+            const hexInput = document.getElementById('favoriteColorHex');
+            const preview = document.getElementById('favoriteColorPreview');
+
+            if (!picker || !hexInput || !preview) return;
+
+            // Picker -> hex + preview
+            picker.addEventListener('input', function () {
+                const v = picker.value;
+                hexInput.value = v;
+                preview.style.background = v;
+            });
+
+            // Hex -> picker + preview (only when valid)
+            hexInput.addEventListener('input', function () {
+                let v = hexInput.value.trim();
+                // Auto-add # if user types 6 hex chars
+                if (!v.startsWith('#') && /^[0-9A-Fa-f]{6}$/.test(v)) {
+                    v = '#' + v;
+                    hexInput.value = v;
+                }
+                if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
+                    picker.value = v;
+                    preview.style.background = v;
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

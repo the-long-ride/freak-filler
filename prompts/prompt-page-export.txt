@@ -1,0 +1,153 @@
+Scan the test cases and flows in {whole this repository/ test cases below} and extract every form preset targeting the page URL {TARGET_URL}.
+
+{ If you scan by test cases: }
+{
+    Test cases list:
+    ```
+    Name of test case 1
+    Name of test case 2
+    ...
+
+    ```
+}
+
+For each test case or flow that interacts with the page, locate the form fields it uses (selectors, test ids, values, types, and any delays or blur behavior) and create a Preset object for that test case if one doesn't already exist.
+
+Produce a single JSON payload matching the Freak Filler extension storage format with the following top-level structure: pages (array), presets (array), presetPageLinks (array), savedValues (array, optional), and settings (optional).
+
+Requirements:
+- Use GUIDs for IDs and ISO 8601 timestamps for createdAt/updatedAt.
+- Use exactMatch or prefixMatch for page matching; prefer exactMatch if the test uses the full URL.
+- Group test cases that are semantically identical into one preset when they use the same field sets and values.
+- For each field include these properties: id, type, title, value, testId, querySelector, fillDelay, autoBlur, order, createdAt, updatedAt.
+- Prefer stable selectors in this order: data-testid, id, name, then other CSS selectors.
+- Output only the JSON object — do not include extra comments or surrounding text.
+
+Field detection rules:
+- id: new GUID
+- type: one of the FIELD_TYPES (text, search, checkbox, radio, dropdown, datepicker, dynamicDate, range, number, color, clickable)
+- title: best user-facing label (from label, aria-label, placeholder, name, data-testid, id)
+- value: literal value to set (string/number/boolean) or JSON for dynamicDate
+- testId: data-testid attribute if available
+- querySelector: robust CSS selector used in the test
+- fillDelay: ms (default 0)
+- autoBlur: boolean (default false)
+- order: integer 1..n (preserve test flow order)
+- createdAt and updatedAt: ISO timestamps
+
+Example JSON (page-level export) — replace {TARGET_URL} with the page URL:
+
+{
+  "pages": [
+    {
+      "id": "7f3e9b3a-4d41-4bda-a7b7-1c2f9b8a9c01",
+      "pageTitle": "Checkout - Example Store",
+      "url": "{TARGET_URL}",
+      "description": "Checkout page used in automation flows",
+      "owner": "qa-team",
+      "matchIdentify": "exactMatch",
+      "createdAt": "2026-01-08T10:00:00.000Z",
+      "updatedAt": "2026-01-08T10:00:00.000Z"
+    }
+  ],
+  "presets": [
+    {
+      "id": "d9f1c2e7-3c4a-4f69-8b6a-0a1f2e3b4c5d",
+      "name": "Checkout - Guest Flow",
+      "description": "Fields used by guest checkout flow",
+      "formData": [
+        {
+          "id": "f1a2b3c4-d5e6-7f80-1234-abcdef012345",
+          "type": "text",
+          "title": "Full name",
+          "value": "Jane Tester",
+          "testId": "checkout-name",
+          "querySelector": "[data-testid=\"checkout-name\"]",
+          "fillDelay": 50,
+          "autoBlur": true,
+          "order": 1,
+          "createdAt": "2026-01-08T10:00:00.000Z",
+          "updatedAt": "2026-01-08T10:00:00.000Z"
+        },
+        {
+          "id": "b2c3d4e5-f678-9012-3456-7890abcdef12",
+          "type": "text",
+          "title": "Email",
+          "value": "jane.tester@example.com",
+          "testId": "checkout-email",
+          "querySelector": "#email",
+          "fillDelay": 30,
+          "autoBlur": false,
+          "order": 2,
+          "createdAt": "2026-01-08T10:00:00.000Z",
+          "updatedAt": "2026-01-08T10:00:00.000Z"
+        },
+        {
+          "id": "c3d4e5f6-7890-1234-5678-90abcd123456",
+          "type": "dropdown",
+          "title": "Country",
+          "value": "US",
+          "testId": "",
+          "querySelector": "select[name=\"country\"]",
+          "fillDelay": 0,
+          "autoBlur": false,
+          "order": 3,
+          "createdAt": "2026-01-08T10:00:00.000Z",
+          "updatedAt": "2026-01-08T10:00:00.000Z"
+        }
+      ],
+      "createdAt": "2026-01-08T10:00:00.000Z",
+      "updatedAt": "2026-01-08T10:00:00.000Z"
+    },
+    {
+      "id": "e2f3a4b5-6c78-901a-bcde-234f567890ab",
+      "name": "Checkout - Returning Customer",
+      "description": "Login then checkout flow",
+      "formData": [
+        {
+          "id": "d4e5f6a7-8901-2345-6789-0abcde123456",
+          "type": "text",
+          "title": "Username",
+          "value": "janetester",
+          "testId": "login-username",
+          "querySelector": "input[name=\"username\"]",
+          "fillDelay": 10,
+          "autoBlur": true,
+          "order": 1,
+          "createdAt": "2026-01-08T10:00:00.000Z",
+          "updatedAt": "2026-01-08T10:00:00.000Z"
+        },
+        {
+          "id": "e5f6a7b8-9012-3456-7890-abcdef234567",
+          "type": "text",
+          "title": "Password",
+          "value": "P@ssw0rd!",
+          "testId": "login-password",
+          "querySelector": "input[type=\"password\"]",
+          "fillDelay": 20,
+          "autoBlur": false,
+          "order": 2,
+          "createdAt": "2026-01-08T10:00:00.000Z",
+          "updatedAt": "2026-01-08T10:00:00.000Z"
+        }
+      ],
+      "createdAt": "2026-01-08T10:00:00.000Z",
+      "updatedAt": "2026-01-08T10:00:00.000Z"
+    }
+  ],
+  "presetPageLinks": [
+    {
+      "presetId": "d9f1c2e7-3c4a-4f69-8b6a-0a1f2e3b4c5d",
+      "pageId": "7f3e9b3a-4d41-4bda-a7b7-1c2f9b8a9c01"
+    },
+    {
+      "presetId": "e2f3a4b5-6c78-901a-bcde-234f567890ab",
+      "pageId": "7f3e9b3a-4d41-4bda-a7b7-1c2f9b8a9c01"
+    }
+  ],
+  "savedValues": []
+}
+
+Notes:
+- You can add an optional top-level settings object matching ExtensionSettings if you want to include extension-level flags like enableLiveAssistant.
+- For dynamicDate use a value like {"years":0,"months":0,"days":-7} to indicate offsets.

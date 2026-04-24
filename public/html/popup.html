@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freak Filler</title>
+  <link rel="icon" type="image/x-icon" href="../icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon-16.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/icon-48.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="../icons/icon-128.png">
+  <link rel="stylesheet" href="../css/cyberpunk-buttons.css">
+  <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="../css/guide-overlay.css">
+  <link rel="stylesheet" href="../css/popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header: Freak Filler (left) - Settings & Theme buttons (right) -->
+    <header class="main-header">
+      <div>
+        <h1 class="app-title">Freak Filler</h1>
+      </div>
+      <div class="header-actions">
+        <div class="app-version" data-version></div>
+        <button id="stringCounterBtn" class="theme-toggle" title="Open String Counter tool">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M4 7h16v2H4V7zm0 6h16v-2H4v2zm0 4h10v-2H4v2z"/>
+          </svg>
+        </button>
+        <button id="settingsBtn" class="theme-toggle" title="Open Settings page">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path
+              d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+          </svg>
+        </button>
+        <button id="themeToggle" class="theme-toggle" title="Switch theme between Light & Dark">
+          <svg class="theme-icon light-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88" width="20"
+            height="20">
+            <path
+              d="M30,13.21A3.93,3.93,0,1,1,36.8,9.27L41.86,18A3.94,3.94,0,1,1,35.05,22L30,13.21Zm31.45,13A35.23,35.23,0,1,1,36.52,36.52,35.13,35.13,0,0,1,61.44,26.2ZM58.31,4A3.95,3.95,0,1,1,66.2,4V14.06a3.95,3.95,0,1,1-7.89,0V4ZM87.49,10.1A3.93,3.93,0,1,1,94.3,14l-5.06,8.76a3.93,3.93,0,1,1-6.81-3.92l5.06-8.75ZM109.67,30a3.93,3.93,0,1,1,3.94,6.81l-8.75,5.06a3.94,3.94,0,1,1-4-6.81L109.67,30Zm9.26,28.32a3.95,3.95,0,1,1,0,7.89H108.82a3.95,3.95,0,1,1,0-7.89Zm-6.15,29.18a3.93,3.93,0,1,1-3.91,6.81l-8.76-5.06A3.93,3.93,0,1,1,104,82.43l8.75,5.06ZM92.89,109.67a3.93,3.93,0,1,1-6.81,3.94L81,104.86a3.94,3.94,0,0,1,6.81-4l5.06,8.76Zm-28.32,9.26a3.95,3.95,0,1,1-7.89,0V108.82a3.95,3.95,0,1,1,7.89,0v10.11Zm-29.18-6.15a3.93,3.93,0,0,1-6.81-3.91l5.06-8.76A3.93,3.93,0,1,1,40.45,104l-5.06,8.75ZM13.21,92.89a3.93,3.93,0,1,1-3.94-6.81L18,81A3.94,3.94,0,1,1,22,87.83l-8.76,5.06ZM4,64.57a3.95,3.95,0,1,1,0-7.89H14.06a3.95,3.95,0,1,1,0,7.89ZM10.1,35.39A3.93,3.93,0,1,1,14,28.58l8.76,5.06a3.93,3.93,0,1,1-3.92,6.81L10.1,35.39Z" />
+          </svg>
+          <svg class="theme-icon dark-icon" style="display: none;" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 122.56 122.88" width="20" height="20">
+            <path
+              d="M121.85,87.3A64.31,64.31,0,1,1,36.88.4c2.94-1.37,5.92.91,4.47,4.47a56.29,56.29,0,0,0,75.75,77.4l.49-.27a3.41,3.41,0,0,1,4.61,4.61l-.35.69ZM92.46,74.67H92A16.11,16.11,0,0,0,76.2,58.93v-.52a15.08,15.08,0,0,0,11-4.72,15.19,15.19,0,0,0,4.72-11h.51a15.12,15.12,0,0,0,4.72,11,15.12,15.12,0,0,0,11,4.72v.51A16.13,16.13,0,0,0,92.46,74.67Zm10.09-46.59h-.27a7.94,7.94,0,0,0-2.49-5.81A7.94,7.94,0,0,0,94,19.78v-.27A7.94,7.94,0,0,0,99.79,17a8,8,0,0,0,2.49-5.8h.27A8,8,0,0,0,105,17a8,8,0,0,0,5.81,2.49v.27A8,8,0,0,0,105,22.27a7.94,7.94,0,0,0-2.49,5.81Zm-41.5,8h-.41a12.06,12.06,0,0,0-3.78-8.82A12.06,12.06,0,0,0,48,23.5v-.41a12.07,12.07,0,0,0,8.82-3.78,12.09,12.09,0,0,0,3.78-8.82h.41a12.08,12.08,0,0,0,3.77,8.82,12.09,12.09,0,0,0,8.83,3.78v.41a12.09,12.09,0,0,0-8.83,3.78,12.08,12.08,0,0,0-3.77,8.82Z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Random String Section -->
+    <section class="section" id="randomStringSection" style="display: none;">
+      <h2 class="section-title">
+        Random String Generator
+      </h2>
+      <div class="random-string-controls">
+        <div class="control-group">
+          <label for="popupCharsetSelect">Character Set:</label>
+          <select id="popupCharsetSelect" class="charset-select">
+            <option value="alphabet">Alphabet (a-z)</option>
+            <option value="numeric">Numeric (0-9)</option>
+            <option value="alphanumeric">Alphanumeric</option>
+            <option value="alphanumeric-special">Alphanumeric + Special</option>
+            <option value="alphanumeric-special-control">All Characters</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="popupLengthInput">Length:</label>
+          <input type="number" id="popupLengthInput" class="length-input" min="1" max="1000" value="50">
+        </div>
+        <div class="control-group" id="copyBtnContainer">
+          <button id="popupCopyBtn" class="cyber-btn cyber-btn--small" data-icons="Copy"> Copy
+            <span class="cyber-btn__glitch"></span>
+            <span class="cyber-btn__label">to clipboard</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Page Section (Compact) -->
+    <section class="section" id="pageSection">
+      <h2 class="section-title">
+        Current page setting
+      </h2>
+      
+      <!-- No Page Data - Getting Started -->
+      <div id="noPageContent" style="display: none;">
+        <div class="getting-started">
+          <p class="intro-text">No page profile found for this URL. Get started by choosing one of the options below:
+          </p>
+
+          <div class="action-buttons-container">
+            <button id="createNewPageBtn" class="btn-action-large">
+              <span class="btn-icon" data-icons="Plus"></span>
+              <span class="btn-text">Create New Profile</span>
+              <span class="btn-desc">Start fresh with a new page configuration</span>
+            </button>
+
+            <button id="cloneFromExistingBtn" class="btn-action-large">
+              <span class="btn-icon" data-icons="Copy"></span>
+              <span class="btn-text">Clone from Existing</span>
+              <span class="btn-desc">Copy settings from another page profile</span>
+            </button>
+            
+            <button id="importPageProfileBtn" class="btn-action-large">
+              <span class="btn-icon" data-icons="Import"></span>
+              <span class="btn-text">Import Page Profile</span>
+              <span class="btn-desc">Load a previously exported JSON file</span>
+            </button>
+          </div>
+
+          <p class="help-text" data-icons="Lightbub">Tip: After creating a profile, you can add presets with form data to auto-fill forms
+            on this page.</p>
+        </div>
+      </div>
+      
+      <!-- Has Page Data - Show Info -->
+      <div id="hasPageContent" style="display: none;">
+        <div class="page-content">
+          <div class="page-info">
+            <span class="info-value" id="pageTitle">-</span>
+            <div class="info-item">
+              <span>
+                <strong>URL (<span id="urlIdentify">-</span>):</strong>
+                <span id="pageUrl">-</span>
+              </span>
+            </div>
+            <div class="info-item">
+              <span>
+                <strong>Description: </strong>
+                <span id="pageDescription">-</span>
+              </span>
+            </div>
+          </div>
+          <div class="page-actions">
+            <button id="editPageBtn" class="cyber-btn cyber-btn--small" data-icons="Modify">Edit Page
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">edit</span>
+            </button>
+            <button id="exportPageBtn" class="cyber-btn cyber-btn--small" data-icons="Export">Export Page
+              <span class="cyber-btn__glitch"></span>
+              <span class="cyber-btn__label">json</span>
+            </button>
+            <button class="guide-trigger-btn" data-guide="page-setting-guide" title="Show guide for this section" data-icons="Info"></button>
+          </div>
+        </div>
+      </div>
+
+      <input type="file" id="importPageFile" accept=".json" style="display: none;" />
+    </section>
+
+    <!-- Guide Overlays -->
+    <!-- Page Setting Guide -->
+    <div id="page-setting-guide" class="guide-overlay">
+      <div class="guide-container">
+        <div class="guide-header">
+          <h2 class="guide-title">Page Setting Guide</h2>
+          <button class="guide-close">×</button>
+        </div>
+        <div class="guide-body">
+          <div class="guide-section">
+            <h3 class="guide-section-title">What is Page Setting?</h3>
+            <p>Page Setting allows you to create a profile for the current webpage, storing presets and form configurations specific to this URL.</p>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Getting Started</h3>
+            <p>When you visit a new page, you'll see three options:</p>
+            <ul>
+              <li><strong>Create New Profile:</strong> Start fresh with a blank configuration for this page</li>
+              <li><strong>Clone from Existing:</strong> Copy settings from another page profile you've already created</li>
+              <li><strong>Import Page Profile:</strong> Load a previously exported JSON configuration file</li>
+            </ul>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">URL Matching</h3>
+            <p>When creating a profile, you can choose how the extension matches URLs:</p>
+            <ul>
+              <li><strong>Exact Match:</strong> Only activates on the exact URL you specify</li>
+              <li><strong>Prefix Match:</strong> Activates on any URL starting with the specified prefix</li>
+            </ul>
+          </div>
+
+          <div class="guide-tip">
+            <p><strong data-icons="Lightbub">Pro Tip:</strong> Use Prefix Match for websites where the URL changes slightly (like pages with IDs or query parameters) but you want the same form-filling behavior.</p>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Quick Actions</h3>
+            <p>Once a profile exists, you can:</p>
+            <ul>
+              <li><strong>Edit Page:</strong> Open the full editor to modify presets and settings</li>
+              <li><strong>Export Page:</strong> Save the entire profile as a JSON file for backup or sharing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Presets Guide -->
+    <div id="presets-guide" class="guide-overlay">
+      <div class="guide-container">
+        <div class="guide-header">
+          <h2 class="guide-title">Presets Guide</h2>
+          <button class="guide-close">×</button>
+        </div>
+        <div class="guide-body">
+          <div class="guide-section">
+            <h3 class="guide-section-title">What are Presets?</h3>
+            <p>Presets are saved collections of form field values that can be applied to forms on your page with a single click.</p>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Using Presets</h3>
+            <ul>
+              <li><strong>Apply Preset:</strong> Click the <span class="guide-key">Apply</span> button to fill all form fields with saved values</li>
+              <li><strong>Scan Page:</strong> Automatically detect all form fields on the current page</li>
+              <li><strong>Edit Preset:</strong> Open the full editor to customize field values and settings</li>
+            </ul>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Preset Actions</h3>
+            <p>Each preset has several management options:</p>
+            <ul>
+              <li><strong>Edit:</strong> Modify preset name, description, and field values</li>
+              <li><strong>Export:</strong> Save preset as a JSON file</li>
+              <li><strong>Import:</strong> Load a preset from a JSON file</li>
+              <li><strong>Delete:</strong> Remove the preset (with confirmation)</li>
+            </ul>
+          </div>
+
+          <div class="guide-tip">
+            <p><strong data-icons="Lightbub">Pro Tip:</strong> You can create multiple presets for the same page. For example, create one preset for "Test User" and another for "Production User" with different credentials.</p>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Field Types</h3>
+            <p>The extension supports various field types:</p>
+            <ul>
+              <li>Text inputs (text, email, password, etc.)</li>
+              <li>Checkboxes and radio buttons</li>
+              <li>Dropdown selects</li>
+              <li>Date pickers and number inputs</li>
+              <li>Range sliders and color pickers</li>
+            </ul>
+          </div>
+
+          <div class="guide-section">
+            <h3 class="guide-section-title">Keyboard Shortcuts</h3>
+            <div class="guide-code">
+              Ctrl + F - Search fields in editor<br>
+              Tab - Navigate between fields
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <main id="mainContent" class="section">
+      <!-- Content will be dynamically generated -->
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="modal-overlay" style="display: none;">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Modal Title</h2>
+          <button class="modal-close" id="modalClose" data-icons="Close"></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Modal content will be dynamically generated -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../popup.js"></script>
+</body>
+
+</html>

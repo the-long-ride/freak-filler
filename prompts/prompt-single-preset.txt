@@ -1,0 +1,65 @@
+Given a single test case or flow identified by {TEST_ID_OR_FILEPATH}, scan the executed steps or selectors that interact with the target page and produce one Preset JSON object matching the Freak Filler extension format.
+
+Output requirements:
+- Output exactly one JSON object with the keys: id, name, description, formData, createdAt, updatedAt.
+- Each formData entry must include: id, type, title, value, testId, querySelector, fillDelay, autoBlur, order, createdAt, updatedAt.
+- Preserve the test case field order as order.
+- Use stable selectors (prefer data-testid, id, name).
+- Default fillDelay to 0 and autoBlur to false unless the test shows timing/blur behavior.
+- Output only the single JSON object (no wrapper arrays or extra text).
+
+Example JSON (single preset):
+
+{
+  "id": "9a8b7c6d-5e4f-3210-9876-54321fedcba0",
+  "name": "Signup - Happy Path",
+  "description": "Signup flow: valid new user",
+  "formData": [
+    {
+      "id": "11223344-5566-7788-99aa-bbccddeeff00",
+      "type": "text",
+      "title": "First name",
+      "value": "Alice",
+      "testId": "signup-first",
+      "querySelector": "input[name=\"firstName\"]",
+      "fillDelay": 20,
+      "autoBlur": true,
+      "order": 1,
+      "createdAt": "2026-01-08T09:30:00.000Z",
+      "updatedAt": "2026-01-08T09:30:00.000Z"
+    },
+    {
+      "id": "22334455-6677-8899-aabb-ccddeeff0011",
+      "type": "text",
+      "title": "Last name",
+      "value": "Example",
+      "testId": "signup-last",
+      "querySelector": "input[name=\"lastName\"]",
+      "fillDelay": 10,
+      "autoBlur": false,
+      "order": 2,
+      "createdAt": "2026-01-08T09:30:00.000Z",
+      "updatedAt": "2026-01-08T09:30:00.000Z"
+    },
+    {
+      "id": "33445566-7788-99aa-bbcc-ddeeff001122",
+      "type": "text",
+      "title": "Email",
+      "value": "alice.example+1@example.com",
+      "testId": "signup-email",
+      "querySelector": "[data-testid=\"signup-email\"]",
+      "fillDelay": 0,
+      "autoBlur": false,
+      "order": 3,
+      "createdAt": "2026-01-08T09:30:00.000Z",
+      "updatedAt": "2026-01-08T09:30:00.000Z"
+    }
+  ],
+  "createdAt": "2026-01-08T09:30:00.000Z",
+  "updatedAt": "2026-01-08T09:30:00.000Z"
+}
+
+Import tips:
+- If the extension import UI expects a top-level object with presets array, wrap this object into {"presets": [ ... ]}.
+- When importing page-level JSON, ensure presetPageLinks reference the correct pageId present in pages.
+- Deduplicate identical presets and normalize selectors (prefer data-testid) when possible.
