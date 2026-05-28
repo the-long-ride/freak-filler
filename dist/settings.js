@@ -1,112 +1,9 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
-;// ./src/constants/appConstants.ts
-/**
- * Application-wide constants
- */
-// Storage keys
-const STORAGE_KEYS = {
-    DATA: 'formFillerData',
-    SETTINGS: 'formFillerSettings',
-    MIGRATION: 'formFillerMigrationCompleted'
-};
-// Theme constants
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-// Form field types
-const FIELD_TYPES = {
-    TEXT: 'text',
-    SEARCH: 'search',
-    CHECKBOX: 'checkbox',
-    DROPDOWN: 'dropdown',
-    DATEPICKER: 'datepicker',
-    CLICKABLE: 'clickable',
-    RADIO: 'radio',
-    RANGE: 'range',
-    NUMBER: 'number',
-    COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate'
-};
-// UI messages
-const MESSAGES = {
-    NO_PAGE_URL: 'Page URL is required',
-    NO_PRESETS: 'No presets yet',
-    NO_PAGES: 'No pages available',
-    NO_FORM_FIELDS: 'No form fields found on the page',
-    CONFIRM_DELETE: 'Are you sure you want to delete this',
-    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
-    SUCCESS_SAVE: 'Saved successfully!',
-    INVALID_DATA: 'Invalid data format'
-};
-// Default values
-const appConstants_DEFAULTS = {
-    FILL_DELAY: 0,
-    AUTO_BLUR: true,
-    MUST_BE_MATCHED: false,
-    ENABLE_SAVE_VALUE: true,
-    ENABLE_IMPORT_VALUE: true,
-    ENABLE_LIVE_ASSISTANT: false,
-    DEFAULT_SAVE_ITEM_TO: 'savedValues',
-    THEME: 'light',
-    ENABLE_LOCATOR_RETRIEVER: false,
-    ENABLE_REGEX_PATTERN: false,
-    ENABLE_RANDOM_STRING_SECTION: false,
-    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
-    RANDOM_STRING_CHARSET: 'alphanumeric-special',
-    RANDOM_STRING_LENGTH: 100
-};
-// Limits and thresholds
-const appConstants_LIMITS = {
-    PARENT_SEARCH_DEPTH: 7,
-    SAME_ROW_THRESHOLD: 10, // pixels
-    DEFAULT_PAGE_SIZE: 25,
-    MAX_RETRIES: 3,
-    MIN_STRING_LENGTH: 1,
-    MAX_STRING_LENGTH: 99999,
-    QUANTIFIER_MAX_REPEAT: 10
-};
-// Sort directions
-const SORT_DIRECTION = {
-    ASC: 'asc',
-    DESC: 'desc'
-};
-// CSS class names
-const CSS_CLASSES = {
-    ACTIVE: 'active',
-    CHECKED: 'checked',
-    HIDDEN: 'hidden',
-    DISABLED: 'disabled',
-    LOADING: 'loading'
-};
-// Export/Import JSON schema
-const EXPORT_SCHEMA = 'form-filler.export.v1';
-// Character sets for random string generation
-const appConstants_CHAR_SETS = {
-    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    DIGITS: '0123456789',
-    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    CONTROL: '~`\'"\\/',
-    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
-};
-// Random string character set templates
-const RANDOM_STRING_CHARSETS = {
-    ALPHABET: 'alphabet',
-    NUMERIC: 'numeric',
-    ALPHANUMERIC: 'alphanumeric',
-    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
-    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-};
-// Default regex patterns
-const DEFAULT_REGEX_PATTERNS = [
-    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
-    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
-    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
-];
-
 ;// ./src/utils/helpers.ts
+/* unused harmony import specifier */ var CHAR_SETS;
+/* unused harmony import specifier */ var LIMITS;
 // Utility functions
 
 function generateGuid() {
@@ -123,7 +20,7 @@ function generateUniqueId(existingIds) {
     }
     return newId;
 }
-function helpers_getCurrentTimestamp() {
+function getCurrentTimestamp() {
     return new Date().toISOString();
 }
 function matchUrl(pageUrl, currentUrl, matchIdentify) {
@@ -326,70 +223,119 @@ function generateFromRegex(regex, length) {
         return generateRandomString(length, 'alphanumeric');
     }
 }
+
+;// ./src/constants/appConstants.ts
 /**
- * Get element locators (testId and querySelector)
+ * Application-wide constants
  */
-function getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
-    }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid');
-                levelsUp = i + 1;
-                break;
-            }
-            element = element.parentElement;
-        }
-        if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            // Add each level in the path
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
-            if (inputType) {
-                inputSelector += `[type='${inputType}']`;
-            }
-            const inputName = inputElement.getAttribute('name');
-            if (inputName) {
-                inputSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(inputSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
-}
+// Storage keys
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
+    DATA: 'formFillerData',
+    SETTINGS: 'formFillerSettings',
+    MIGRATION: 'formFillerMigrationCompleted'
+}));
+// Theme constants
+const THEMES = {
+    LIGHT: 'light',
+    DARK: 'dark'
+};
+// Form field types
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
+    TEXT: 'text',
+    SEARCH: 'search',
+    CHECKBOX: 'checkbox',
+    DROPDOWN: 'dropdown',
+    DATEPICKER: 'datepicker',
+    CLICKABLE: 'clickable',
+    RADIO: 'radio',
+    RANGE: 'range',
+    NUMBER: 'number',
+    COLOR: 'color',
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
+// UI messages
+const MESSAGES = (/* unused pure expression or super */ null && ({
+    NO_PAGE_URL: 'Page URL is required',
+    NO_PRESETS: 'No presets yet',
+    NO_PAGES: 'No pages available',
+    NO_FORM_FIELDS: 'No form fields found on the page',
+    CONFIRM_DELETE: 'Are you sure you want to delete this',
+    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
+    SUCCESS_SAVE: 'Saved successfully!',
+    INVALID_DATA: 'Invalid data format'
+}));
+// Default values
+const DEFAULTS = {
+    FILL_DELAY: 0,
+    AUTO_BLUR: true,
+    MUST_BE_MATCHED: false,
+    ENABLE_SAVE_VALUE: true,
+    ENABLE_IMPORT_VALUE: true,
+    ENABLE_LIVE_ASSISTANT: false,
+    DEFAULT_SAVE_ITEM_TO: 'savedValues',
+    THEME: 'light',
+    ENABLE_LOCATOR_RETRIEVER: false,
+    ENABLE_REGEX_PATTERN: false,
+    ENABLE_RANDOM_STRING_SECTION: false,
+    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
+    RANDOM_STRING_CHARSET: 'alphanumeric-special',
+    RANDOM_STRING_LENGTH: 100
+};
+// Limits and thresholds
+const appConstants_LIMITS = (/* unused pure expression or super */ null && ({
+    PARENT_SEARCH_DEPTH: 7,
+    SAME_ROW_THRESHOLD: 10, // pixels
+    DEFAULT_PAGE_SIZE: 25,
+    MAX_RETRIES: 3,
+    MIN_STRING_LENGTH: 1,
+    MAX_STRING_LENGTH: 99999,
+    QUANTIFIER_MAX_REPEAT: 10
+}));
+// Sort directions
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
+    ASC: 'asc',
+    DESC: 'desc'
+}));
+// CSS class names
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
+    ACTIVE: 'active',
+    CHECKED: 'checked',
+    HIDDEN: 'hidden',
+    DISABLED: 'disabled',
+    LOADING: 'loading'
+}));
+// Export/Import JSON schema
+const EXPORT_SCHEMA = 'form-filler.export.v1';
+// Character sets for random string generation
+const appConstants_CHAR_SETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    DIGITS: '0123456789',
+    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    CONTROL: '~`\'"\\/',
+    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+}));
+// Random string character set templates
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'alphabet',
+    NUMERIC: 'numeric',
+    ALPHANUMERIC: 'alphanumeric',
+    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
+    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
+}));
+// Default regex patterns
+const DEFAULT_REGEX_PATTERNS = [
+    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
+    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
+    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
+];
 
 ;// ./src/services/storage.service.ts
 
 
 const STORAGE_KEY = 'formFillerData';
 const SETTINGS_KEY = 'formFillerSettings';
-class storage_service_StorageService {
+class StorageService {
     // Initialize storage with default data
     static async initialize() {
         const data = await this.getData();
@@ -406,17 +352,17 @@ class storage_service_StorageService {
         const settings = await this.getSettings();
         if (!settings) {
             await this.setSettings({
-                enableSaveValue: appConstants_DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: appConstants_DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: appConstants_DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: appConstants_DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme: appConstants_DEFAULTS.THEME,
-                enableLocatorRetriever: appConstants_DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: appConstants_DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: appConstants_DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: appConstants_DEFAULTS.RANDOM_STRING_LENGTH
+                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+                theme: DEFAULTS.THEME,
+                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
             });
         }
     }
@@ -500,28 +446,28 @@ class storage_service_StorageService {
                             let needsMigration = false;
                             const migratedSettings = { ...settings };
                             if (settings.enableLocatorRetriever === undefined) {
-                                migratedSettings.enableLocatorRetriever = appConstants_DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
+                                migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
                                 needsMigration = true;
                             }
                             if (settings.enableRegexPattern === undefined) {
-                                migratedSettings.enableRegexPattern = appConstants_DEFAULTS.ENABLE_REGEX_PATTERN;
+                                migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
                                 needsMigration = true;
                             }
                             if (settings.enableRandomStringSectionInPopup === undefined) {
-                                migratedSettings.enableRandomStringSectionInPopup = appConstants_DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+                                migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
                                 needsMigration = true;
                             }
                             if (settings.randomStringCharset === undefined) {
-                                migratedSettings.randomStringCharset = appConstants_DEFAULTS.RANDOM_STRING_CHARSET;
+                                migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
                                 needsMigration = true;
                             }
                             if (settings.randomStringLength === undefined) {
-                                migratedSettings.randomStringLength = appConstants_DEFAULTS.RANDOM_STRING_LENGTH;
+                                migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
                                 needsMigration = true;
                             }
                             // Save migrated settings
                             if (needsMigration) {
-                                storage_service_StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
                             }
                             settings = migratedSettings;
                         }
@@ -571,17 +517,17 @@ class storage_service_StorageService {
         }
         else {
             await this.setSettings({
-                enableSaveValue: appConstants_DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: appConstants_DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: appConstants_DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: appConstants_DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
                 theme,
-                enableLocatorRetriever: appConstants_DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: appConstants_DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: appConstants_DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: appConstants_DEFAULTS.RANDOM_STRING_LENGTH
+                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
             });
         }
     }
@@ -634,8 +580,8 @@ class storage_service_StorageService {
         const newPage = {
             ...pageData,
             id: generateUniqueId(existingIds),
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.pages.push(newPage);
         await this.setData(data);
@@ -656,7 +602,7 @@ class storage_service_StorageService {
             data.pages[pageIndex] = {
                 ...data.pages[pageIndex],
                 ...updates,
-                updatedAt: helpers_getCurrentTimestamp()
+                updatedAt: getCurrentTimestamp()
             };
             await this.setData(data);
         }
@@ -689,8 +635,8 @@ class storage_service_StorageService {
             value: String(formData.value),
             testId: formData.testId,
             querySelector: formData.querySelector,
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.savedValues.push(newSavedValue);
         await this.setData(data);
@@ -774,8 +720,8 @@ class storage_service_StorageService {
         const newPreset = {
             ...preset,
             id: generateUniqueId(existingIds),
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.presets.push(newPreset);
         await this.setData(data);
@@ -791,7 +737,7 @@ class storage_service_StorageService {
             data.presets[presetIndex] = {
                 ...data.presets[presetIndex],
                 ...updates,
-                updatedAt: helpers_getCurrentTimestamp()
+                updatedAt: getCurrentTimestamp()
             };
             await this.setData(data);
         }
@@ -841,8 +787,8 @@ class storage_service_StorageService {
             value: savedValue.value || '',
             testId: savedValue.testId || '',
             querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: savedValue.createdAt || getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         // Check if saved value already exists for this page and id
         const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
@@ -923,7 +869,7 @@ async function initVersion() {
 async function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
     // Load theme from StorageService
-    const theme = await storage_service_StorageService.getTheme();
+    const theme = await StorageService.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
     updateThemeIcons(theme);
     themeToggle?.addEventListener('click', toggleTheme);
@@ -935,7 +881,7 @@ async function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || THEMES.DARK;
     const newTheme = currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
     document.documentElement.setAttribute('data-theme', newTheme);
-    await storage_service_StorageService.setTheme(newTheme);
+    await StorageService.setTheme(newTheme);
     updateThemeIcons(newTheme);
 }
 /**
@@ -1054,7 +1000,7 @@ function wait(ms) {
  * - Moves data-icons attribute from button to cyber-btn__glitch
  * - Cleans up button's direct text content
  */
-function cyber_btn_init_initCyberButtons() {
+function initCyberButtons() {
     const buttons = document.querySelectorAll('.cyber-btn');
     buttons.forEach((button) => {
         const glitchElement = button.querySelector('.cyber-btn__glitch');
@@ -1136,6 +1082,7 @@ function initSingleCyberButton(button) {
 }
 
 ;// ./src/utils/modal-utils.ts
+/* unused harmony import specifier */ var modal_utils_initCyberButtons;
 // Common modal utilities for all pages
 
 /**
@@ -1170,7 +1117,7 @@ function showConfirm(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        cyber_btn_init_initCyberButtons();
+        initCyberButtons();
         let actionHandled = false;
         const handleOk = () => {
             if (actionHandled)
@@ -1238,7 +1185,7 @@ function showMessage(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        initCyberButtons();
+        modal_utils_initCyberButtons();
         const handleOk = () => {
             cleanup();
             resolve();
@@ -1279,7 +1226,7 @@ function showModal(title, bodyContent, onClose) {
     modalBody.innerHTML = bodyContent;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const closeHandler = () => {
         hideModal();
         if (onClose)
@@ -1336,7 +1283,7 @@ function hideModal() {
  * @param type - Toast type ('success', 'error', 'warning', 'info')
  * @param duration - Duration in milliseconds (default: 3000)
  */
-function modal_utils_showToast(message, type = 'info', duration = 5000) {
+function showToast(message, type = 'info', duration = 5000) {
     // Create toast container if it doesn't exist
     let toastContainer = document.getElementById('toastContainer');
     if (!toastContainer) {
@@ -1427,17 +1374,17 @@ function createEmptyRootData() {
 }
 function createDefaultSettings() {
     return {
-        enableSaveValue: appConstants_DEFAULTS.ENABLE_SAVE_VALUE,
-        enableImportValue: appConstants_DEFAULTS.ENABLE_IMPORT_VALUE,
-        enableLiveAssistant: appConstants_DEFAULTS.ENABLE_LIVE_ASSISTANT,
-        defaultSaveItemTo: appConstants_DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-        theme: appConstants_DEFAULTS.THEME,
-        enableLocatorRetriever: appConstants_DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-        enableRegexPattern: appConstants_DEFAULTS.ENABLE_REGEX_PATTERN,
-        enableRandomStringSectionInPopup: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-        enableRandomStringInAssistant: appConstants_DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-        randomStringCharset: appConstants_DEFAULTS.RANDOM_STRING_CHARSET,
-        randomStringLength: appConstants_DEFAULTS.RANDOM_STRING_LENGTH
+        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+        theme: DEFAULTS.THEME,
+        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
     };
 }
 function normalizeIncluded(partial) {
@@ -1456,7 +1403,7 @@ function createExportFile(params) {
     const emptyData = createEmptyRootData();
     return {
         schema: EXPORT_SCHEMA,
-        exportedAt: params.exportedAt ?? helpers_getCurrentTimestamp(),
+        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
         included: normalizeIncluded(params.included),
         settings,
         data: {
@@ -2084,6 +2031,10 @@ function injectGuideData(guideId, payload) {
 }
 
 ;// ./src/pages/settings.ts
+/* unused harmony import specifier */ var settings_StorageService;
+/* unused harmony import specifier */ var settings_getCurrentTimestamp;
+/* unused harmony import specifier */ var settings_showToast;
+/* unused harmony import specifier */ var settings_DEFAULTS;
 
 
 
@@ -2218,14 +2169,14 @@ function handleHeaderClick(tableId, column) {
 }
 // Helper function to update a single setting
 async function updateSetting(key, value, message = '') {
-    const settings = await storage_service_StorageService.getSettings();
+    const settings = await StorageService.getSettings();
     if (settings) {
-        await storage_service_StorageService.setSettings({
+        await StorageService.setSettings({
             ...settings,
             [key]: value
         });
         if (message) {
-            modal_utils_showToast(message, 'success');
+            showToast(message, 'success');
         }
     }
 }
@@ -2233,7 +2184,7 @@ async function updateSetting(key, value, message = '') {
 async function init() {
     await initTheme();
     await initVersion();
-    cyber_btn_init_initCyberButtons(); // Initialize static header buttons first
+    initCyberButtons(); // Initialize static header buttons first
     initIconReplacement();
     // Initialize guide overlays (settings page)
     initGuideOverlays();
@@ -2249,7 +2200,7 @@ async function init() {
 }
 // Load settings
 async function loadSettings() {
-    const settings = await storage_service_StorageService.getSettings();
+    const settings = await StorageService.getSettings();
     originalSettings = JSON.parse(JSON.stringify(settings));
     const enableLiveAssistant = document.getElementById('enableLiveAssistant');
     const enableSaveValue = document.getElementById('enableSaveValue');
@@ -2268,9 +2219,9 @@ async function loadSettings() {
         enableLocatorRetriever.checked = settings.enableLocatorRetriever ?? false;
         enableRegexPattern.checked = settings.enableRegexPattern ?? false;
         enableRandomStringInAssistant.checked = settings.enableRandomStringInAssistant ?? false;
-        enableRandomStringSectionInPopup.checked = settings.enableRandomStringSectionInPopup ?? appConstants_DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+        enableRandomStringSectionInPopup.checked = settings.enableRandomStringSectionInPopup ?? DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
         randomStringCharset.value = settings.randomStringCharset ?? 'alphanumeric-special';
-        randomStringLength.value = String(settings.randomStringLength ?? appConstants_DEFAULTS.RANDOM_STRING_LENGTH);
+        randomStringLength.value = String(settings.randomStringLength ?? DEFAULTS.RANDOM_STRING_LENGTH);
         // Populate and set default save target select
         if (defaultSaveTarget) {
             // Ensure options exist
@@ -2292,7 +2243,7 @@ async function loadSettings() {
 }
 // Load all data
 async function loadData() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     originalData = JSON.parse(JSON.stringify(data));
@@ -2304,7 +2255,7 @@ async function loadData() {
 }
 // Load locators
 async function loadLocators() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const tbody = document.getElementById('locatorsTableBody');
@@ -2390,7 +2341,7 @@ async function loadRegexPatterns() {
         data = originalData;
     }
     else {
-        const stored = await storage_service_StorageService.getData();
+        const stored = await StorageService.getData();
         if (!stored)
             return;
         // Work on a copy in memory so user can cancel/save later
@@ -2448,7 +2399,7 @@ async function loadRegexPatterns() {
         tbody.appendChild(row);
     });
     // Initialize cyber buttons after dynamic content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     // Add change listeners to show save/cancel buttons
     tbody.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', () => showRegexPatternsButtons());
@@ -2460,7 +2411,7 @@ async function loadRegexPatterns() {
 }
 // Load length configurations
 async function loadLengthConfigurations() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const tbody = document.getElementById('lengthConfigTableBody');
@@ -2503,7 +2454,7 @@ async function loadLengthConfigurations() {
         tbody.appendChild(row);
     });
     // Initialize cyber buttons after dynamic content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     // Add change listeners to show save/cancel buttons
     tbody.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', () => showLengthConfigButtons());
@@ -2515,7 +2466,7 @@ async function loadLengthConfigurations() {
 }
 // Load pages
 async function loadPages() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const tbody = document.getElementById('pagesTableBody');
@@ -2564,7 +2515,7 @@ async function loadPages() {
         tbody.appendChild(row);
     });
     // Initialize cyber buttons after dynamic content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     // Add change listeners
     tbody.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('input', () => showPageButtons());
@@ -2590,7 +2541,7 @@ async function loadPages() {
 }
 // Handle delete page
 async function handleDeletePage(pageId) {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const page = data.pages.find(p => p.id === pageId);
@@ -2605,19 +2556,19 @@ async function handleDeletePage(pageId) {
     data.presetPageLinks = data.presetPageLinks.filter(l => l.pageId !== pageId);
     // Remove saved values
     data.savedValues = data.savedValues.filter(sv => sv.pageId !== pageId);
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadPages();
-    modal_utils_showToast('Page deleted successfully', 'success');
+    showToast('Page deleted successfully', 'success');
 }
 // Handle duplicate page
 async function handleDuplicatePage(pageId) {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const page = data.pages.find(p => p.id === pageId);
     if (!page)
         return;
-    const newPage = await storage_service_StorageService.addPage({
+    const newPage = await StorageService.addPage({
         pageTitle: `${page.pageTitle} (Copy)`,
         url: 'You have to set URL',
         description: page.description || '',
@@ -2626,11 +2577,11 @@ async function handleDuplicatePage(pageId) {
     });
     // Don't clone preset links - new page starts empty
     await loadPages();
-    modal_utils_showToast('Page duplicated successfully', 'success');
+    showToast('Page duplicated successfully', 'success');
 }
 // Load presets
 async function loadPresets() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const tbody = document.getElementById('presetsTableBody');
@@ -2673,7 +2624,7 @@ async function loadPresets() {
         tbody.appendChild(row);
     });
     // Initialize cyber buttons after dynamic content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     // Add change listeners
     tbody.querySelectorAll('input, textarea').forEach(input => {
         input.addEventListener('input', () => showPresetButtons());
@@ -2683,9 +2634,9 @@ async function loadPresets() {
         btn.addEventListener('click', async () => {
             const presetId = btn.dataset.id;
             try {
-                const data = await storage_service_StorageService.getData();
+                const data = await StorageService.getData();
                 if (!data) {
-                    modal_utils_showToast('Failed to load data', 'error');
+                    showToast('Failed to load data', 'error');
                     return;
                 }
                 const links = data.presetPageLinks.filter(l => l.presetId === presetId);
@@ -2704,7 +2655,7 @@ async function loadPresets() {
             }
             catch (err) {
                 console.error('Failed to open preset editor:', err);
-                modal_utils_showToast('Failed to open preset editor. Please try again.', 'error');
+                showToast('Failed to open preset editor. Please try again.', 'error');
             }
         });
     });
@@ -2717,7 +2668,7 @@ async function loadPresets() {
 }
 // Handle delete preset
 async function handleDeletePreset(presetId) {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const preset = data.presets.find(p => p.id === presetId);
@@ -2730,25 +2681,25 @@ async function handleDeletePreset(presetId) {
     data.presets = data.presets.filter(p => p.id !== presetId);
     // Remove preset links
     data.presetPageLinks = data.presetPageLinks.filter(l => l.presetId !== presetId);
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadPresets();
-    modal_utils_showToast('Preset deleted successfully', 'success');
+    showToast('Preset deleted successfully', 'success');
 }
 // Handle clone preset
 async function handleClonePreset(presetId) {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     const preset = data.presets.find(p => p.id === presetId);
     if (!preset)
         return;
-    const newPreset = await storage_service_StorageService.addPreset({
+    const newPreset = await StorageService.addPreset({
         name: `${preset.name} (Copy)`,
         description: preset.description || '',
         formData: JSON.parse(JSON.stringify(preset.formData))
     });
     await loadPresets();
-    modal_utils_showToast('Preset cloned successfully', 'success');
+    showToast('Preset cloned successfully', 'success');
 }
 // Mark as changed
 function markAsChanged() {
@@ -2844,7 +2795,7 @@ function hidePresetButtons() {
 }
 // Save locator changes
 async function saveLocatorChanges() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     let locatorUpdates = [];
@@ -2873,7 +2824,7 @@ async function saveLocatorChanges() {
                     if (field.testId === oldTestId && field.querySelector === oldSelector) {
                         field.testId = update.newTestId;
                         field.querySelector = update.newSelector;
-                        field.updatedAt = helpers_getCurrentTimestamp();
+                        field.updatedAt = getCurrentTimestamp();
                     }
                 });
             });
@@ -2882,19 +2833,19 @@ async function saveLocatorChanges() {
                 if (sv.testId === oldTestId && sv.querySelector === oldSelector) {
                     sv.testId = update.newTestId;
                     sv.querySelector = update.newSelector;
-                    sv.updatedAt = helpers_getCurrentTimestamp();
+                    sv.updatedAt = getCurrentTimestamp();
                 }
             });
         });
-        await storage_service_StorageService.setData(data);
-        modal_utils_showToast(`Updated ${locatorUpdates.length} locator(s)`, 'success');
+        await StorageService.setData(data);
+        showToast(`Updated ${locatorUpdates.length} locator(s)`, 'success');
         hideLocatorButtons();
     }
 }
 // Save regex patterns changes
 async function saveRegexPatternsChanges() {
     // Persist in-memory changes if present, otherwise read from storage
-    const data = originalData ?? await storage_service_StorageService.getData();
+    const data = originalData ?? await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -2920,11 +2871,11 @@ async function saveRegexPatternsChanges() {
         });
     }
     if (errors.length > 0) {
-        modal_utils_showToast(`Validation errors:\n${errors.join('\n')}`, 'error');
+        showToast(`Validation errors:\n${errors.join('\n')}`, 'error');
         return;
     }
-    await storage_service_StorageService.setData(data);
-    modal_utils_showToast('Regex patterns updated successfully', 'success');
+    await StorageService.setData(data);
+    showToast('Regex patterns updated successfully', 'success');
     // Clear in-memory changes tracking after save
     originalData = null;
     hasUnsavedChanges = false;
@@ -2932,7 +2883,7 @@ async function saveRegexPatternsChanges() {
 }
 // Save length configurations changes
 async function saveLengthConfigurationsChanges() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -2965,17 +2916,17 @@ async function saveLengthConfigurationsChanges() {
         });
     }
     if (errors.length > 0) {
-        modal_utils_showToast(`Validation errors:\n${errors.join('\n')}`, 'error');
+        showToast(`Validation errors:\n${errors.join('\n')}`, 'error');
         return;
     }
-    await storage_service_StorageService.setData(data);
-    modal_utils_showToast('Length configurations updated successfully', 'success');
+    await StorageService.setData(data);
+    showToast('Length configurations updated successfully', 'success');
     hideLengthConfigButtons();
 }
 // Handle delete regex pattern
 async function handleDeleteRegexPattern(indexStr) {
     const index = parseInt(indexStr);
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || !data.regexPatterns[index])
         return;
     const pattern = data.regexPatterns[index];
@@ -2984,14 +2935,14 @@ async function handleDeleteRegexPattern(indexStr) {
         return;
     // Remove pattern
     data.regexPatterns.splice(index, 1);
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadRegexPatterns();
-    modal_utils_showToast('Regex pattern deleted successfully', 'success');
+    showToast('Regex pattern deleted successfully', 'success');
 }
 // Handle delete length configuration
 async function handleDeleteLengthConfig(indexStr) {
     const index = parseInt(indexStr);
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || !data.lengthConfigurations[index])
         return;
     const config = data.lengthConfigurations[index];
@@ -3000,13 +2951,13 @@ async function handleDeleteLengthConfig(indexStr) {
         return;
     // Remove configuration
     data.lengthConfigurations.splice(index, 1);
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadLengthConfigurations();
-    modal_utils_showToast('Length configuration deleted successfully', 'success');
+    showToast('Length configuration deleted successfully', 'success');
 }
 // Save page changes
 async function savePageChanges() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -3055,22 +3006,22 @@ async function savePageChanges() {
                 page.description = description;
                 page.owner = owner;
                 page.matchIdentify = matchIdentify;
-                page.updatedAt = helpers_getCurrentTimestamp();
+                page.updatedAt = getCurrentTimestamp();
             }
         });
     }
     if (errors.length > 0) {
-        modal_utils_showToast(errors.join('\n'), 'error');
+        showToast(errors.join('\n'), 'error');
         return;
     }
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadPages();
-    modal_utils_showToast('Pages saved successfully', 'success');
+    showToast('Pages saved successfully', 'success');
     hidePageButtons();
 }
 // Save preset changes
 async function savePresetChanges() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -3097,24 +3048,24 @@ async function savePresetChanges() {
                 // Update preset
                 preset.name = name;
                 preset.description = description;
-                preset.updatedAt = helpers_getCurrentTimestamp();
+                preset.updatedAt = getCurrentTimestamp();
             }
         });
     }
     if (errors.length > 0) {
-        modal_utils_showToast(errors.join('\n'), 'error');
+        showToast(errors.join('\n'), 'error');
         return;
     }
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     await loadPresets();
-    modal_utils_showToast('Presets saved successfully', 'success');
+    showToast('Presets saved successfully', 'success');
     hidePresetButtons();
 }
 // Export pages to JSON file
 async function exportPages() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || data.pages.length === 0) {
-        modal_utils_showToast('No pages to export', 'info');
+        showToast('No pages to export', 'info');
         return;
     }
     await showPageExportSelectionModal(data.pages);
@@ -3195,7 +3146,7 @@ async function showPageExportSelectionModal(allPages) {
         const selectedIds = Array.from(document.querySelectorAll('.page-checkbox:checked'))
             .map(cb => cb.value);
         if (selectedIds.length === 0) {
-            modal_utils_showToast('Please select at least one page to export', 'warning');
+            showToast('Please select at least one page to export', 'warning');
             return;
         }
         const selectedPages = allPages.filter(page => selectedIds.includes(page.id));
@@ -3214,7 +3165,7 @@ async function performPageExport(selectedPages) {
         data: { pages: selectedPages }
     });
     downloadFile(JSON.stringify(exportFile, null, 2), `pages-export-${Date.now()}.json`);
-    modal_utils_showToast(`${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'} exported and downloaded`, 'success');
+    showToast(`${selectedPages.length} page${selectedPages.length === 1 ? '' : 's'} exported and downloaded`, 'success');
 }
 // Import pages from JSON file
 async function importPages(file) {
@@ -3222,10 +3173,10 @@ async function importPages(file) {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.pages || !Array.isArray(imported.data.pages)) {
-            modal_utils_showToast('Invalid import file: pages section not included', 'error');
+            showToast('Invalid import file: pages section not included', 'error');
             return;
         }
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let addedCount = 0;
@@ -3248,31 +3199,31 @@ async function importPages(file) {
             const newPage = {
                 ...page,
                 id: generateGuid(),
-                createdAt: helpers_getCurrentTimestamp(),
-                updatedAt: helpers_getCurrentTimestamp()
+                createdAt: getCurrentTimestamp(),
+                updatedAt: getCurrentTimestamp()
             };
             data.pages.push(newPage);
             addedCount++;
         }
-        await storage_service_StorageService.setData(data);
+        await StorageService.setData(data);
         await loadPages();
         let message = `Added ${addedCount} pages`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
-        modal_utils_showToast(message, 'success');
+        showToast(message, 'success');
     }
     catch (error) {
         console.error('Import pages error:', error);
-        modal_utils_showToast('Failed to import pages. Please check the file format.', 'error');
+        showToast('Failed to import pages. Please check the file format.', 'error');
     }
 }
 // Export presets to JSON file
 async function exportPresets() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || data.presets.length === 0) {
-        modal_utils_showToast('No presets to export', 'info');
+        showToast('No presets to export', 'info');
         return;
     }
     await showPresetExportSelectionModal(data.presets);
@@ -3353,7 +3304,7 @@ async function showPresetExportSelectionModal(allPresets) {
         const selectedIds = Array.from(document.querySelectorAll('.preset-checkbox:checked'))
             .map(cb => cb.value);
         if (selectedIds.length === 0) {
-            modal_utils_showToast('Please select at least one preset to export', 'warning');
+            showToast('Please select at least one preset to export', 'warning');
             return;
         }
         const selectedPresets = allPresets.filter(preset => selectedIds.includes(preset.id));
@@ -3372,7 +3323,7 @@ async function performPresetExport(selectedPresets) {
         data: { presets: selectedPresets }
     });
     downloadFile(JSON.stringify(exportFile, null, 2), `presets-export-${Date.now()}.json`);
-    modal_utils_showToast(`${selectedPresets.length} preset${selectedPresets.length === 1 ? '' : 's'} exported and downloaded`, 'success');
+    showToast(`${selectedPresets.length} preset${selectedPresets.length === 1 ? '' : 's'} exported and downloaded`, 'success');
 }
 // Import presets from JSON file
 async function importPresets(file) {
@@ -3380,10 +3331,10 @@ async function importPresets(file) {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.presets || !Array.isArray(imported.data.presets)) {
-            modal_utils_showToast('Invalid import file: presets section not included', 'error');
+            showToast('Invalid import file: presets section not included', 'error');
             return;
         }
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let addedCount = 0;
@@ -3406,31 +3357,31 @@ async function importPresets(file) {
             const newPreset = {
                 ...preset,
                 id: generateGuid(),
-                createdAt: helpers_getCurrentTimestamp(),
-                updatedAt: helpers_getCurrentTimestamp()
+                createdAt: getCurrentTimestamp(),
+                updatedAt: getCurrentTimestamp()
             };
             data.presets.push(newPreset);
             addedCount++;
         }
-        await storage_service_StorageService.setData(data);
+        await StorageService.setData(data);
         await loadPresets();
         let message = `Added ${addedCount} presets`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
-        modal_utils_showToast(message, 'success');
+        showToast(message, 'success');
     }
     catch (error) {
         console.error('Import presets error:', error);
-        modal_utils_showToast('Failed to import presets. Please check the file format.', 'error');
+        showToast('Failed to import presets. Please check the file format.', 'error');
     }
 }
 // Export regex patterns to JSON file
 async function exportRegexPatterns() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || data.regexPatterns.length === 0) {
-        modal_utils_showToast('No regex patterns to export', 'info');
+        showToast('No regex patterns to export', 'info');
         return;
     }
     const exportFile = createExportFile({
@@ -3438,7 +3389,7 @@ async function exportRegexPatterns() {
         data: { regexPatterns: data.regexPatterns }
     });
     downloadFile(JSON.stringify(exportFile, null, 2), `regex-patterns-export-${Date.now()}.json`);
-    modal_utils_showToast('Regex patterns exported and downloaded', 'success');
+    showToast('Regex patterns exported and downloaded', 'success');
 }
 // Import regex patterns from JSON file
 async function importRegexPatterns(file) {
@@ -3446,10 +3397,10 @@ async function importRegexPatterns(file) {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.regexPatterns || !Array.isArray(imported.data.regexPatterns)) {
-            modal_utils_showToast('Invalid import file: regex patterns section not included', 'error');
+            showToast('Invalid import file: regex patterns section not included', 'error');
             return;
         }
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let addedCount = 0;
@@ -3466,25 +3417,25 @@ async function importRegexPatterns(file) {
             data.regexPatterns.push({ ...pattern });
             addedCount++;
         }
-        await storage_service_StorageService.setData(data);
+        await StorageService.setData(data);
         await loadRegexPatterns();
         let message = `Added ${addedCount} regex patterns`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
-        modal_utils_showToast(message, 'success');
+        showToast(message, 'success');
     }
     catch (error) {
         console.error('Import regex patterns error:', error);
-        modal_utils_showToast('Failed to import regex patterns. Please check the file format.', 'error');
+        showToast('Failed to import regex patterns. Please check the file format.', 'error');
     }
 }
 // Export length configurations to JSON file
 async function exportLengthConfigurations() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data || data.lengthConfigurations.length === 0) {
-        modal_utils_showToast('No length configurations to export', 'info');
+        showToast('No length configurations to export', 'info');
         return;
     }
     const exportFile = createExportFile({
@@ -3492,7 +3443,7 @@ async function exportLengthConfigurations() {
         data: { lengthConfigurations: data.lengthConfigurations }
     });
     downloadFile(JSON.stringify(exportFile, null, 2), `length-configurations-export-${Date.now()}.json`);
-    modal_utils_showToast('Length configurations exported and downloaded', 'success');
+    showToast('Length configurations exported and downloaded', 'success');
 }
 // Import length configurations from JSON file
 async function importLengthConfigurations(file) {
@@ -3500,10 +3451,10 @@ async function importLengthConfigurations(file) {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.lengthConfigurations || !Array.isArray(imported.data.lengthConfigurations)) {
-            modal_utils_showToast('Invalid import file: length configurations section not included', 'error');
+            showToast('Invalid import file: length configurations section not included', 'error');
             return;
         }
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let addedCount = 0;
@@ -3519,26 +3470,26 @@ async function importLengthConfigurations(file) {
             data.lengthConfigurations.push({ ...config });
             addedCount++;
         }
-        await storage_service_StorageService.setData(data);
+        await StorageService.setData(data);
         await loadLengthConfigurations();
         let message = `Added ${addedCount} length configurations`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
-        modal_utils_showToast(message, 'success');
+        showToast(message, 'success');
     }
     catch (error) {
         console.error('Import length configurations error:', error);
-        modal_utils_showToast('Failed to import length configurations. Please check the file format.', 'error');
+        showToast('Failed to import length configurations. Please check the file format.', 'error');
     }
 }
 // Export all settings data
 async function exportAllSettings() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data) {
-        modal_utils_showToast('Failed to load data', 'error');
+        showToast('Failed to load data', 'error');
         return;
     }
-    const settings = await storage_service_StorageService.getSettings();
+    const settings = await StorageService.getSettings();
     const exportFile = createExportFile({
         included: {
             settings: true,
@@ -3553,7 +3504,7 @@ async function exportAllSettings() {
         data: data,
     });
     downloadFile(JSON.stringify(exportFile, null, 2), `form-filler-backup-${Date.now()}.json`);
-    modal_utils_showToast('All settings exported successfully', 'success');
+    showToast('All settings exported successfully', 'success');
 }
 // Import all settings data
 async function importAllSettings(file) {
@@ -3568,7 +3519,7 @@ async function importAllSettings(file) {
             && imported.included.regexPatterns
             && imported.included.lengthConfigurations;
         if (!includesAll) {
-            modal_utils_showToast('Invalid backup file: must include settings + all data sections', 'error');
+            showToast('Invalid backup file: must include settings + all data sections', 'error');
             return;
         }
         // Confirm with user before overwriting
@@ -3577,17 +3528,17 @@ async function importAllSettings(file) {
             return;
         }
         // Import settings + data
-        await storage_service_StorageService.setSettings(imported.settings);
-        await storage_service_StorageService.setData(imported.data);
+        await StorageService.setSettings(imported.settings);
+        await StorageService.setData(imported.data);
         // Reload the page to reflect changes
-        modal_utils_showToast('All settings imported successfully. Page will reload.', 'success');
+        showToast('All settings imported successfully. Page will reload.', 'success');
         setTimeout(() => {
             window.location.reload();
         }, 1500);
     }
     catch (error) {
         console.error('Import all settings error:', error);
-        modal_utils_showToast('Failed to import settings. Please check the file format.', 'error');
+        showToast('Failed to import settings. Please check the file format.', 'error');
     }
 }
 // Setup event listeners
@@ -3632,7 +3583,7 @@ function setupEventListeners() {
         await updateSetting('randomStringCharset', value, 'Default random string character set updated');
     });
     document.getElementById('randomStringLength')?.addEventListener('change', async () => {
-        const value = parseInt(document.getElementById('randomStringLength').value) || appConstants_DEFAULTS.RANDOM_STRING_LENGTH;
+        const value = parseInt(document.getElementById('randomStringLength').value) || DEFAULTS.RANDOM_STRING_LENGTH;
         await updateSetting('randomStringLength', value, 'Default random string length updated');
     });
     document.getElementById('defaultSaveTarget')?.addEventListener('change', async () => {
@@ -3668,11 +3619,11 @@ function setupEventListeners() {
         promptsCopyBtn?.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(promptsTextarea.value);
-                modal_utils_showToast('Prompt copied to clipboard', 'success');
+                showToast('Prompt copied to clipboard', 'success');
             }
             catch (error) {
                 console.error('Copy failed', error);
-                modal_utils_showToast('Failed to copy prompt', 'error');
+                showToast('Failed to copy prompt', 'error');
             }
         });
     }
@@ -3897,7 +3848,7 @@ window.addEventListener('scroll', updateActiveNavButton);
 updateActiveNavButton();
 // Save all changes
 async function saveAllChanges() {
-    const data = await StorageService.getData();
+    const data = await settings_StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -3950,7 +3901,7 @@ async function saveAllChanges() {
                 page.description = description;
                 page.owner = owner;
                 page.matchIdentify = matchIdentify;
-                page.updatedAt = getCurrentTimestamp();
+                page.updatedAt = settings_getCurrentTimestamp();
             }
         });
     }
@@ -3977,12 +3928,12 @@ async function saveAllChanges() {
                 // Update preset
                 preset.name = name;
                 preset.description = description;
-                preset.updatedAt = getCurrentTimestamp();
+                preset.updatedAt = settings_getCurrentTimestamp();
             }
         });
     }
     if (errors.length > 0) {
-        showToast(errors.join('\n'), 'error');
+        settings_showToast(errors.join('\n'), 'error');
         return;
     }
     // Apply locator updates to all presets and saved values
@@ -3995,7 +3946,7 @@ async function saveAllChanges() {
                     if (field.testId === oldTestId && field.querySelector === oldSelector) {
                         field.testId = update.newTestId;
                         field.querySelector = update.newSelector;
-                        field.updatedAt = getCurrentTimestamp();
+                        field.updatedAt = settings_getCurrentTimestamp();
                     }
                 });
             });
@@ -4004,23 +3955,23 @@ async function saveAllChanges() {
                 if (sv.testId === oldTestId && sv.querySelector === oldSelector) {
                     sv.testId = update.newTestId;
                     sv.querySelector = update.newSelector;
-                    sv.updatedAt = getCurrentTimestamp();
+                    sv.updatedAt = settings_getCurrentTimestamp();
                 }
             });
         });
     }
     // Save data
-    await StorageService.setData(data);
+    await settings_StorageService.setData(data);
     // Save settings
     const enableLiveAssistant = document.getElementById('enableLiveAssistant').checked;
     const enableSaveValue = document.getElementById('enableSaveValue').checked;
     const enableImportValue = document.getElementById('enableImportValue').checked;
     const enableLocatorRetriever = document.getElementById('enableLocatorRetriever').checked;
     const enableRegexPattern = document.getElementById('enableRegexPattern').checked;
-    const currentSettings = await StorageService.getSettings();
+    const currentSettings = await settings_StorageService.getSettings();
     if (!currentSettings)
         return;
-    await StorageService.setSettings({
+    await settings_StorageService.setSettings({
         ...currentSettings,
         enableLiveAssistant,
         enableSaveValue,
@@ -4030,13 +3981,13 @@ async function saveAllChanges() {
         defaultSaveItemTo: currentSettings.defaultSaveItemTo ?? 'savedValues',
         enableRandomStringSectionInPopup: currentSettings.enableRandomStringSectionInPopup ?? true,
         randomStringCharset: currentSettings.randomStringCharset ?? 'alphanumeric',
-        randomStringLength: currentSettings.randomStringLength ?? DEFAULTS.RANDOM_STRING_LENGTH
+        randomStringLength: currentSettings.randomStringLength ?? settings_DEFAULTS.RANDOM_STRING_LENGTH
     });
     hasUnsavedChanges = false;
     const footer = document.getElementById('settingsFooter');
     if (footer)
         footer.style.display = 'none';
-    showToast('All changes saved successfully!', 'success');
+    settings_showToast('All changes saved successfully!', 'success');
 }
 // Show Add Page Modal
 async function showAddPageModal() {
@@ -4085,7 +4036,7 @@ async function showAddPageModal() {
   `;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const handleAdd = async () => {
         const title = document.getElementById('newPageTitle').value.trim();
         const url = document.getElementById('newPageUrl').value.trim();
@@ -4093,11 +4044,11 @@ async function showAddPageModal() {
         const owner = document.getElementById('newPageOwner').value.trim();
         const matchIdentify = document.getElementById('newPageMatchIdentify').value;
         if (!title) {
-            modal_utils_showToast('Page title is required', 'error');
+            showToast('Page title is required', 'error');
             return;
         }
         if (!url) {
-            modal_utils_showToast('URL is required', 'error');
+            showToast('URL is required', 'error');
             return;
         }
         try {
@@ -4108,17 +4059,17 @@ async function showAddPageModal() {
                 description: description,
                 owner: owner,
                 matchIdentify: matchIdentify,
-                createdAt: helpers_getCurrentTimestamp(),
-                updatedAt: helpers_getCurrentTimestamp()
+                createdAt: getCurrentTimestamp(),
+                updatedAt: getCurrentTimestamp()
             };
-            await storage_service_StorageService.addPage(newPage);
+            await StorageService.addPage(newPage);
             await loadPages();
             cleanup();
-            modal_utils_showToast('Page added successfully!', 'success');
+            showToast('Page added successfully!', 'success');
         }
         catch (error) {
             console.error('Error adding page:', error);
-            modal_utils_showToast('Failed to add page. Please try again.', 'error');
+            showToast('Failed to add page. Please try again.', 'error');
         }
     };
     const handleCancel = () => {
@@ -4170,12 +4121,12 @@ async function showAddPresetModal() {
   `;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const handleAdd = async () => {
         const name = document.getElementById('newPresetName').value.trim();
         const description = document.getElementById('newPresetDescription').value.trim();
         if (!name) {
-            modal_utils_showToast('Preset name is required', 'error');
+            showToast('Preset name is required', 'error');
             return;
         }
         try {
@@ -4184,17 +4135,17 @@ async function showAddPresetModal() {
                 name: name,
                 description: description,
                 formData: [],
-                createdAt: helpers_getCurrentTimestamp(),
-                updatedAt: helpers_getCurrentTimestamp()
+                createdAt: getCurrentTimestamp(),
+                updatedAt: getCurrentTimestamp()
             };
-            await storage_service_StorageService.addPreset(newPreset);
+            await StorageService.addPreset(newPreset);
             await loadPresets();
             cleanup();
-            modal_utils_showToast('Preset added successfully! You can now edit it to add form fields.', 'success');
+            showToast('Preset added successfully! You can now edit it to add form fields.', 'success');
         }
         catch (error) {
             console.error('Error adding preset:', error);
-            modal_utils_showToast('Failed to add preset. Please try again.', 'error');
+            showToast('Failed to add preset. Please try again.', 'error');
         }
     };
     const handleCancel = () => {
@@ -4246,20 +4197,20 @@ async function showAddRegexPatternModal() {
   `;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const handleAdd = async () => {
         const name = document.getElementById('newRegexPatternName').value.trim();
         const regex = document.getElementById('newRegexPatternRegex').value.trim();
         if (!name) {
-            modal_utils_showToast('Pattern name is required', 'error');
+            showToast('Pattern name is required', 'error');
             return;
         }
         if (!regex) {
-            modal_utils_showToast('Regex pattern is required', 'error');
+            showToast('Regex pattern is required', 'error');
             return;
         }
         try {
-            const data = await storage_service_StorageService.getData();
+            const data = await StorageService.getData();
             if (!data)
                 return;
             data.regexPatterns.push({
@@ -4267,14 +4218,14 @@ async function showAddRegexPatternModal() {
                 regex,
                 order: data.regexPatterns.length + 1
             });
-            await storage_service_StorageService.setData(data);
+            await StorageService.setData(data);
             await loadRegexPatterns();
             cleanup();
-            modal_utils_showToast('Regex pattern added successfully!', 'success');
+            showToast('Regex pattern added successfully!', 'success');
         }
         catch (error) {
             console.error('Error adding regex pattern:', error);
-            modal_utils_showToast('Failed to add regex pattern. Please try again.', 'error');
+            showToast('Failed to add regex pattern. Please try again.', 'error');
         }
     };
     const handleCancel = () => {
@@ -4334,37 +4285,37 @@ async function showAddLengthConfigModal() {
   `;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const handleAdd = async () => {
         const name = document.getElementById('newLengthConfigName').value.trim();
         const description = document.getElementById('newLengthConfigDescription').value.trim();
         const locator = document.getElementById('newLengthConfigLocator').value.trim();
         const maxLength = parseInt(document.getElementById('newLengthConfigMaxLength').value);
         if (!name) {
-            modal_utils_showToast('Configuration name is required', 'error');
+            showToast('Configuration name is required', 'error');
             return;
         }
         if (!locator) {
-            modal_utils_showToast('Locator is required', 'error');
+            showToast('Locator is required', 'error');
             return;
         }
         if (isNaN(maxLength) || maxLength < 1) {
-            modal_utils_showToast('Max length must be a positive number', 'error');
+            showToast('Max length must be a positive number', 'error');
             return;
         }
         try {
-            const data = await storage_service_StorageService.getData();
+            const data = await StorageService.getData();
             if (!data)
                 return;
             data.lengthConfigurations.push({ name, description, locator, maxLength });
-            await storage_service_StorageService.setData(data);
+            await StorageService.setData(data);
             await loadLengthConfigurations();
             cleanup();
-            modal_utils_showToast('Length configuration added successfully!', 'success');
+            showToast('Length configuration added successfully!', 'success');
         }
         catch (error) {
             console.error('Error adding length configuration:', error);
-            modal_utils_showToast('Failed to add length configuration. Please try again.', 'error');
+            showToast('Failed to add length configuration. Please try again.', 'error');
         }
     };
     const handleCancel = () => {
@@ -4527,7 +4478,7 @@ async function handleRegexPatternDrop(e) {
     // Perform reorder in-memory (originalData). Create in-memory copy if needed.
     try {
         if (!originalData) {
-            const stored = await storage_service_StorageService.getData();
+            const stored = await StorageService.getData();
             if (!stored) {
                 console.error('No data found for reorder');
                 return;
@@ -4557,7 +4508,7 @@ async function handleRegexPatternDrop(e) {
     }
     catch (error) {
         console.error('Failed to reorder regex patterns:', error);
-        modal_utils_showToast('Failed to reorder patterns. Please try again.', 'error');
+        showToast('Failed to reorder patterns. Please try again.', 'error');
     }
 }
 function handleRegexPatternDragEnd(e) {

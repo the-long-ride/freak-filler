@@ -35,6 +35,7 @@ This is a fully functional Chrome extension built with **TypeScript** and **Mani
 | `range` | `<input type="range">` | Number | Set value |
 | `number` | `<input type="number">` | Number | Set value |
 | `color` | `<input type="color">` | String (hex: `#RRGGBB`) | Set color value |
+| `htmlEditor` | Contenteditable and same-origin iframe HTML editors (TinyMCE, CKEditor, Quill, Froala, Summernote, Jodit, ProseMirror/Tiptap, Lexical, Slate, Draft.js, Editor.js, Toast UI, Trix, Redactor, etc.) | String (HTML) | Set editor HTML |
 | `clickable` | Any element | Number (delay in ms) | Click element |
 
 ### 4. Live Filling Assistant

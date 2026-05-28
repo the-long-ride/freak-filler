@@ -154,7 +154,8 @@ type FieldType =
   | 'range'          // Range slider
   | 'number'         // Number input
   | 'color'          // Color picker (hex value)
-  | 'dynamicDate';   // Dynamic date with offsets (years/months/days)
+  | 'dynamicDate'    // Dynamic date with offsets (years/months/days)
+  | 'htmlEditor';    // Contenteditable HTML editor
 
 // Preset-Page link (many-to-many)
 interface PresetPageLink {
@@ -341,6 +342,7 @@ Scans these input types:
 - `textarea` → type: 'text'
 - `input[type="checkbox"]` → type: 'checkbox'
 - `select` → type: 'dropdown'
+- Contenteditable and same-origin iframe editors (TinyMCE, CKEditor, Quill, Froala, Summernote, Jodit, ProseMirror/Tiptap, Lexical, Slate, Draft.js, Editor.js, Toast UI, Trix, Redactor, etc.) → type: 'htmlEditor'
 
 **Form Filling Logic** (`applypresetToPage`):
 | Field Type | Fill Behavior |
@@ -354,6 +356,7 @@ Scans these input types:
 | `datepicker` | `element.value = dateString` |
 | `dropdown` | `element.value = value` |
 | `dynamicDate` | Calculate date from `{years, months, days}` offsets |
+| `htmlEditor` | `element.innerHTML = value` + dispatch events |
 
 **Dynamic Date Feature**:
 ```typescript
@@ -465,7 +468,8 @@ export const FIELD_TYPES = {
   RANGE: 'range',
   NUMBER: 'number',
   COLOR: 'color',
-  DYNAMIC_DATE: 'dynamicDate'
+  DYNAMIC_DATE: 'dynamicDate',
+  HTML_EDITOR: 'htmlEditor'
 } as const;
 
 // UI messages

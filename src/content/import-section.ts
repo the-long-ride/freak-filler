@@ -1,17 +1,16 @@
 import { StorageService } from '../services/storage.service';
-import { getTestId, getSelector } from './element-helpers';
+import { FillableElement, getTestId, getSelector, setEditableValue } from './element-helpers';
 import { showNotification } from '../utils/notification';
-import { ICON_MAP } from '../constants/svgs';
 
-export let currentInputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null = null;
+export let currentInputElement: FillableElement | null = null;
 
-export function setCurrentInputElement(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) {
+export function setCurrentInputElement(element: FillableElement | null) {
   currentInputElement = element;
 }
 
 export async function setupImportSection(
   popup: HTMLElement,
-  inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  inputElement: FillableElement,
   pageData: any,
   afterClick?: () => void
 ) : Promise<void> {
@@ -95,14 +94,13 @@ export async function setupImportSection(
         const importBtn = document.createElement('button');
         importBtn.type = 'button';
         importBtn.className = 'import-value-btn';
-        importBtn.innerHTML = 'APPLY';
+        importBtn.textContent = 'APPLY';
         importBtn.title = 'Import this value into the field';
 
         importBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           if (currentInputElement) {
-            currentInputElement.value = value;
-            currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
+            setEditableValue(currentInputElement, value);
           }
           afterClick?.();
         });
@@ -110,7 +108,7 @@ export async function setupImportSection(
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
         delBtn.className = 'delete-saved-value-btn';
-        delBtn.innerHTML = 'DEL';
+        delBtn.textContent = 'DEL';
         delBtn.title = 'Delete this saved value';
 
         delBtn.addEventListener('click', async (e) => {
@@ -139,15 +137,6 @@ export async function setupImportSection(
         row.appendChild(cellLabel);
         row.appendChild(cellValue);
         row.appendChild(cellActions);
-
-        // Row click still imports value
-        // row.addEventListener('click', () => {
-        //   if (currentInputElement) {
-        //     currentInputElement.value = value;
-        //     currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
-        //   }
-        //   afterClick?.();
-        // });
 
         savedValuesGridBody.appendChild(row);
       });
@@ -196,8 +185,7 @@ export async function setupImportSection(
           ],
           () => {
             if (currentInputElement) {
-              currentInputElement.value = value;
-              currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
+              setEditableValue(currentInputElement, value);
             }
             afterClick?.();
           }

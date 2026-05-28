@@ -1,29 +1,34 @@
-/**
- * Helper functions for extracting element identifiers
- */
-/**
- * Get the data-testid attribute or fall back to element id
- * @param element - The input element
- * @returns The test ID or empty string
- */
-export declare function getTestId(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): string;
-/**
- * Get the CSS selector for an element
- * @param element - The input element
- * @returns A CSS selector string or empty string
- */
-export declare function getSelector(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): string;
-/**
- * Get element selector prioritizing data-testid
- * @param element - The input element
- * @returns data-testid if available, otherwise querySelector
- */
+import { FormFieldData } from '../types';
+export type NativeEditableElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+export type HtmlEditorElement = HTMLElement | HTMLIFrameElement;
+export type FillableElement = NativeEditableElement | HtmlEditorElement;
+export type ScannedFormField = FormFieldData & {
+    position: {
+        top: number;
+        left: number;
+    };
+};
+export declare const INLINE_HTML_EDITOR_SELECTOR: string;
+export declare const HTML_EDITOR_IFRAME_SELECTOR: string;
+export declare const HTML_EDITOR_SELECTOR: string;
+export declare function isNativeEditableElement(element: Element | null): element is NativeEditableElement;
+export declare function isHtmlEditorElement(element: Element | null): boolean;
+export declare function isNestedHtmlEditorElement(element: HTMLElement): boolean;
+export declare function isAssistantElement(element: Element | null): element is FillableElement;
+export declare function getAssistantElementFromTarget(target: EventTarget | Element | null): FillableElement | null;
+export declare function allowsTextActions(element: FillableElement): boolean;
+export declare function dispatchValueEvents(element: Element): void;
+export declare function getEditableValue(element: FillableElement): string;
+export declare function setEditableValue(element: FillableElement, value: string): void;
+export declare function getFieldTypeForElement(element: FillableElement): FormFieldData['type'];
+export declare function getElementLocators(element: Element): {
+    testId: string;
+    querySelector: string;
+};
+export declare function getTestId(element: Element): string;
+export declare function getSelector(element: Element): string;
 export declare function getElementSelector(element: Element | null): string;
-/**
- * Auto-populate test ID and selector inputs
- * @param element - The input element
- * @param testIdInput - The test ID input field
- * @param selectorInput - The selector input field
- */
-export declare function populateIdentifiers(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, testIdInput: HTMLInputElement, selectorInput: HTMLInputElement): void;
+export declare function getElementLabel(element: FillableElement): string;
+export declare function createScannedField(element: FillableElement, type: FormFieldData['type'], value: FormFieldData['value'], order: number): ScannedFormField;
+export declare function populateIdentifiers(element: Element, testIdInput: HTMLInputElement, selectorInput: HTMLInputElement): void;
 //# sourceMappingURL=element-helpers.d.ts.map

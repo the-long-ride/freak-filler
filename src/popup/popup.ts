@@ -1,5 +1,5 @@
 import { StorageService } from '../services/storage.service';
-import { PageData } from '../types';
+import { FormFieldData, PageData } from '../types';
 import { generateGuid, getCurrentTimestamp, generateRandomString, getCharacterSet } from '../utils/helpers';
 import { downloadFile, initTheme, initVersion } from '../utils/common';
 import { createExportFile, parseExtensionExportJson } from '../utils/export-format';
@@ -1150,9 +1150,9 @@ function showScannedFieldsModal(fields: any[]) {
     }
 
     // Create form data from all scanned fields
-    const formData = fields.map((field, index) => ({
+    const formData: FormFieldData[] = fields.map((field, index) => ({
       id: field.id || `field_${Date.now()}_${index}`,
-      type: field.type as 'text' | 'checkbox' | 'dropdown' | 'datepicker',
+      type: field.type as FormFieldData['type'],
       title: field.title || '',
       value: field.value === null || field.value === undefined ? null : field.value,
       testId: field.testId || '',
@@ -1695,5 +1695,4 @@ function initRandomStringSection(settings: any) {
     }
   });
 }
-
 

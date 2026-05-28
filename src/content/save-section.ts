@@ -2,13 +2,12 @@ import { StorageService } from '../services/storage.service';
 import { generateGuid, getCurrentTimestamp } from '../utils/helpers';
 import { FormFieldData } from '../types';
 import { setupImportSection } from './import-section';
-import { populateIdentifiers, getTestId, getSelector } from './element-helpers';
-import { escapeHtml } from '../utils/common';
+import { FillableElement, getEditableValue, getElementLabel, getFieldTypeForElement, populateIdentifiers } from './element-helpers';
 import { showNotification } from '../utils/notification';
 
 export async function setupSaveSection(
   popup: HTMLElement,
-  inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+  inputElement: FillableElement,
   pageData: any
 ) {
   const nameInput = popup.querySelector('.name-input') as HTMLInputElement;
@@ -34,13 +33,7 @@ export async function setupSaveSection(
   };
 
   // Auto-generate name from field attributes
-  nameInput.value = String(
-    inputElement.getAttribute('aria-label') ||
-    inputElement.getAttribute('placeholder') ||
-    (inputElement as HTMLInputElement).name ||
-    inputElement.getAttribute('title') ||
-    'Input Field'
-  );
+  nameInput.value = getElementLabel(inputElement);
 
   // Auto-populate test ID and selector
   populateIdentifiers(inputElement, testIdInput, selectorInput);
@@ -96,7 +89,7 @@ export async function setupSaveSection(
   // Save button handler
   saveBtn.addEventListener('click', async () => {
     const name = nameInput.value.trim();
-    const value = inputElement.value;
+    const value = getEditableValue(inputElement);
     const testId = testIdInput.value.trim();
     const selector = selectorInput.value.trim();
     const currentUrl = window.location.href;
@@ -156,7 +149,7 @@ export async function setupSaveSection(
 
         const fieldData: FormFieldData = {
           id: generateGuid(),
-          type: (inputElement.tagName === 'TEXTAREA' ? 'text' : 'text') as 'text' | 'checkbox' | 'dropdown' | 'datepicker',
+          type: getFieldTypeForElement(inputElement),
           title: name,
           value: value,
           testId: testId,

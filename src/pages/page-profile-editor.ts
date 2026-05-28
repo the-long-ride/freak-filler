@@ -834,6 +834,8 @@ function renderFormDataTable() {
         </div>`;
     } else if (data.type === 'datepicker') {
       valueCell = `<input type="date" class="value-input" value="${escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
+    } else if (data.type === 'htmlEditor') {
+      valueCell = `<textarea class="value-input html-editor-value" rows="3" data-id="${data.id}" placeholder="HTML content">${escapeHtml(String(data.value || ''))}</textarea>`;
     } else if (data.type === 'dynamicDate') {
       // Parse existing value or use defaults
       let years = 0, months = 0, days = 0;
@@ -917,6 +919,7 @@ function renderFormDataTable() {
           <option value="range" ${data.type === 'range' ? 'selected' : ''}>Range</option>
           <option value="number" ${data.type === 'number' ? 'selected' : ''}>Number</option>
           <option value="color" ${data.type === 'color' ? 'selected' : ''}>Color</option>
+          <option value="htmlEditor" ${data.type === 'htmlEditor' ? 'selected' : ''}>HTML Editor</option>
           <option value="dynamicDate" ${data.type === 'dynamicDate' ? 'selected' : ''}>Dynamic Date</option>
           <option value="clickable" ${data.type === 'clickable' ? 'selected' : ''}>Click on</option>
         </select>

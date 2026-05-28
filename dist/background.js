@@ -1,112 +1,9 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
-;// ./src/constants/appConstants.ts
-/**
- * Application-wide constants
- */
-// Storage keys
-const STORAGE_KEYS = {
-    DATA: 'formFillerData',
-    SETTINGS: 'formFillerSettings',
-    MIGRATION: 'formFillerMigrationCompleted'
-};
-// Theme constants
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-// Form field types
-const FIELD_TYPES = {
-    TEXT: 'text',
-    SEARCH: 'search',
-    CHECKBOX: 'checkbox',
-    DROPDOWN: 'dropdown',
-    DATEPICKER: 'datepicker',
-    CLICKABLE: 'clickable',
-    RADIO: 'radio',
-    RANGE: 'range',
-    NUMBER: 'number',
-    COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate'
-};
-// UI messages
-const MESSAGES = {
-    NO_PAGE_URL: 'Page URL is required',
-    NO_PRESETS: 'No presets yet',
-    NO_PAGES: 'No pages available',
-    NO_FORM_FIELDS: 'No form fields found on the page',
-    CONFIRM_DELETE: 'Are you sure you want to delete this',
-    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
-    SUCCESS_SAVE: 'Saved successfully!',
-    INVALID_DATA: 'Invalid data format'
-};
-// Default values
-const DEFAULTS = {
-    FILL_DELAY: 0,
-    AUTO_BLUR: true,
-    MUST_BE_MATCHED: false,
-    ENABLE_SAVE_VALUE: true,
-    ENABLE_IMPORT_VALUE: true,
-    ENABLE_LIVE_ASSISTANT: false,
-    DEFAULT_SAVE_ITEM_TO: 'savedValues',
-    THEME: 'light',
-    ENABLE_LOCATOR_RETRIEVER: false,
-    ENABLE_REGEX_PATTERN: false,
-    ENABLE_RANDOM_STRING_SECTION: false,
-    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
-    RANDOM_STRING_CHARSET: 'alphanumeric-special',
-    RANDOM_STRING_LENGTH: 100
-};
-// Limits and thresholds
-const appConstants_LIMITS = {
-    PARENT_SEARCH_DEPTH: 7,
-    SAME_ROW_THRESHOLD: 10, // pixels
-    DEFAULT_PAGE_SIZE: 25,
-    MAX_RETRIES: 3,
-    MIN_STRING_LENGTH: 1,
-    MAX_STRING_LENGTH: 99999,
-    QUANTIFIER_MAX_REPEAT: 10
-};
-// Sort directions
-const SORT_DIRECTION = {
-    ASC: 'asc',
-    DESC: 'desc'
-};
-// CSS class names
-const CSS_CLASSES = {
-    ACTIVE: 'active',
-    CHECKED: 'checked',
-    HIDDEN: 'hidden',
-    DISABLED: 'disabled',
-    LOADING: 'loading'
-};
-// Export/Import JSON schema
-const EXPORT_SCHEMA = 'form-filler.export.v1';
-// Character sets for random string generation
-const appConstants_CHAR_SETS = {
-    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    DIGITS: '0123456789',
-    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    CONTROL: '~`\'"\\/',
-    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
-};
-// Random string character set templates
-const RANDOM_STRING_CHARSETS = {
-    ALPHABET: 'alphabet',
-    NUMERIC: 'numeric',
-    ALPHANUMERIC: 'alphanumeric',
-    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
-    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-};
-// Default regex patterns
-const DEFAULT_REGEX_PATTERNS = [
-    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
-    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
-    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
-];
-
 ;// ./src/utils/helpers.ts
+/* unused harmony import specifier */ var CHAR_SETS;
+/* unused harmony import specifier */ var LIMITS;
 // Utility functions
 
 function generateGuid() {
@@ -326,63 +223,112 @@ function generateFromRegex(regex, length) {
         return generateRandomString(length, 'alphanumeric');
     }
 }
+
+;// ./src/constants/appConstants.ts
 /**
- * Get element locators (testId and querySelector)
+ * Application-wide constants
  */
-function getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
-    }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid');
-                levelsUp = i + 1;
-                break;
-            }
-            element = element.parentElement;
-        }
-        if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            // Add each level in the path
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
-            if (inputType) {
-                inputSelector += `[type='${inputType}']`;
-            }
-            const inputName = inputElement.getAttribute('name');
-            if (inputName) {
-                inputSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(inputSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
-}
+// Storage keys
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
+    DATA: 'formFillerData',
+    SETTINGS: 'formFillerSettings',
+    MIGRATION: 'formFillerMigrationCompleted'
+}));
+// Theme constants
+const THEMES = (/* unused pure expression or super */ null && ({
+    LIGHT: 'light',
+    DARK: 'dark'
+}));
+// Form field types
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
+    TEXT: 'text',
+    SEARCH: 'search',
+    CHECKBOX: 'checkbox',
+    DROPDOWN: 'dropdown',
+    DATEPICKER: 'datepicker',
+    CLICKABLE: 'clickable',
+    RADIO: 'radio',
+    RANGE: 'range',
+    NUMBER: 'number',
+    COLOR: 'color',
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
+// UI messages
+const MESSAGES = (/* unused pure expression or super */ null && ({
+    NO_PAGE_URL: 'Page URL is required',
+    NO_PRESETS: 'No presets yet',
+    NO_PAGES: 'No pages available',
+    NO_FORM_FIELDS: 'No form fields found on the page',
+    CONFIRM_DELETE: 'Are you sure you want to delete this',
+    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
+    SUCCESS_SAVE: 'Saved successfully!',
+    INVALID_DATA: 'Invalid data format'
+}));
+// Default values
+const DEFAULTS = {
+    FILL_DELAY: 0,
+    AUTO_BLUR: true,
+    MUST_BE_MATCHED: false,
+    ENABLE_SAVE_VALUE: true,
+    ENABLE_IMPORT_VALUE: true,
+    ENABLE_LIVE_ASSISTANT: false,
+    DEFAULT_SAVE_ITEM_TO: 'savedValues',
+    THEME: 'light',
+    ENABLE_LOCATOR_RETRIEVER: false,
+    ENABLE_REGEX_PATTERN: false,
+    ENABLE_RANDOM_STRING_SECTION: false,
+    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
+    RANDOM_STRING_CHARSET: 'alphanumeric-special',
+    RANDOM_STRING_LENGTH: 100
+};
+// Limits and thresholds
+const appConstants_LIMITS = (/* unused pure expression or super */ null && ({
+    PARENT_SEARCH_DEPTH: 7,
+    SAME_ROW_THRESHOLD: 10, // pixels
+    DEFAULT_PAGE_SIZE: 25,
+    MAX_RETRIES: 3,
+    MIN_STRING_LENGTH: 1,
+    MAX_STRING_LENGTH: 99999,
+    QUANTIFIER_MAX_REPEAT: 10
+}));
+// Sort directions
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
+    ASC: 'asc',
+    DESC: 'desc'
+}));
+// CSS class names
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
+    ACTIVE: 'active',
+    CHECKED: 'checked',
+    HIDDEN: 'hidden',
+    DISABLED: 'disabled',
+    LOADING: 'loading'
+}));
+// Export/Import JSON schema
+const EXPORT_SCHEMA = 'form-filler.export.v1';
+// Character sets for random string generation
+const appConstants_CHAR_SETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    DIGITS: '0123456789',
+    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    CONTROL: '~`\'"\\/',
+    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+}));
+// Random string character set templates
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'alphabet',
+    NUMERIC: 'numeric',
+    ALPHANUMERIC: 'alphanumeric',
+    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
+    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
+}));
+// Default regex patterns
+const DEFAULT_REGEX_PATTERNS = [
+    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
+    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
+    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
+];
 
 ;// ./src/services/storage.service.ts
 

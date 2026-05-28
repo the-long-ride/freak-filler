@@ -22,6 +22,7 @@ export declare const FIELD_TYPES: {
     readonly NUMBER: "number";
     readonly COLOR: "color";
     readonly DYNAMIC_DATE: "dynamicDate";
+    readonly HTML_EDITOR: "htmlEditor";
 };
 export declare const MESSAGES: {
     readonly NO_PAGE_URL: "Page URL is required";

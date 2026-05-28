@@ -27,7 +27,8 @@ export const FIELD_TYPES = {
   RANGE: 'range',
   NUMBER: 'number',
   COLOR: 'color',
-  DYNAMIC_DATE: 'dynamicDate'
+  DYNAMIC_DATE: 'dynamicDate',
+  HTML_EDITOR: 'htmlEditor'
 } as const;
 
 // UI messages

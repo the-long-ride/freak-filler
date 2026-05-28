@@ -2,7 +2,7 @@
 
 export interface FormFieldData {
   id: string;
-  type: 'text' | 'search' | 'checkbox' | 'dropdown' | 'datepicker' | 'clickable' | 'radio' | 'range' | 'number' | 'color' | 'dynamicDate';
+  type: 'text' | 'search' | 'checkbox' | 'dropdown' | 'datepicker' | 'clickable' | 'radio' | 'range' | 'number' | 'color' | 'dynamicDate' | 'htmlEditor';
   title: string;
   value: string | boolean | number;
   testId: string;

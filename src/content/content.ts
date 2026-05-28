@@ -2,15 +2,30 @@ import { StorageService } from '../services/storage.service';
 import { FormFieldData, ExtensionSettings } from '../types';
 import { setupSaveSection } from './save-section';
 import { setupImportSection, setCurrentInputElement } from './import-section';
-import { getElementSelector } from './element-helpers';
-import { isElementVisible, getElementPosition, escapeHtml } from '../utils/common';
-import { getCurrentTimestamp, generateRandomString, getCharacterSet, generateFromRegex, getElementLocators } from '../utils/helpers';
-// ICON_MAP not used in this file anymore
+import {
+  FillableElement,
+  HTML_EDITOR_SELECTOR,
+  ScannedFormField,
+  allowsTextActions,
+  createScannedField,
+  dispatchValueEvents,
+  getAssistantElementFromTarget,
+  getEditableValue,
+  getElementLocators,
+  getElementSelector,
+  getFieldTypeForElement,
+  isAssistantElement,
+  isHtmlEditorElement,
+  isNestedHtmlEditorElement,
+  setEditableValue
+} from './element-helpers';
+import { isElementVisible } from '../utils/common';
+import { generateRandomString, generateFromRegex } from '../utils/helpers';
 import { DEFAULTS, LIMITS } from '../constants/appConstants';
 import { showNotification } from '../utils/notification';
 
 let autoFillPopup: HTMLElement | null = null;
-let currentInputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null = null;
+let currentInputElement: FillableElement | null = null;
 let currentSettings: ExtensionSettings | null = null;
 let isMouseOverPopup = false;
 let contextInvalidated = false;
@@ -96,19 +111,15 @@ async function handleInputClick(event: Event) {
     return;
   }
 
-  // Handle text inputs, textareas, date pickers, and dropdowns
-  if ((target.tagName === 'INPUT' && ['text', 'date', 'datetime-local', 'email', 'tel', 'number', 'search', 'url', 'range', 'color'].includes((target as HTMLInputElement).type)) ||
-    target.tagName === 'TEXTAREA' ||
-    target.tagName === 'SELECT') {
-    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
-      currentInputElement = target as HTMLInputElement;
-      try {
-        await showFillingAssistantPopup(currentInputElement);
-      } catch (error) {
-        console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-        contextInvalidated = true;
-        removePopup();
-      }
+  const editableElement = getAssistantElementFromTarget(target);
+  if (editableElement) {
+    currentInputElement = editableElement;
+    try {
+      await showFillingAssistantPopup(currentInputElement);
+    } catch (error) {
+      console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+      contextInvalidated = true;
+      removePopup();
     }
   }
 }
@@ -138,17 +149,15 @@ async function handleInputFocus(event: Event) {
     return;
   }
 
-  if ((target.tagName === 'INPUT' && !['submit', 'reset'].includes((target as HTMLInputElement).type)) ||
-    target.tagName === 'TEXTAREA') {
-    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
-      currentInputElement = target as HTMLInputElement;
-      try {
-        await showFillingAssistantPopup(currentInputElement);
-      } catch (error) {
-        console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-        contextInvalidated = true;
-        removePopup();
-      }
+  const editableElement = getAssistantElementFromTarget(target);
+  if (editableElement) {
+    currentInputElement = editableElement;
+    try {
+      await showFillingAssistantPopup(currentInputElement);
+    } catch (error) {
+      console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+      contextInvalidated = true;
+      removePopup();
     }
   }
 }
@@ -158,8 +167,11 @@ function handleContextMenu(event: Event) {
   const mouseEvent = event as MouseEvent;
   const initial = (document.elementFromPoint(mouseEvent.clientX, mouseEvent.clientY) as HTMLElement) || (event.target as HTMLElement);
 
-  // First priority: Editable controls (inputs, textareas, selects, contenteditable) - check if clicked element or ancestor is editable
-  const editable = initial.closest('input, textarea, select, [contenteditable]') as HTMLElement | null;
+  lastContextMenuTarget = null;
+  lastContextMenuTargetType = null;
+
+  // First priority: editable controls, including contenteditable HTML editors.
+  const editable = getAssistantElementFromTarget(initial);
   if (editable) {
     lastContextMenuTarget = editable;
     lastContextMenuTargetType = 'editable';
@@ -186,7 +198,7 @@ function handleContextMenu(event: Event) {
             lastContextMenuTargetType = 'label-associated';
           }
         } else {
-          const inner = label.querySelector('input, textarea, select') as HTMLElement | null;
+          const inner = label.querySelector(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`) as HTMLElement | null;
           if (inner) {
             lastContextMenuTarget = inner;
             lastContextMenuTargetType = 'label-associated';
@@ -235,7 +247,7 @@ function handleInputFocusOut(event: Event) {
 }
 
 // Show auto-fill popup
-async function showFillingAssistantPopup(inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) {
+async function showFillingAssistantPopup(inputElement: FillableElement) {
   if (!isExtensionContextValid()) {
     return;
   }
@@ -273,11 +285,7 @@ async function showFillingAssistantPopup(inputElement: HTMLInputElement | HTMLTe
     return;
   }
 
-  // Determine the input type to decide which sections are allowed
-  const textLikeTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'];
-  const inputType = (inputElement instanceof HTMLInputElement) ? (inputElement.type || 'text') : inputElement.tagName.toLowerCase();
-  // Allow text-like sections for inputs and for textareas
-  const allowTextSections = (inputElement instanceof HTMLTextAreaElement) || textLikeTypes.includes(inputType);
+  const allowTextSections = allowsTextActions(inputElement);
 
   const popup = createPopup(pageData, allowTextSections);
   autoFillPopup = popup;
@@ -304,7 +312,7 @@ async function showFillingAssistantPopup(inputElement: HTMLInputElement | HTMLTe
     });
   }
   if (currentSettings?.enableRandomStringInAssistant && allowTextSections) {
-    setupRandomStringSection(popup, inputElement, currentUrl);
+    setupRandomStringSection(popup, inputElement);
   }
   if (currentSettings?.enableLocatorRetriever) {
     setupLocatorRetrieverSection(popup, inputElement);
@@ -519,15 +527,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === 'showAssistantFromContextMenu') {
     // Show assistant for the element that was right-clicked
     StorageService.getSettings().then((settings) => {
-      const enabled = settings?.enableSaveValue || settings?.enableImportValue || settings?.enableLiveAssistant || settings?.enableRandomStringInAssistant;
+      const enabled =
+        settings?.enableSaveValue ||
+        settings?.enableImportValue ||
+        settings?.enableLiveAssistant ||
+        settings?.enableRandomStringInAssistant ||
+        settings?.enableLocatorRetriever ||
+        settings?.enableRegexPattern;
       if (!enabled) {
         sendResponse({ success: false, error: 'Assistant disabled in settings' });
         return;
       }
 
-      if (lastContextMenuTarget) {
-        // Type-check: showAutoFillPopup expects HTMLInputElement/TextAreaElement/SelectElement
-        currentInputElement = lastContextMenuTarget as HTMLInputElement;
+      if (lastContextMenuTarget && isAssistantElement(lastContextMenuTarget)) {
+        currentInputElement = lastContextMenuTarget;
         showFillingAssistantPopup(currentInputElement).then(() => {
           sendResponse({ success: true });
         }).catch((error) => {
@@ -535,7 +548,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
       } else {
-        sendResponse({ success: false, error: 'No target element' });
+        sendResponse({ success: false, error: 'No editable target element' });
       }
     }).catch(err => {
       console.warn('Failed to read settings before showing assistant', err);
@@ -589,198 +602,53 @@ function decodeHtmlEntities(text: string): string {
   }
 }
 
-
-// Get label for an input element with priority order
-function getElementLabel(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): string {
-  // 1. Closest label tag
-  const closestLabel = element.closest('label');
-  if (closestLabel && closestLabel.textContent?.trim()) {
-    return closestLabel.textContent.trim();
-  }
-
-  // 2. Label tag with for="element.id"
-  if (element.id) {
-    const labelFor = document.querySelector(`label[for="${element.id}"]`);
-    if (labelFor && labelFor.textContent?.trim()) {
-      return labelFor.textContent.trim();
-    }
-  }
-
-  // 3. aria-label attribute
-  const ariaLabel = element.getAttribute('aria-label');
-  if (ariaLabel?.trim()) {
-    return ariaLabel.trim();
-  }
-
-  // 4. title attribute
-  if (element.title?.trim()) {
-    return element.title.trim();
-  }
-
-  // 5. placeholder attribute
-  const placeholder = element.getAttribute('placeholder');
-  if (placeholder?.trim()) {
-    return placeholder.trim();
-  }
-
-  // 6. name attribute
-  if (element.name?.trim()) {
-    return element.name.trim();
-  }
-
-  // 7. data-testid attribute
-  const testId = element.getAttribute('data-testid');
-  if (testId?.trim()) {
-    return testId.trim();
-  }
-
-  // 8. id attribute
-  if (element.id?.trim()) {
-    return element.id.trim();
-  }
-
-  // 9. Look for nearby text content in parent elements
-  let parent = element.parentElement;
-  for (let i = 0; i < 3 && parent; i++) {
-    // Skip if parent is a form or div with many children
-    if (parent.tagName === 'FORM' || (parent.tagName === 'DIV' && parent.children.length > 5)) {
-      parent = parent.parentElement;
-      continue;
-    }
-
-    // Look for text content in the parent
-    const textContent = parent.textContent?.trim();
-    if (textContent && textContent.length < 100 && textContent !== element.value) {
-      // Remove the element's own text if it's included
-      const elementText = element.textContent?.trim() || '';
-      const cleanText = textContent.replace(elementText, '').trim();
-      if (cleanText && cleanText.length < 50) {
-        return cleanText;
-      }
-    }
-
-    parent = parent.parentElement;
-  }
-
-  // 10. Look for preceding sibling text
-  const prevSibling = element.previousElementSibling;
-  if (prevSibling && prevSibling.textContent?.trim()) {
-    const text = prevSibling.textContent.trim();
-    if (text.length < 50) {
-      return text;
-    }
-  }
-
-  // 11. Fallback: Generate meaningful name from element attributes
-  const type = element.type || 'text';
-  const name = element.name || '';
-  const id = element.id || '';
-
-  if (name) {
-    // Convert camelCase or snake_case to readable text
-    return name.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim();
-  }
-
-  if (id) {
-    // Convert camelCase or snake_case to readable text
-    return id.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim();
-  }
-
-  // Type-based fallback
-  const typeLabels: { [key: string]: string } = {
-    'text': 'Text Field',
-    'email': 'Email',
-    'password': 'Password',
-    'tel': 'Phone',
-    'url': 'Website',
-    'search': 'Search',
-    'number': 'Number',
-    'range': 'Range',
-    'date': 'Date',
-    'datetime-local': 'Date & Time',
-    'color': 'Color',
-    'checkbox': 'Checkbox',
-    'radio': 'Radio Button'
-  };
-
-  return typeLabels[type] || 'Form Field';
-}
-
 // Scan form fields on the page
-function scanFormFields() {
-  const fields: any[] = [];
+function scanFormFields(): ScannedFormField[] {
+  const fields: ScannedFormField[] = [];
   const scannedElements = new Set<HTMLElement>();
 
-  // Helper to check if value is a placeholder or default
-  const isPlaceholderValue = (element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: string): boolean => {
-    if (!value) return false;
-    // Check if value matches placeholder
-    const placeholder = element.getAttribute('placeholder');
-    if (placeholder && value === placeholder) return true;
-    // Check for common default values
-    if (['x', 'X', '0.00', '0', '00/00/0000', 'MM/DD/YYYY'].includes(value.trim())) return true;
-    // Check if it's a date field with default date
-    if (element.type === 'date' && value === '02/06/2026') return true;
-    return false;
+  const scanElements = (
+    selector: string,
+    getValue: (element: FillableElement) => FormFieldData['value'],
+    typeOverride?: FormFieldData['type']
+  ) => {
+    document.querySelectorAll<HTMLElement>(selector).forEach(element => {
+      addScannedField(element as FillableElement, getValue, typeOverride);
+    });
   };
 
-  // Scan text inputs
-  document.querySelectorAll(
-    'input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"], input:not([type])'
-  ).forEach(input => {
-    if (scannedElements.has(input as HTMLElement)) return;
-    if (!isElementVisible(input as HTMLElement)) return;
-    scannedElements.add(input as HTMLElement);
+  const addScannedField = (
+    element: FillableElement,
+    getValue: (element: FillableElement) => FormFieldData['value'],
+    typeOverride?: FormFieldData['type']
+  ) => {
+    if (scannedElements.has(element)) return;
+    if (!isElementVisible(element)) return;
+    if (element.closest('.form-filler-popup')) return;
+    if (isHtmlEditorElement(element) && isNestedHtmlEditorElement(element)) return;
 
-    const inputEl = input as HTMLInputElement;
-    const testId = inputEl.getAttribute('data-testid') || inputEl.id || '';
-    const querySelector = getElementSelector(inputEl);
-    const label = getElementLabel(inputEl);
+    scannedElements.add(element);
+    fields.push(createScannedField(
+      element,
+      typeOverride || getFieldTypeForElement(element),
+      getValue(element),
+      fields.length + 1
+    ));
+  };
 
-    console.log('Scanned text input:', { selector: querySelector, label, value: inputEl.value });
+  const getInputValue = (element: FillableElement) => {
+    const value = getEditableValue(element);
+    return isPlaceholderValue(element, value) ? '' : value;
+  };
 
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'text',
-      title: label,
-      value: isPlaceholderValue(inputEl, inputEl.value) ? '' : (inputEl.value || ''),
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(inputEl)
-    });
-  });
+  // Scan search before the broader text selector so it keeps its specific type.
+  scanElements('input[type="search"]', getInputValue, 'search');
 
-  // Scan search inputs
-  document.querySelectorAll('input[type="search"]').forEach(input => {
-    if (scannedElements.has(input as HTMLElement)) return;
-    if (!isElementVisible(input as HTMLElement)) return;
-    scannedElements.add(input as HTMLElement);
-
-    const inputEl = input as HTMLInputElement;
-    const testId = inputEl.getAttribute('data-testid') || inputEl.id || '';
-    const querySelector = getElementSelector(inputEl);
-    const label = getElementLabel(inputEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'search',
-      title: label,
-      value: isPlaceholderValue(inputEl, inputEl.value) ? '' : (inputEl.value || ''),
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(inputEl)
-    });
-  });
+  scanElements(
+    'input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input:not([type])',
+    getInputValue,
+    'text'
+  );
 
   // Scan radio inputs: only capture the currently checked radio for each named group.
   const allRadios = Array.from(document.querySelectorAll('input[type="radio"]')) as HTMLInputElement[];
@@ -797,243 +665,27 @@ function scanFormFields() {
     if (name) {
       // For named groups, only include the checked radio
       const checked = group.find(r => r.checked);
-      if (checked && !scannedElements.has(checked) && isElementVisible(checked)) {
-        scannedElements.add(checked);
-        const testId = checked.getAttribute('data-testid') || checked.id || '';
-        const querySelector = getElementSelector(checked);
-        const label = getElementLabel(checked) || checked.value;
-
-        fields.push({
-          id: `${Date.now()}_${fields.length}`,
-          type: 'radio',
-          title: label,
-          value: checked.value || '',
-          testId,
-          querySelector,
-          fillDelay: DEFAULTS.FILL_DELAY,
-          autoBlur: DEFAULTS.AUTO_BLUR,
-          createdAt: getCurrentTimestamp(),
-          updatedAt: getCurrentTimestamp(),
-          order: fields.length + 1,
-          position: getElementPosition(checked)
-        });
+      if (checked) {
+        addScannedField(checked, element => getEditableValue(element) || '', 'radio');
       }
     } else {
       // For radios without a name, treat each radio individually but only if checked
       group.forEach(radioEl => {
-        if (radioEl.checked && !scannedElements.has(radioEl) && isElementVisible(radioEl)) {
-          scannedElements.add(radioEl);
-          const testId = radioEl.getAttribute('data-testid') || radioEl.id || '';
-          const querySelector = getElementSelector(radioEl);
-          const label = getElementLabel(radioEl) || radioEl.value;
-
-          fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'radio',
-            title: label,
-            value: radioEl.value || '',
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(radioEl)
-          });
+        if (radioEl.checked) {
+          addScannedField(radioEl, element => getEditableValue(element) || '', 'radio');
         }
       });
     }
   });
 
-  // Scan range inputs
-  document.querySelectorAll('input[type="range"]').forEach(range => {
-    if (scannedElements.has(range as HTMLElement)) return;
-    if (!isElementVisible(range as HTMLElement)) return;
-    scannedElements.add(range as HTMLElement);
-
-    const rangeEl = range as HTMLInputElement;
-    const testId = rangeEl.getAttribute('data-testid') || rangeEl.id || '';
-    const querySelector = getElementSelector(rangeEl);
-    const label = getElementLabel(rangeEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'range',
-      title: label,
-      value: rangeEl.value || '',
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(rangeEl)
-    });
-  });
-
-  // Scan number inputs
-  document.querySelectorAll('input[type="number"]').forEach(number => {
-    if (scannedElements.has(number as HTMLElement)) return;
-    if (!isElementVisible(number as HTMLElement)) return;
-    scannedElements.add(number as HTMLElement);
-
-    const numberEl = number as HTMLInputElement;
-    const testId = numberEl.getAttribute('data-testid') || numberEl.id || '';
-    const querySelector = getElementSelector(numberEl);
-    const label = getElementLabel(numberEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'number',
-      title: label,
-      value: isPlaceholderValue(numberEl, numberEl.value) ? '' : (numberEl.value || ''),
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(numberEl)
-    });
-  });
-
-  // Scan color inputs
-  document.querySelectorAll('input[type="color"]').forEach(color => {
-    if (scannedElements.has(color as HTMLElement)) return;
-    if (!isElementVisible(color as HTMLElement)) return;
-    scannedElements.add(color as HTMLElement);
-
-    const colorEl = color as HTMLInputElement;
-    const testId = colorEl.getAttribute('data-testid') || colorEl.id || '';
-    const querySelector = getElementSelector(colorEl);
-    const label = getElementLabel(colorEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'color',
-      title: label,
-      value: colorEl.value || '#000000',
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(colorEl)
-    });
-  });
-
-  // Scan date/datetime-local inputs
-  document.querySelectorAll('input[type="date"], input[type="datetime-local"]').forEach(date => {
-    if (scannedElements.has(date as HTMLElement)) return;
-    if (!isElementVisible(date as HTMLElement)) return;
-    scannedElements.add(date as HTMLElement);
-
-    const dateEl = date as HTMLInputElement;
-    const testId = dateEl.getAttribute('data-testid') || dateEl.id || '';
-    const querySelector = getElementSelector(dateEl);
-    const label = getElementLabel(dateEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'datepicker',
-      title: label,
-      value: isPlaceholderValue(dateEl, dateEl.value) ? '' : (dateEl.value || ''),
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(dateEl)
-    });
-  });
-
-  // Scan textareas
-  document.querySelectorAll('textarea').forEach(textarea => {
-    if (scannedElements.has(textarea as HTMLElement)) return;
-    if (!isElementVisible(textarea as HTMLElement)) return;
-    scannedElements.add(textarea as HTMLElement);
-
-    const textareaEl = textarea as HTMLTextAreaElement;
-    const testId = textareaEl.getAttribute('data-testid') || textareaEl.id || '';
-    const querySelector = getElementSelector(textareaEl);
-    const label = getElementLabel(textareaEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'text',
-      title: label,
-      value: isPlaceholderValue(textareaEl, textareaEl.value) ? '' : (textareaEl.value || ''),
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(textareaEl)
-    });
-  });
-
-  // Scan checkboxes
-  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    if (scannedElements.has(checkbox as HTMLElement)) return;
-    if (!isElementVisible(checkbox as HTMLElement)) return;
-    scannedElements.add(checkbox as HTMLElement);
-
-    const checkboxEl = checkbox as HTMLInputElement;
-    const testId = checkboxEl.getAttribute('data-testid') || checkboxEl.id || '';
-    const querySelector = getElementSelector(checkboxEl);
-    const label = getElementLabel(checkboxEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'checkbox',
-      title: label,
-      value: checkboxEl.checked ? true : false,
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(checkboxEl)
-    });
-  });
-
-  // Scan select dropdowns
-  document.querySelectorAll('select').forEach(select => {
-    if (scannedElements.has(select as HTMLElement)) return;
-    if (!isElementVisible(select as HTMLElement)) return;
-    scannedElements.add(select as HTMLElement);
-
-    const selectEl = select as HTMLSelectElement;
-    const testId = selectEl.getAttribute('data-testid') || selectEl.id || '';
-    const querySelector = getElementSelector(selectEl);
-    const label = getElementLabel(selectEl);
-
-    fields.push({
-      id: `${Date.now()}_${fields.length}`,
-      type: 'dropdown',
-      title: label,
-      value: selectEl.value || '',
-      testId,
-      querySelector,
-      fillDelay: DEFAULTS.FILL_DELAY,
-      autoBlur: DEFAULTS.AUTO_BLUR,
-      createdAt: getCurrentTimestamp(),
-      updatedAt: getCurrentTimestamp(),
-      order: fields.length + 1,
-      position: getElementPosition(selectEl)
-    });
-  });
+  scanElements('input[type="range"]', element => getEditableValue(element) || '', 'range');
+  scanElements('input[type="number"]', getInputValue, 'number');
+  scanElements('input[type="color"]', element => getEditableValue(element) || '#000000', 'color');
+  scanElements('input[type="date"], input[type="datetime-local"]', getInputValue, 'datepicker');
+  scanElements('textarea', getInputValue, 'text');
+  scanElements('input[type="checkbox"]', element => (element as HTMLInputElement).checked, 'checkbox');
+  scanElements('select', element => getEditableValue(element) || '', 'dropdown');
+  scanElements(HTML_EDITOR_SELECTOR, element => getEditableValue(element), 'htmlEditor');
 
   // Sort fields by position (top-left to bottom-right)
   fields.sort((a, b) => {
@@ -1050,6 +702,17 @@ function scanFormFields() {
   });
 
   return fields;
+}
+
+function isPlaceholderValue(element: FillableElement, value: string): boolean {
+  if (!value) return false;
+
+  const placeholder = element.getAttribute('placeholder');
+  if (placeholder && value === placeholder) return true;
+
+  if (['x', 'X', '0.00', '0', '00/00/0000', 'MM/DD/YYYY'].includes(value.trim())) return true;
+
+  return element instanceof HTMLInputElement && element.type === 'date' && value === '02/06/2026';
 }
 
 // Show temporary notification
@@ -1081,147 +744,122 @@ async function applypresetToPage(formData: FormFieldData[]) {
 
 // Apply single field to page
 async function applyFieldToPage(field: FormFieldData) {
-  return new Promise<void>((resolve) => {
-    let element: HTMLInputElement | HTMLSelectElement | null = null;
+  const element = findFieldElement(field);
+  if (!element) {
+    return;
+  }
 
-    // Try to find element by test ID first
-    if (field.testId) {
-      element = document.querySelector(`[data-testid="${field.testId}"]`) as HTMLInputElement;
+  if (field.type === 'checkbox') {
+    applyCheckboxField(element, field);
+    return;
+  }
+
+  if (field.type === 'radio') {
+    applyRadioField(element, field);
+    return;
+  }
+
+  if (field.type === 'clickable') {
+    await waitFor(parseInt(String(field.value), 10) || 0);
+    simulateClick(element);
+    blurAfterFill(element, field);
+    return;
+  }
+
+  const value = field.type === 'dynamicDate'
+    ? getDynamicDateValue(field.value)
+    : getFieldValueForFill(field);
+
+  setEditableValue(element, value);
+  blurAfterFill(element, field);
+  await waitFor(field.fillDelay);
+}
+
+function findFieldElement(field: FormFieldData): FillableElement | null {
+  let element: Element | null = null;
+
+  if (field.testId) {
+    element = document.querySelector(`[data-testid="${field.testId}"]`);
+  }
+
+  if (!element && field.querySelector) {
+    try {
+      element = document.querySelector(field.querySelector);
+    } catch (error) {
+      console.warn('Freak Filler: Invalid selector in preset', field.querySelector, error);
     }
+  }
 
-    // Try query selector if test ID didn't work
-    if (!element && field.querySelector) {
-      element = document.querySelector(field.querySelector) as HTMLInputElement;
-    }
+  return element instanceof HTMLElement ? element : null;
+}
 
-    if (element) {
-      if (field.type === 'checkbox') {
-        if ((element as HTMLInputElement).checked !== field.value)
-          simulateClick(element as HTMLElement);
-        // Optionally blur after fill
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        resolve();
-      } else if (field.type === 'radio') {
-        // For radio buttons, select the one with matching value
-        const radios = document.querySelectorAll(`input[type="radio"][name="${(element as HTMLInputElement).name}"]`);
-        radios.forEach(radio => {
-          if ((radio as HTMLInputElement).value === String(field.value)) {
-            simulateClick(radio as HTMLElement);
-            if (!(radio as HTMLInputElement).checked){
-              (radio as HTMLInputElement).checked = true;
-            }
-          }
-        });
-        // Trigger change and input events
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        resolve();
-      } else if (field.type === 'clickable') {
-        // For clickable elements, wait for specified delay then click
-        const delay = parseInt(String(field.value)) || 0;
-        setTimeout(() => {
-          simulateClick(element as HTMLElement);
-          if (field.autoBlur) {
-            (element as HTMLElement).blur();
-          }
-          resolve();
-        }, delay);
-      } else if (field.type === 'range' || field.type === 'number') {
-        // For range and number inputs
-        element.value = decodeHtmlEntities(String(field.value));
-        // Trigger change and input events
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        setTimeout(resolve, field.fillDelay);
-      } else if (field.type === 'color') {
-        // For color inputs
-        element.value = decodeHtmlEntities(String(field.value));
-        // Trigger change and input events
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        setTimeout(resolve, field.fillDelay);
-      } else if (field.type === 'datepicker') {
-        // For date inputs
-        element.value = decodeHtmlEntities(String(field.value));
-        // Trigger change and input events
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        setTimeout(resolve, field.fillDelay);
-      } else if (field.type === 'dynamicDate') {
-        // For dynamicDate, calculate the date based on offsets
-        try {
-          const offsets = JSON.parse(String(field.value));
-          const years = offsets.years || 0;
-          const months = offsets.months || 0;
-          const days = offsets.days || 0;
+function getFieldValueForFill(field: FormFieldData): string {
+  const value = String(field.value ?? '');
+  return field.type === 'htmlEditor' ? value : decodeHtmlEntities(value);
+}
 
-          // Calculate the date
-          const currentDate = new Date();
-          currentDate.setFullYear(currentDate.getFullYear() + years);
-          currentDate.setMonth(currentDate.getMonth() + months);
-          currentDate.setDate(currentDate.getDate() + days);
+function applyCheckboxField(element: HTMLElement, field: FormFieldData): void {
+  const shouldBeChecked = field.value === true || field.value === 'true';
+  if (element instanceof HTMLInputElement && element.checked !== shouldBeChecked) {
+    simulateClick(element);
+  }
 
-          // Format as YYYY-MM-DD for date inputs
-          const year = currentDate.getFullYear();
-          const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-          const day = String(currentDate.getDate()).padStart(2, '0');
-          const dateString = `${year}-${month}-${day}`;
+  blurAfterFill(element, field);
+}
 
-          element.value = dateString;
-          // Trigger change and input events
-          element.dispatchEvent(new Event('input', { bubbles: true }));
-          element.dispatchEvent(new Event('change', { bubbles: true }));
-          if (field.autoBlur) {
-            (element as HTMLElement).blur();
-          }
-          setTimeout(resolve, field.fillDelay);
-        } catch (e) {
-          console.error('Failed to parse dynamicDate value:', e);
-          // If parsing fails, just use current date
-          const currentDate = new Date();
-          const year = currentDate.getFullYear();
-          const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-          const day = String(currentDate.getDate()).padStart(2, '0');
-          element.value = `${year}-${month}-${day}`;
-          element.dispatchEvent(new Event('input', { bubbles: true }));
-          element.dispatchEvent(new Event('change', { bubbles: true }));
-          if (field.autoBlur) {
-            (element as HTMLElement).blur();
-          }
-          setTimeout(resolve, field.fillDelay);
-        }
-      } else {
-        element.value = decodeHtmlEntities(String(field.value));
-        // Trigger change and input events
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        if (field.autoBlur) {
-          (element as HTMLElement).blur();
-        }
-        setTimeout(resolve, field.fillDelay);
+function applyRadioField(element: HTMLElement, field: FormFieldData): void {
+  if (!(element instanceof HTMLInputElement)) {
+    return;
+  }
+
+  const radios = document.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${element.name}"]`);
+  radios.forEach(radio => {
+    if (radio.value === String(field.value)) {
+      simulateClick(radio);
+      if (!radio.checked) {
+        radio.checked = true;
       }
-    } else {
-      resolve();
     }
   });
+
+  dispatchValueEvents(element);
+  blurAfterFill(element, field);
+}
+
+function getDynamicDateValue(value: FormFieldData['value']): string {
+  try {
+    const offsets = JSON.parse(String(value));
+    return formatDateWithOffsets(offsets.years || 0, offsets.months || 0, offsets.days || 0);
+  } catch (e) {
+    console.error('Failed to parse dynamicDate value:', e);
+    return formatDateWithOffsets(0, 0, 0);
+  }
+}
+
+function formatDateWithOffsets(years: number, months: number, days: number): string {
+  const currentDate = new Date();
+  currentDate.setFullYear(currentDate.getFullYear() + years);
+  currentDate.setMonth(currentDate.getMonth() + months);
+  currentDate.setDate(currentDate.getDate() + days);
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function blurAfterFill(element: HTMLElement, field: FormFieldData): void {
+  if (field.autoBlur) {
+    element.blur();
+  }
+}
+
+function waitFor(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // Setup random string section
-function setupRandomStringSection(popup: HTMLElement, inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, currentUrl: string) {
+function setupRandomStringSection(popup: HTMLElement, inputElement: FillableElement) {
   const charsetSelect = popup.querySelector('.charset-select') as HTMLSelectElement;
   const lengthInput = popup.querySelector('.length-input') as HTMLInputElement;
   const enterBtn = popup.querySelector('.enter-btn') as HTMLButtonElement;
@@ -1292,12 +930,7 @@ function setupRandomStringSection(popup: HTMLElement, inputElement: HTMLInputEle
 
       const randomString = generateRandomString(length, charset);
 
-      // Fill the input field with the random string
-      inputElement.value = randomString;
-
-      // Trigger input and change events to ensure the field registers the change
-      inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-      inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+      setEditableValue(inputElement, randomString);
 
     } catch (error) {
       console.error('Freak Filler: Failed to generate random string:', error);
@@ -1306,7 +939,7 @@ function setupRandomStringSection(popup: HTMLElement, inputElement: HTMLInputEle
 }
 
 // Setup locator retriever section
-function setupLocatorRetrieverSection(popup: HTMLElement, inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) {
+function setupLocatorRetrieverSection(popup: HTMLElement, inputElement: FillableElement) {
   const testIdDisplay = popup.querySelector('.testid-display') as HTMLInputElement;
   const selectorDisplay = popup.querySelector('.selector-display') as HTMLInputElement;
   const copyTestIdBtn = popup.querySelector('.copy-testid-btn') as HTMLButtonElement;
@@ -1319,10 +952,11 @@ function setupLocatorRetrieverSection(popup: HTMLElement, inputElement: HTMLInpu
 
   // Get element locators
   const { testId, querySelector } = getElementLocators(inputElement);
+  const selector = querySelector || getElementSelector(inputElement);
 
   // Populate the display fields
   testIdDisplay.value = testId;
-  selectorDisplay.value = querySelector;
+  selectorDisplay.value = selector;
 
   // Setup copy buttons
   copyTestIdBtn.addEventListener('click', () => {
@@ -1339,9 +973,9 @@ function setupLocatorRetrieverSection(popup: HTMLElement, inputElement: HTMLInpu
   });
 
   copySelectorBtn.addEventListener('click', () => {
-    if (querySelector) {
-      navigator.clipboard.writeText(querySelector).then(() => {
-        showNotification(`Selector copied: ${querySelector}`);
+    if (selector) {
+      navigator.clipboard.writeText(selector).then(() => {
+        showNotification(`Selector copied: ${selector}`);
       }).catch((error) => {
         console.error('Freak Filler: Failed to copy selector:', error);
         showNotification('Failed to copy selector');
@@ -1353,7 +987,7 @@ function setupLocatorRetrieverSection(popup: HTMLElement, inputElement: HTMLInpu
 }
 
 // Setup regex pattern section
-function setupRegexPatternSection(popup: HTMLElement, inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) {
+function setupRegexPatternSection(popup: HTMLElement, inputElement: FillableElement) {
   const buttonsContainer = popup.querySelector('.regex-buttons') as HTMLElement;
 
   if (!buttonsContainer) {
@@ -1398,9 +1032,7 @@ function setupRegexPatternSection(popup: HTMLElement, inputElement: HTMLInputEle
             }
 
             const generated = generateFromRegex(pattern.regex, length);
-            inputElement.value = generated;
-            inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-            inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+            setEditableValue(inputElement, generated);
             showNotification('Value generated from regex pattern');
           } catch (err) {
             console.error('Failed to generate from pattern:', err);

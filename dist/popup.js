@@ -6,18 +6,18 @@
  * Application-wide constants
  */
 // Storage keys
-const STORAGE_KEYS = {
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
     DATA: 'formFillerData',
     SETTINGS: 'formFillerSettings',
     MIGRATION: 'formFillerMigrationCompleted'
-};
+}));
 // Theme constants
 const THEMES = {
     LIGHT: 'light',
     DARK: 'dark'
 };
 // Form field types
-const FIELD_TYPES = {
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
     TEXT: 'text',
     SEARCH: 'search',
     CHECKBOX: 'checkbox',
@@ -28,10 +28,11 @@ const FIELD_TYPES = {
     RANGE: 'range',
     NUMBER: 'number',
     COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate'
-};
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
 // UI messages
-const MESSAGES = {
+const MESSAGES = (/* unused pure expression or super */ null && ({
     NO_PAGE_URL: 'Page URL is required',
     NO_PRESETS: 'No presets yet',
     NO_PAGES: 'No pages available',
@@ -40,7 +41,7 @@ const MESSAGES = {
     UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
     SUCCESS_SAVE: 'Saved successfully!',
     INVALID_DATA: 'Invalid data format'
-};
+}));
 // Default values
 const DEFAULTS = {
     FILL_DELAY: 0,
@@ -59,7 +60,7 @@ const DEFAULTS = {
     RANDOM_STRING_LENGTH: 100
 };
 // Limits and thresholds
-const appConstants_LIMITS = {
+const LIMITS = {
     PARENT_SEARCH_DEPTH: 7,
     SAME_ROW_THRESHOLD: 10, // pixels
     DEFAULT_PAGE_SIZE: 25,
@@ -69,22 +70,22 @@ const appConstants_LIMITS = {
     QUANTIFIER_MAX_REPEAT: 10
 };
 // Sort directions
-const SORT_DIRECTION = {
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
     ASC: 'asc',
     DESC: 'desc'
-};
+}));
 // CSS class names
-const CSS_CLASSES = {
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
     ACTIVE: 'active',
     CHECKED: 'checked',
     HIDDEN: 'hidden',
     DISABLED: 'disabled',
     LOADING: 'loading'
-};
+}));
 // Export/Import JSON schema
 const EXPORT_SCHEMA = 'form-filler.export.v1';
 // Character sets for random string generation
-const appConstants_CHAR_SETS = {
+const CHAR_SETS = {
     ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
     DIGITS: '0123456789',
     SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
@@ -92,13 +93,13 @@ const appConstants_CHAR_SETS = {
     WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
 };
 // Random string character set templates
-const RANDOM_STRING_CHARSETS = {
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
     ALPHABET: 'alphabet',
     NUMERIC: 'numeric',
     ALPHANUMERIC: 'alphanumeric',
     ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
     ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-};
+}));
 // Default regex patterns
 const DEFAULT_REGEX_PATTERNS = [
     { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
@@ -107,6 +108,8 @@ const DEFAULT_REGEX_PATTERNS = [
 ];
 
 ;// ./src/utils/helpers.ts
+/* unused harmony import specifier */ var helpers_CHAR_SETS;
+/* unused harmony import specifier */ var helpers_LIMITS;
 // Utility functions
 
 function generateGuid() {
@@ -140,21 +143,21 @@ function buildQuantityString(quantity) {
 function getCharacterSet(template) {
     switch (template) {
         case 'numeric':
-            return appConstants_CHAR_SETS.DIGITS;
+            return CHAR_SETS.DIGITS;
         case 'alphabet':
-            return appConstants_CHAR_SETS.ALPHABET;
+            return CHAR_SETS.ALPHABET;
         case 'alphanumeric':
-            return appConstants_CHAR_SETS.ALPHABET + appConstants_CHAR_SETS.DIGITS;
+            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
         case 'alphanumeric-special':
-            return appConstants_CHAR_SETS.ALPHABET + appConstants_CHAR_SETS.DIGITS + appConstants_CHAR_SETS.SPECIAL;
+            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL;
         case 'alphanumeric-special-control':
-            return appConstants_CHAR_SETS.ALPHABET + appConstants_CHAR_SETS.DIGITS + appConstants_CHAR_SETS.SPECIAL + appConstants_CHAR_SETS.CONTROL;
+            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL + CHAR_SETS.CONTROL;
         default:
-            return appConstants_CHAR_SETS.ALPHABET + appConstants_CHAR_SETS.DIGITS;
+            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
     }
 }
-function helpers_generateRandomString(length, charset) {
-    const constrainedLength = constrainNumber(length, appConstants_LIMITS.MIN_STRING_LENGTH, appConstants_LIMITS.MAX_STRING_LENGTH);
+function generateRandomString(length, charset) {
+    const constrainedLength = constrainNumber(length, LIMITS.MIN_STRING_LENGTH, LIMITS.MAX_STRING_LENGTH);
     let chars;
     if (['numeric', 'alphabet', 'alphanumeric', 'alphanumeric-special', 'alphanumeric-special-control'].includes(charset)) {
         chars = getCharacterSet(charset);
@@ -218,7 +221,7 @@ function generateFromRegex(regex, length) {
                 }
                 else if (next === 'w') {
                     // Word character (alphanumeric + underscore)
-                    generatedPart = () => CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * CHAR_SETS.WORD_CHARS.length)];
+                    generatedPart = () => helpers_CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * helpers_CHAR_SETS.WORD_CHARS.length)];
                 }
                 else {
                     // Other escaped characters (literal)
@@ -269,7 +272,7 @@ function generateFromRegex(regex, length) {
             }
             else if (char === '.') {
                 // Any character (using alphanumeric set)
-                generatedPart = () => CHAR_SETS.ALPHABET[Math.floor(Math.random() * CHAR_SETS.ALPHABET.length)];
+                generatedPart = () => helpers_CHAR_SETS.ALPHABET[Math.floor(Math.random() * helpers_CHAR_SETS.ALPHABET.length)];
                 i++;
             }
             else if (char === '+' || char === '*' || char === '?' || char === '{') {
@@ -306,7 +309,7 @@ function generateFromRegex(regex, length) {
                 // + (one or more) or * (zero or more)
                 const isPlus = pattern[i] === '+';
                 const min = isPlus ? 1 : 0;
-                const count = min + Math.floor(Math.random() * (LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
+                const count = min + Math.floor(Math.random() * (helpers_LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
                 // Generate the character 'count' times
                 for (let j = 0; j < count && result.length < length; j++) {
                     result += typeof generatedPart === 'function' ? generatedPart() : generatedPart;
@@ -319,69 +322,12 @@ function generateFromRegex(regex, length) {
             }
         }
         // Fallback to random alphanumeric if result is empty
-        return result || helpers_generateRandomString(length, 'alphanumeric');
+        return result || generateRandomString(length, 'alphanumeric');
     }
     catch (e) {
         console.error('Error generating from regex:', e);
-        return helpers_generateRandomString(length, 'alphanumeric');
+        return generateRandomString(length, 'alphanumeric');
     }
-}
-/**
- * Get element locators (testId and querySelector)
- */
-function getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
-    }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid');
-                levelsUp = i + 1;
-                break;
-            }
-            element = element.parentElement;
-        }
-        if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            // Add each level in the path
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
-            if (inputType) {
-                inputSelector += `[type='${inputType}']`;
-            }
-            const inputName = inputElement.getAttribute('name');
-            if (inputName) {
-                inputSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(inputSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
 }
 
 ;// ./src/services/storage.service.ts
@@ -389,7 +335,7 @@ function getElementLocators(inputElement) {
 
 const STORAGE_KEY = 'formFillerData';
 const SETTINGS_KEY = 'formFillerSettings';
-class storage_service_StorageService {
+class StorageService {
     // Initialize storage with default data
     static async initialize() {
         const data = await this.getData();
@@ -521,7 +467,7 @@ class storage_service_StorageService {
                             }
                             // Save migrated settings
                             if (needsMigration) {
-                                storage_service_StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
                             }
                             settings = migratedSettings;
                         }
@@ -923,7 +869,7 @@ async function initVersion() {
 async function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
     // Load theme from StorageService
-    const theme = await storage_service_StorageService.getTheme();
+    const theme = await StorageService.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
     updateThemeIcons(theme);
     themeToggle?.addEventListener('click', toggleTheme);
@@ -935,7 +881,7 @@ async function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || THEMES.DARK;
     const newTheme = currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
     document.documentElement.setAttribute('data-theme', newTheme);
-    await storage_service_StorageService.setTheme(newTheme);
+    await StorageService.setTheme(newTheme);
     updateThemeIcons(newTheme);
 }
 /**
@@ -980,7 +926,7 @@ function sanitizeFilename(name) {
 /**
  * Create and trigger file download
  */
-function common_downloadFile(content, filename, type = 'application/json') {
+function downloadFile(content, filename, type = 'application/json') {
     const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1101,7 +1047,7 @@ function normalizeIncluded(partial) {
         lengthConfigurations: partial?.lengthConfigurations ?? false
     };
 }
-function export_format_createExportFile(params) {
+function createExportFile(params) {
     const settings = params.settings ?? createDefaultSettings();
     const emptyData = createEmptyRootData();
     return {
@@ -1551,7 +1497,7 @@ function replaceIcon(element) {
  * - Moves data-icons attribute from button to cyber-btn__glitch
  * - Cleans up button's direct text content
  */
-function cyber_btn_init_initCyberButtons() {
+function initCyberButtons() {
     const buttons = document.querySelectorAll('.cyber-btn');
     buttons.forEach((button) => {
         const glitchElement = button.querySelector('.cyber-btn__glitch');
@@ -1633,6 +1579,7 @@ function initSingleCyberButton(button) {
 }
 
 ;// ./src/utils/modal-utils.ts
+/* unused harmony import specifier */ var modal_utils_initCyberButtons;
 // Common modal utilities for all pages
 
 /**
@@ -1667,7 +1614,7 @@ function showConfirm(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        initCyberButtons();
+        modal_utils_initCyberButtons();
         let actionHandled = false;
         const handleOk = () => {
             if (actionHandled)
@@ -1735,7 +1682,7 @@ function showMessage(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        initCyberButtons();
+        modal_utils_initCyberButtons();
         const handleOk = () => {
             cleanup();
             resolve();
@@ -1776,7 +1723,7 @@ function showModal(title, bodyContent, onClose) {
     modalBody.innerHTML = bodyContent;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const closeHandler = () => {
         hideModal();
         if (onClose)
@@ -2084,6 +2031,10 @@ function injectGuideData(guideId, payload) {
 }
 
 ;// ./src/popup/popup.ts
+/* unused harmony import specifier */ var popup_StorageService;
+/* unused harmony import specifier */ var popup_generateRandomString;
+/* unused harmony import specifier */ var popup_downloadFile;
+/* unused harmony import specifier */ var popup_createExportFile;
 
 
 
@@ -2105,7 +2056,7 @@ async function init() {
         // Initialize version
         await initVersion();
         // Initialize cyber buttons
-        cyber_btn_init_initCyberButtons();
+        initCyberButtons();
         // Initialize icon replacement
         initIconReplacement();
         // Initialize guide overlays
@@ -2119,7 +2070,7 @@ async function init() {
         // Load page data
         await loadPageData();
         // Load settings to check if random string section should be shown
-        const settings = await storage_service_StorageService.getSettings();
+        const settings = await StorageService.getSettings();
         const randomStringSection = document.getElementById('randomStringSection');
         if (randomStringSection && settings?.enableRandomStringSectionInPopup) {
             randomStringSection.style.display = 'block';
@@ -2257,7 +2208,7 @@ function showConfirmation(message, onConfirm, onCancel) {
 }
 // Load settings
 async function loadSettings() {
-    const settings = await StorageService.getSettings();
+    const settings = await popup_StorageService.getSettings();
     const enableSaveValueCheckbox = document.getElementById('enableSaveValue');
     const enableImportValueCheckbox = document.getElementById('enableImportValue');
     const enableLiveAssistantCheckbox = document.getElementById('enableLiveAssistant');
@@ -2274,10 +2225,10 @@ async function loadSettings() {
     updateDependentToggles();
     if (enableSaveValueCheckbox) {
         enableSaveValueCheckbox.addEventListener('change', async () => {
-            const currentSettings = await StorageService.getSettings();
+            const currentSettings = await popup_StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await StorageService.setSettings({
+            await popup_StorageService.setSettings({
                 ...currentSettings,
                 enableSaveValue: enableSaveValueCheckbox.checked
             });
@@ -2285,10 +2236,10 @@ async function loadSettings() {
     }
     if (enableImportValueCheckbox) {
         enableImportValueCheckbox.addEventListener('change', async () => {
-            const currentSettings = await StorageService.getSettings();
+            const currentSettings = await popup_StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await StorageService.setSettings({
+            await popup_StorageService.setSettings({
                 ...currentSettings,
                 enableImportValue: enableImportValueCheckbox.checked
             });
@@ -2296,10 +2247,10 @@ async function loadSettings() {
     }
     if (enableLiveAssistantCheckbox) {
         enableLiveAssistantCheckbox.addEventListener('change', async () => {
-            const currentSettings = await StorageService.getSettings();
+            const currentSettings = await popup_StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await StorageService.setSettings({
+            await popup_StorageService.setSettings({
                 ...currentSettings,
                 enableLiveAssistant: enableLiveAssistantCheckbox.checked
             });
@@ -2325,7 +2276,7 @@ function updateDependentToggles() {
 }
 // Load page data
 async function loadPageData() {
-    currentPageData = await storage_service_StorageService.getCurrentPageData(currentUrl);
+    currentPageData = await StorageService.getCurrentPageData(currentUrl);
     const pageSection = document.getElementById('pageSection');
     const noPageContent = document.getElementById('noPageContent');
     const hasPageContent = document.getElementById('hasPageContent');
@@ -2379,7 +2330,7 @@ async function handleImportFile(event) {
         try {
             const content = e.target?.result;
             const importedData = parseExtensionExportJson(content);
-            const data = await storage_service_StorageService.getData();
+            const data = await StorageService.getData();
             if (!data)
                 return;
             const duplicates = [];
@@ -2401,7 +2352,7 @@ async function handleImportFile(event) {
             }
             else {
                 // Import the page data
-                const newPage = await storage_service_StorageService.addPage({
+                const newPage = await StorageService.addPage({
                     pageTitle: pageData.pageTitle || 'Imported Page',
                     url: currentUrl,
                     description: pageData.description || '',
@@ -2420,22 +2371,22 @@ async function handleImportFile(event) {
                         // Link existing preset to page if not already linked
                         const linkExists = data.presetPageLinks.some(l => l.presetId === existingPreset.id && l.pageId === targetPageId);
                         if (!linkExists) {
-                            await storage_service_StorageService.linkPresetToPage(existingPreset.id, targetPageId);
+                            await StorageService.linkPresetToPage(existingPreset.id, targetPageId);
                         }
                     }
                     else {
-                        const newPreset = await storage_service_StorageService.addPreset({
+                        const newPreset = await StorageService.addPreset({
                             name: preset.name || 'Imported Preset',
                             description: preset.description || '',
                             formData: preset.formData || []
                         });
-                        await storage_service_StorageService.linkPresetToPage(newPreset.id, targetPageId);
+                        await StorageService.linkPresetToPage(newPreset.id, targetPageId);
                     }
                 }
             }
             // Import saved values
             if (importedData.included.savedValues && Array.isArray(importedData.data.savedValues)) {
-                const refreshedData = await storage_service_StorageService.getData();
+                const refreshedData = await StorageService.getData();
                 if (refreshedData) {
                     for (const savedValue of importedData.data.savedValues) {
                         const existingSavedValue = refreshedData.savedValues.find(sv => sv.pageId === targetPageId
@@ -2455,7 +2406,7 @@ async function handleImportFile(event) {
                             });
                         }
                     }
-                    await storage_service_StorageService.setData(refreshedData);
+                    await StorageService.setData(refreshedData);
                 }
             }
             let message = 'Page profile imported successfully!';
@@ -2525,7 +2476,7 @@ function showCreatePageModal() {
             showNotification('Page title and URL are required');
             return;
         }
-        await storage_service_StorageService.addPage({
+        await StorageService.addPage({
             pageTitle,
             url: pageUrl,
             description: pageDescription,
@@ -2541,7 +2492,7 @@ function showCreatePageModal() {
 }
 // Show clone page modal
 async function showClonePageModal() {
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     const pages = data?.pages || [];
     if (pages.length === 0) {
         showNotification('No existing pages to clone from. Please create a new page first.');
@@ -2611,7 +2562,7 @@ async function showClonePageModal() {
             return;
         }
         // Create new page with new settings
-        const newPage = await storage_service_StorageService.addPage({
+        const newPage = await StorageService.addPage({
             pageTitle: newTitle,
             url: newUrl,
             description: newDescription || sourcePage.description || '',
@@ -2619,16 +2570,16 @@ async function showClonePageModal() {
             matchIdentify: matchIdentify
         });
         // Clone presets if any
-        const sourcePresets = await storage_service_StorageService.getPresetsForPage(sourcePage.id);
+        const sourcePresets = await StorageService.getPresetsForPage(sourcePage.id);
         if (sourcePresets && sourcePresets.length > 0) {
             for (const preset of sourcePresets) {
                 // Create new preset and link to new page
-                const newPreset = await storage_service_StorageService.addPreset({
+                const newPreset = await StorageService.addPreset({
                     name: preset.name,
                     description: preset.description || '',
                     formData: preset.formData || []
                 });
-                await storage_service_StorageService.linkPresetToPage(newPreset.id, newPage.id);
+                await StorageService.linkPresetToPage(newPreset.id, newPage.id);
             }
         }
         hideModal();
@@ -2671,16 +2622,16 @@ function setupPageActionButtons() {
     document.getElementById('exportPageBtn')?.addEventListener('click', async () => {
         if (!currentPageData)
             return;
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         // Get presets for this page
-        const presets = await storage_service_StorageService.getPresetsForPage(currentPageData.id);
+        const presets = await StorageService.getPresetsForPage(currentPageData.id);
         // Get saved values for this page
         const savedValues = data.savedValues.filter(sv => sv.pageId === currentPageData.id);
         const presetIds = new Set(presets.map(p => p.id));
         const presetPageLinks = data.presetPageLinks.filter(l => l.pageId === currentPageData.id && presetIds.has(l.presetId));
-        const exportFile = export_format_createExportFile({
+        const exportFile = createExportFile({
             included: {
                 pages: true,
                 presets: true,
@@ -2694,7 +2645,7 @@ function setupPageActionButtons() {
                 savedValues,
             },
         });
-        common_downloadFile(JSON.stringify(exportFile, null, 2), `form-filler-${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`);
+        downloadFile(JSON.stringify(exportFile, null, 2), `form-filler-${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`);
         try {
             const fileName = `form-filler-${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`;
             showNotification(`Exported page data to ${fileName}`);
@@ -2707,7 +2658,7 @@ function setupPageActionButtons() {
 // Show page management
 async function showPageManagement(container) {
     // Check if there are unlinked presets available
-    const unlinkedPresets = await storage_service_StorageService.getUnlinkedPresets(currentPageData?.id || '');
+    const unlinkedPresets = await StorageService.getUnlinkedPresets(currentPageData?.id || '');
     const hasUnlinkedPresets = unlinkedPresets.length > 0;
     container.innerHTML = `
     ${currentPageData ? `
@@ -2763,7 +2714,7 @@ async function showPageManagement(container) {
     // Re-initialize guide overlays for dynamically added buttons
     initGuideOverlays();
     // Initialize cyber buttons after content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     if (currentPageData) {
         loadPresets();
         document.getElementById('createPresetBtn')?.addEventListener('click', () => {
@@ -2806,7 +2757,7 @@ async function sortPresets(column) {
     if (!currentPageData)
         return;
     // Get presets for this page
-    const presets = await storage_service_StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(currentPageData.id);
     // Toggle direction if same column, otherwise default to ascending
     if (sortColumn === column) {
         sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
@@ -2866,7 +2817,7 @@ async function loadPresets() {
     const tbody = document.getElementById('presetsBody');
     tbody.innerHTML = '';
     // Get presets for this page
-    const presets = await storage_service_StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(currentPageData.id);
     if (presets.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="no-data">No presets found. Create your first preset!</td></tr>';
         return;
@@ -2952,11 +2903,11 @@ async function handleDeletePreset(presetId) {
     if (!currentPageData)
         return;
     // Check how many pages this preset is linked to
-    const linkedPageIds = await storage_service_StorageService.getPageIdsForPreset(presetId);
+    const linkedPageIds = await StorageService.getPageIdsForPreset(presetId);
     if (linkedPageIds.length === 1) {
         // Preset is only linked to current page - confirm permanent deletion
         showConfirmation('This preset is only linked to this page. Delete it permanently?', async () => {
-            await storage_service_StorageService.deletePreset(presetId);
+            await StorageService.deletePreset(presetId);
             await loadPageData();
         });
     }
@@ -2965,7 +2916,7 @@ async function handleDeletePreset(presetId) {
         showConfirmation(`This preset is linked to ${linkedPageIds.length} pages. Unlink it from this page only?`, async () => {
             if (!currentPageData)
                 return;
-            await storage_service_StorageService.unlinkPresetFromPage(presetId, currentPageData.id);
+            await StorageService.unlinkPresetFromPage(presetId, currentPageData.id);
             await loadPageData();
         });
     }
@@ -2974,7 +2925,7 @@ async function handleDeletePreset(presetId) {
 async function applyPreset(presetId) {
     if (!currentPageData)
         return;
-    const preset = await storage_service_StorageService.getPresetById(presetId);
+    const preset = await StorageService.getPresetById(presetId);
     if (!preset)
         return;
     try {
@@ -3125,14 +3076,14 @@ function showScannedFieldsModal(fields) {
             order: index + 1
         }));
         // Create new preset
-        const newPreset = await storage_service_StorageService.addPreset({
+        const newPreset = await StorageService.addPreset({
             name: presetName,
             description: presetDescription || `Auto-scanned from page on ${new Date().toLocaleDateString()}`,
             formData
         });
         // Link preset to current page
         if (currentPageData) {
-            await storage_service_StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
         }
         hideModal();
         showNotification(`Preset "${presetName}" created with ${fields.length} field(s)!`, async () => {
@@ -3156,7 +3107,7 @@ function openPresetEditor(presetId) {
 async function showLinkPresetModal() {
     if (!currentPageData)
         return;
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     // Get all presets
@@ -3228,7 +3179,7 @@ async function showLinkPresetModal() {
             }
             // Link all selected presets
             for (const presetId of selectedPresetIds) {
-                await storage_service_StorageService.linkPresetToPage(presetId, currentPageData.id);
+                await StorageService.linkPresetToPage(presetId, currentPageData.id);
             }
             hideModal();
             const message = selectedPresetIds.length === 1
@@ -3244,24 +3195,24 @@ async function showLinkPresetModal() {
 async function exportPresetsData() {
     if (!currentPageData)
         return;
-    const presets = await StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await popup_StorageService.getPresetsForPage(currentPageData.id);
     if (presets.length === 0) {
         showNotification('No presets to export.');
         return;
     }
-    const exportFile = createExportFile({
+    const exportFile = popup_createExportFile({
         included: { presets: true },
         data: { presets },
         exportedAt: new Date().toISOString(),
     });
-    downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
+    popup_downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
     showNotification(`Exported ${presets.length} preset(s) successfully!`);
 }
 // Show export presets modal with selection
 async function showExportPresetsModal() {
     if (!currentPageData)
         return;
-    const presets = await storage_service_StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(currentPageData.id);
     if (presets.length === 0) {
         showNotification('No presets to export.');
         return;
@@ -3318,12 +3269,12 @@ async function showExportPresetsModal() {
             return;
         }
         const selectedPresets = presets.filter(p => selectedIds.includes(p.id));
-        const exportFile = export_format_createExportFile({
+        const exportFile = createExportFile({
             included: { presets: true },
             data: { presets: selectedPresets },
             exportedAt: new Date().toISOString(),
         });
-        common_downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
+        downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
         hideModal();
         showNotification(`Exported ${selectedPresets.length} preset(s) successfully!`);
     });
@@ -3342,7 +3293,7 @@ async function importPresetsData(file) {
             showNotification('Invalid import file: presets section not included');
             return;
         }
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let addedCount = 0;
@@ -3361,12 +3312,12 @@ async function importPresetsData(file) {
                 skippedDuplicateCount++;
                 continue;
             }
-            const newPreset = await storage_service_StorageService.addPreset({
+            const newPreset = await StorageService.addPreset({
                 name: preset.name,
                 description: preset.description || '',
                 formData: preset.formData || []
             });
-            await storage_service_StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
             addedCount++;
         }
         let message = `Added ${addedCount} preset${addedCount === 1 ? '' : 's'}`;
@@ -3475,7 +3426,7 @@ async function showRandomStringModal() {
             return;
         }
         // Load current settings
-        const settings = await StorageService.getSettings();
+        const settings = await popup_StorageService.getSettings();
         const charsetSelect = document.getElementById('charsetSelect');
         const lengthInput = document.getElementById('lengthInput');
         const generatedString = document.getElementById('generatedString');
@@ -3493,7 +3444,7 @@ async function showRandomStringModal() {
             try {
                 const length = parseInt(lengthInput.value) || 50;
                 const charset = charsetSelect.value;
-                const randomStr = generateRandomString(length, charset);
+                const randomStr = popup_generateRandomString(length, charset);
                 generatedString.value = randomStr;
             }
             catch (err) {
@@ -3570,7 +3521,7 @@ function initRandomStringSection(settings) {
         try {
             const length = parseInt(lengthInput.value) || 50;
             const charset = charsetSelect.value;
-            const randomStr = helpers_generateRandomString(length, charset);
+            const randomStr = generateRandomString(length, charset);
             await navigator.clipboard.writeText(randomStr);
             showNotification('Random string copied to clipboard!');
         }

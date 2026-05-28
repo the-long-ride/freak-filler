@@ -11,11 +11,4 @@ export declare function constrainNumber(value: number, min: number, max: number)
  * Generate string from regex pattern
  */
 export declare function generateFromRegex(regex: string, length: number): string;
-/**
- * Get element locators (testId and querySelector)
- */
-export declare function getElementLocators(inputElement: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): {
-    testId: string;
-    querySelector: string;
-};
 //# sourceMappingURL=helpers.d.ts.map

@@ -1,115 +1,12 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
-;// ./src/constants/appConstants.ts
-/**
- * Application-wide constants
- */
-// Storage keys
-const STORAGE_KEYS = {
-    DATA: 'formFillerData',
-    SETTINGS: 'formFillerSettings',
-    MIGRATION: 'formFillerMigrationCompleted'
-};
-// Theme constants
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-// Form field types
-const FIELD_TYPES = {
-    TEXT: 'text',
-    SEARCH: 'search',
-    CHECKBOX: 'checkbox',
-    DROPDOWN: 'dropdown',
-    DATEPICKER: 'datepicker',
-    CLICKABLE: 'clickable',
-    RADIO: 'radio',
-    RANGE: 'range',
-    NUMBER: 'number',
-    COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate'
-};
-// UI messages
-const MESSAGES = {
-    NO_PAGE_URL: 'Page URL is required',
-    NO_PRESETS: 'No presets yet',
-    NO_PAGES: 'No pages available',
-    NO_FORM_FIELDS: 'No form fields found on the page',
-    CONFIRM_DELETE: 'Are you sure you want to delete this',
-    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
-    SUCCESS_SAVE: 'Saved successfully!',
-    INVALID_DATA: 'Invalid data format'
-};
-// Default values
-const DEFAULTS = {
-    FILL_DELAY: 0,
-    AUTO_BLUR: true,
-    MUST_BE_MATCHED: false,
-    ENABLE_SAVE_VALUE: true,
-    ENABLE_IMPORT_VALUE: true,
-    ENABLE_LIVE_ASSISTANT: false,
-    DEFAULT_SAVE_ITEM_TO: 'savedValues',
-    THEME: 'light',
-    ENABLE_LOCATOR_RETRIEVER: false,
-    ENABLE_REGEX_PATTERN: false,
-    ENABLE_RANDOM_STRING_SECTION: false,
-    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
-    RANDOM_STRING_CHARSET: 'alphanumeric-special',
-    RANDOM_STRING_LENGTH: 100
-};
-// Limits and thresholds
-const appConstants_LIMITS = {
-    PARENT_SEARCH_DEPTH: 7,
-    SAME_ROW_THRESHOLD: 10, // pixels
-    DEFAULT_PAGE_SIZE: 25,
-    MAX_RETRIES: 3,
-    MIN_STRING_LENGTH: 1,
-    MAX_STRING_LENGTH: 99999,
-    QUANTIFIER_MAX_REPEAT: 10
-};
-// Sort directions
-const SORT_DIRECTION = {
-    ASC: 'asc',
-    DESC: 'desc'
-};
-// CSS class names
-const CSS_CLASSES = {
-    ACTIVE: 'active',
-    CHECKED: 'checked',
-    HIDDEN: 'hidden',
-    DISABLED: 'disabled',
-    LOADING: 'loading'
-};
-// Export/Import JSON schema
-const EXPORT_SCHEMA = 'form-filler.export.v1';
-// Character sets for random string generation
-const appConstants_CHAR_SETS = {
-    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    DIGITS: '0123456789',
-    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    CONTROL: '~`\'"\\/',
-    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
-};
-// Random string character set templates
-const RANDOM_STRING_CHARSETS = {
-    ALPHABET: 'alphabet',
-    NUMERIC: 'numeric',
-    ALPHANUMERIC: 'alphanumeric',
-    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
-    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-};
-// Default regex patterns
-const DEFAULT_REGEX_PATTERNS = [
-    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
-    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
-    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
-];
-
 ;// ./src/utils/helpers.ts
+/* unused harmony import specifier */ var CHAR_SETS;
+/* unused harmony import specifier */ var LIMITS;
 // Utility functions
 
-function helpers_generateGuid() {
+function generateGuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0;
         const v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -117,13 +14,13 @@ function helpers_generateGuid() {
     });
 }
 function generateUniqueId(existingIds) {
-    let newId = helpers_generateGuid();
+    let newId = generateGuid();
     while (existingIds.includes(newId)) {
-        newId = helpers_generateGuid();
+        newId = generateGuid();
     }
     return newId;
 }
-function helpers_getCurrentTimestamp() {
+function getCurrentTimestamp() {
     return new Date().toISOString();
 }
 function matchUrl(pageUrl, currentUrl, matchIdentify) {
@@ -326,70 +223,119 @@ function generateFromRegex(regex, length) {
         return generateRandomString(length, 'alphanumeric');
     }
 }
+
+;// ./src/constants/appConstants.ts
 /**
- * Get element locators (testId and querySelector)
+ * Application-wide constants
  */
-function getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
-    }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid');
-                levelsUp = i + 1;
-                break;
-            }
-            element = element.parentElement;
-        }
-        if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            // Add each level in the path
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
-            if (inputType) {
-                inputSelector += `[type='${inputType}']`;
-            }
-            const inputName = inputElement.getAttribute('name');
-            if (inputName) {
-                inputSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(inputSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
-}
+// Storage keys
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
+    DATA: 'formFillerData',
+    SETTINGS: 'formFillerSettings',
+    MIGRATION: 'formFillerMigrationCompleted'
+}));
+// Theme constants
+const THEMES = {
+    LIGHT: 'light',
+    DARK: 'dark'
+};
+// Form field types
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
+    TEXT: 'text',
+    SEARCH: 'search',
+    CHECKBOX: 'checkbox',
+    DROPDOWN: 'dropdown',
+    DATEPICKER: 'datepicker',
+    CLICKABLE: 'clickable',
+    RADIO: 'radio',
+    RANGE: 'range',
+    NUMBER: 'number',
+    COLOR: 'color',
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
+// UI messages
+const MESSAGES = (/* unused pure expression or super */ null && ({
+    NO_PAGE_URL: 'Page URL is required',
+    NO_PRESETS: 'No presets yet',
+    NO_PAGES: 'No pages available',
+    NO_FORM_FIELDS: 'No form fields found on the page',
+    CONFIRM_DELETE: 'Are you sure you want to delete this',
+    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
+    SUCCESS_SAVE: 'Saved successfully!',
+    INVALID_DATA: 'Invalid data format'
+}));
+// Default values
+const DEFAULTS = {
+    FILL_DELAY: 0,
+    AUTO_BLUR: true,
+    MUST_BE_MATCHED: false,
+    ENABLE_SAVE_VALUE: true,
+    ENABLE_IMPORT_VALUE: true,
+    ENABLE_LIVE_ASSISTANT: false,
+    DEFAULT_SAVE_ITEM_TO: 'savedValues',
+    THEME: 'light',
+    ENABLE_LOCATOR_RETRIEVER: false,
+    ENABLE_REGEX_PATTERN: false,
+    ENABLE_RANDOM_STRING_SECTION: false,
+    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
+    RANDOM_STRING_CHARSET: 'alphanumeric-special',
+    RANDOM_STRING_LENGTH: 100
+};
+// Limits and thresholds
+const appConstants_LIMITS = (/* unused pure expression or super */ null && ({
+    PARENT_SEARCH_DEPTH: 7,
+    SAME_ROW_THRESHOLD: 10, // pixels
+    DEFAULT_PAGE_SIZE: 25,
+    MAX_RETRIES: 3,
+    MIN_STRING_LENGTH: 1,
+    MAX_STRING_LENGTH: 99999,
+    QUANTIFIER_MAX_REPEAT: 10
+}));
+// Sort directions
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
+    ASC: 'asc',
+    DESC: 'desc'
+}));
+// CSS class names
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
+    ACTIVE: 'active',
+    CHECKED: 'checked',
+    HIDDEN: 'hidden',
+    DISABLED: 'disabled',
+    LOADING: 'loading'
+}));
+// Export/Import JSON schema
+const EXPORT_SCHEMA = 'form-filler.export.v1';
+// Character sets for random string generation
+const appConstants_CHAR_SETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    DIGITS: '0123456789',
+    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    CONTROL: '~`\'"\\/',
+    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+}));
+// Random string character set templates
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'alphabet',
+    NUMERIC: 'numeric',
+    ALPHANUMERIC: 'alphanumeric',
+    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
+    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
+}));
+// Default regex patterns
+const DEFAULT_REGEX_PATTERNS = [
+    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
+    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
+    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
+];
 
 ;// ./src/services/storage.service.ts
 
 
 const STORAGE_KEY = 'formFillerData';
 const SETTINGS_KEY = 'formFillerSettings';
-class storage_service_StorageService {
+class StorageService {
     // Initialize storage with default data
     static async initialize() {
         const data = await this.getData();
@@ -521,7 +467,7 @@ class storage_service_StorageService {
                             }
                             // Save migrated settings
                             if (needsMigration) {
-                                storage_service_StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
                             }
                             settings = migratedSettings;
                         }
@@ -634,8 +580,8 @@ class storage_service_StorageService {
         const newPage = {
             ...pageData,
             id: generateUniqueId(existingIds),
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.pages.push(newPage);
         await this.setData(data);
@@ -656,7 +602,7 @@ class storage_service_StorageService {
             data.pages[pageIndex] = {
                 ...data.pages[pageIndex],
                 ...updates,
-                updatedAt: helpers_getCurrentTimestamp()
+                updatedAt: getCurrentTimestamp()
             };
             await this.setData(data);
         }
@@ -689,8 +635,8 @@ class storage_service_StorageService {
             value: String(formData.value),
             testId: formData.testId,
             querySelector: formData.querySelector,
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.savedValues.push(newSavedValue);
         await this.setData(data);
@@ -774,8 +720,8 @@ class storage_service_StorageService {
         const newPreset = {
             ...preset,
             id: generateUniqueId(existingIds),
-            createdAt: helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         data.presets.push(newPreset);
         await this.setData(data);
@@ -791,7 +737,7 @@ class storage_service_StorageService {
             data.presets[presetIndex] = {
                 ...data.presets[presetIndex],
                 ...updates,
-                updatedAt: helpers_getCurrentTimestamp()
+                updatedAt: getCurrentTimestamp()
             };
             await this.setData(data);
         }
@@ -841,8 +787,8 @@ class storage_service_StorageService {
             value: savedValue.value || '',
             testId: savedValue.testId || '',
             querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || helpers_getCurrentTimestamp(),
-            updatedAt: helpers_getCurrentTimestamp()
+            createdAt: savedValue.createdAt || getCurrentTimestamp(),
+            updatedAt: getCurrentTimestamp()
         };
         // Check if saved value already exists for this page and id
         const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
@@ -876,7 +822,7 @@ class storage_service_StorageService {
 /**
  * Escape HTML special characters to prevent XSS
  */
-function common_escapeHtml(text) {
+function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -923,7 +869,7 @@ async function initVersion() {
 async function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
     // Load theme from StorageService
-    const theme = await storage_service_StorageService.getTheme();
+    const theme = await StorageService.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
     updateThemeIcons(theme);
     themeToggle?.addEventListener('click', toggleTheme);
@@ -935,7 +881,7 @@ async function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || THEMES.DARK;
     const newTheme = currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
     document.documentElement.setAttribute('data-theme', newTheme);
-    await storage_service_StorageService.setTheme(newTheme);
+    await StorageService.setTheme(newTheme);
     updateThemeIcons(newTheme);
 }
 /**
@@ -980,7 +926,7 @@ function sanitizeFilename(name) {
 /**
  * Create and trigger file download
  */
-function common_downloadFile(content, filename, type = 'application/json') {
+function downloadFile(content, filename, type = 'application/json') {
     const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1101,12 +1047,12 @@ function normalizeIncluded(partial) {
         lengthConfigurations: partial?.lengthConfigurations ?? false
     };
 }
-function export_format_createExportFile(params) {
+function createExportFile(params) {
     const settings = params.settings ?? createDefaultSettings();
     const emptyData = createEmptyRootData();
     return {
         schema: EXPORT_SCHEMA,
-        exportedAt: params.exportedAt ?? helpers_getCurrentTimestamp(),
+        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
         included: normalizeIncluded(params.included),
         settings,
         data: {
@@ -1173,7 +1119,7 @@ function parseExtensionExportJson(text) {
  * - Moves data-icons attribute from button to cyber-btn__glitch
  * - Cleans up button's direct text content
  */
-function cyber_btn_init_initCyberButtons() {
+function initCyberButtons() {
     const buttons = document.querySelectorAll('.cyber-btn');
     buttons.forEach((button) => {
         const glitchElement = button.querySelector('.cyber-btn__glitch');
@@ -1633,6 +1579,7 @@ function replaceIcon(element) {
 }
 
 ;// ./src/utils/modal-utils.ts
+/* unused harmony import specifier */ var modal_utils_initCyberButtons;
 // Common modal utilities for all pages
 
 /**
@@ -1667,7 +1614,7 @@ function showConfirm(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        cyber_btn_init_initCyberButtons();
+        initCyberButtons();
         let actionHandled = false;
         const handleOk = () => {
             if (actionHandled)
@@ -1735,7 +1682,7 @@ function showMessage(title, message) {
     `;
         modalOverlay.style.display = 'flex';
         // Initialize cyber buttons after modal content is rendered
-        initCyberButtons();
+        modal_utils_initCyberButtons();
         const handleOk = () => {
             cleanup();
             resolve();
@@ -1767,7 +1714,7 @@ function showMessage(title, message) {
  * @param bodyContent - Custom HTML content for modal body
  * @param onClose - Optional callback when modal is closed
  */
-function modal_utils_showModal(title, bodyContent, onClose) {
+function showModal(title, bodyContent, onClose) {
     const modalOverlay = document.getElementById('modalOverlay');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
@@ -1776,9 +1723,9 @@ function modal_utils_showModal(title, bodyContent, onClose) {
     modalBody.innerHTML = bodyContent;
     modalOverlay.style.display = 'flex';
     // Initialize cyber buttons after modal content is rendered
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     const closeHandler = () => {
-        modal_utils_hideModal();
+        hideModal();
         if (onClose)
             onClose();
         modalOverlay.removeEventListener('click', overlayClickHandler);
@@ -1821,7 +1768,7 @@ function modal_utils_showModal(title, bodyContent, onClose) {
 /**
  * Hide the modal
  */
-function modal_utils_hideModal() {
+function hideModal() {
     const modalOverlay = document.getElementById('modalOverlay');
     if (modalOverlay) {
         modalOverlay.style.display = 'none';
@@ -1833,7 +1780,7 @@ function modal_utils_hideModal() {
  * @param type - Toast type ('success', 'error', 'warning', 'info')
  * @param duration - Duration in milliseconds (default: 3000)
  */
-function modal_utils_showToast(message, type = 'info', duration = 5000) {
+function showToast(message, type = 'info', duration = 5000) {
     // Create toast container if it doesn't exist
     let toastContainer = document.getElementById('toastContainer');
     if (!toastContainer) {
@@ -2084,6 +2031,15 @@ function injectGuideData(guideId, payload) {
 }
 
 ;// ./src/pages/page-profile-editor.ts
+/* unused harmony import specifier */ var page_profile_editor_StorageService;
+/* unused harmony import specifier */ var page_profile_editor_getCurrentTimestamp;
+/* unused harmony import specifier */ var page_profile_editor_generateGuid;
+/* unused harmony import specifier */ var page_profile_editor_downloadFile;
+/* unused harmony import specifier */ var page_profile_editor_escapeHtml;
+/* unused harmony import specifier */ var page_profile_editor_createExportFile;
+/* unused harmony import specifier */ var page_profile_editor_showToast;
+/* unused harmony import specifier */ var page_profile_editor_showModal;
+/* unused harmony import specifier */ var page_profile_editor_hideModal;
 
 
 
@@ -2111,7 +2067,7 @@ async function init() {
     // Initialize version
     await initVersion();
     // Initialize cyber buttons
-    cyber_btn_init_initCyberButtons();
+    initCyberButtons();
     // Initialize icon replacement
     initIconReplacement();
     // Initialize guide overlays
@@ -2123,9 +2079,9 @@ async function init() {
     isPresetOnlyMode = !currentPageId;
     if (!isPresetOnlyMode) {
         // Load page data
-        currentPageData = await storage_service_StorageService.getPageById(currentPageId);
+        currentPageData = await StorageService.getPageById(currentPageId);
         if (!currentPageData) {
-            modal_utils_showToast('Page not found', 'error');
+            showToast('Page not found', 'error');
             return;
         }
         // Populate page information in sidebar
@@ -2178,8 +2134,8 @@ async function loadPagePresets() {
     if (!presetSelector)
         return;
     const presets = currentPageData
-        ? await storage_service_StorageService.getPresetsForPage(currentPageData.id)
-        : (await storage_service_StorageService.getData())?.presets ?? [];
+        ? await StorageService.getPresetsForPage(currentPageData.id)
+        : (await StorageService.getData())?.presets ?? [];
     // Clear existing options except "Create New"
     presetSelector.innerHTML = '<option value="">Create New Preset</option>';
     // Add presets as options
@@ -2201,14 +2157,14 @@ async function updateLinkPresetsButtonVisibility() {
     const linkPresetsBtn = document.getElementById('linkPresetsBtn');
     if (!linkPresetsBtn || !currentPageData)
         return;
-    const unlinkedPresets = await storage_service_StorageService.getUnlinkedPresets(currentPageData.id);
+    const unlinkedPresets = await StorageService.getUnlinkedPresets(currentPageData.id);
     linkPresetsBtn.style.display = unlinkedPresets.length > 0 ? 'block' : 'none';
 }
 // Load preset for editing
 async function loadPreset() {
     if (!currentPresetId)
         return;
-    currentPreset = await storage_service_StorageService.getPresetById(currentPresetId);
+    currentPreset = await StorageService.getPresetById(currentPresetId);
     if (!currentPreset)
         return;
     // Update preset selector
@@ -2232,12 +2188,12 @@ async function loadPreset() {
 }
 function showLinkPresetsToPageModal() {
     if (!currentPageData) {
-        modal_utils_showToast('No current page data available', 'error');
+        showToast('No current page data available', 'error');
         return;
     }
-    storage_service_StorageService.getUnlinkedPresets(currentPageData.id).then((unlinkedPresets) => {
+    StorageService.getUnlinkedPresets(currentPageData.id).then((unlinkedPresets) => {
         if (unlinkedPresets.length === 0) {
-            modal_utils_showToast('No unlinked presets available', 'info');
+            showToast('No unlinked presets available', 'info');
             return;
         }
         // Build list items using modal-list classes
@@ -2250,8 +2206,8 @@ function showLinkPresetsToPageModal() {
           <label class="modal-list-item">
             <input type="checkbox" class="link-preset-checkbox" value="${p.id}" />
             <div class="meta">
-              <div class="title">${common_escapeHtml(p.name || '(Untitled)')}</div>
-              <div class="subtitle">${common_escapeHtml(p.description || 'No description')}</div>
+              <div class="title">${escapeHtml(p.name || '(Untitled)')}</div>
+              <div class="subtitle">${escapeHtml(p.description || 'No description')}</div>
               <div class="subtitle">Created: ${created}</div>
             </div>
           </label>
@@ -2275,7 +2231,7 @@ function showLinkPresetsToPageModal() {
         </div>
       </div>
     `;
-        modal_utils_showModal('Link presets to current page', body, () => { });
+        showModal('Link presets to current page', body, () => { });
         // Update counter when checkboxes change
         const updateCounter = () => {
             const checkedCount = document.querySelectorAll('.link-preset-checkbox:checked').length;
@@ -2294,7 +2250,7 @@ function showLinkPresetsToPageModal() {
             if (actionHandled)
                 return;
             actionHandled = true;
-            modal_utils_hideModal();
+            hideModal();
         });
         document.getElementById('linkPresetsConfirmBtn')?.addEventListener('click', async () => {
             if (actionHandled)
@@ -2303,32 +2259,32 @@ function showLinkPresetsToPageModal() {
             const selectedPresetIds = [];
             document.querySelectorAll('.link-preset-checkbox:checked').forEach(cb => selectedPresetIds.push(cb.value));
             if (selectedPresetIds.length === 0) {
-                modal_utils_showToast('Please choose at least one preset to link', 'warning');
+                showToast('Please choose at least one preset to link', 'warning');
                 return;
             }
             for (const presetId of selectedPresetIds) {
-                await storage_service_StorageService.linkPresetToPage(presetId, currentPageData.id);
+                await StorageService.linkPresetToPage(presetId, currentPageData.id);
             }
-            modal_utils_hideModal();
-            modal_utils_showToast(`Linked ${selectedPresetIds.length} preset(s) to current page`, 'success');
+            hideModal();
+            showToast(`Linked ${selectedPresetIds.length} preset(s) to current page`, 'success');
             // Update button visibility and reload presets
             await updateLinkPresetsButtonVisibility();
             await loadPagePresets();
         });
     }).catch((error) => {
         console.error('Failed to load unlinked presets:', error);
-        modal_utils_showToast('Failed to load presets. Please try again.', 'error');
+        showToast('Failed to load presets. Please try again.', 'error');
     });
 }
 function showLinkPresetToPagesModal() {
     if (!currentPresetId) {
-        modal_utils_showToast('Please save/select a preset first', 'warning');
+        showToast('Please save/select a preset first', 'warning');
         return;
     }
-    storage_service_StorageService.getData().then((data) => {
+    StorageService.getData().then((data) => {
         const pages = data?.pages ?? [];
         if (pages.length === 0) {
-            modal_utils_showToast('No pages available to link', 'info');
+            showToast('No pages available to link', 'info');
             return;
         }
         // Build list items using modal-list classes
@@ -2341,8 +2297,8 @@ function showLinkPresetToPagesModal() {
           <label class="modal-list-item">
             <input type="checkbox" class="link-page-checkbox" value="${p.id}" />
             <div class="meta">
-              <div class="title">${common_escapeHtml(p.pageTitle || '(Untitled)')}</div>
-              <div class="subtitle">${common_escapeHtml(p.url)}</div>
+              <div class="title">${escapeHtml(p.pageTitle || '(Untitled)')}</div>
+              <div class="subtitle">${escapeHtml(p.url)}</div>
               <div class="subtitle">Created: ${created}</div>
             </div>
           </label>
@@ -2366,7 +2322,7 @@ function showLinkPresetToPagesModal() {
         </div>
       </div>
     `;
-        modal_utils_showModal('Link to exist page(s)', body, () => { });
+        showModal('Link to exist page(s)', body, () => { });
         // Update counter when checkboxes change
         const updateCounter = () => {
             const checkedCount = document.querySelectorAll('.link-page-checkbox:checked').length;
@@ -2380,16 +2336,16 @@ function showLinkPresetToPagesModal() {
         document.querySelectorAll('.link-page-checkbox').forEach(cb => {
             cb.addEventListener('change', updateCounter);
         });
-        document.getElementById('linkPagesCancelBtn')?.addEventListener('click', () => modal_utils_hideModal());
+        document.getElementById('linkPagesCancelBtn')?.addEventListener('click', () => hideModal());
         document.getElementById('linkPagesConfirmBtn')?.addEventListener('click', async () => {
             const selectedPageIds = [];
             document.querySelectorAll('.link-page-checkbox:checked').forEach(cb => selectedPageIds.push(cb.value));
             if (selectedPageIds.length === 0) {
-                modal_utils_showToast('Please choose at least one page to link', 'warning');
+                showToast('Please choose at least one page to link', 'warning');
                 return;
             }
             for (const pageId of selectedPageIds) {
-                await storage_service_StorageService.linkPresetToPage(currentPresetId, pageId);
+                await StorageService.linkPresetToPage(currentPresetId, pageId);
             }
             const selectedPages = pages.filter(p => selectedPageIds.includes(p.id));
             let targetPageId = selectedPageIds[0];
@@ -2398,19 +2354,19 @@ function showLinkPresetToPagesModal() {
                     .slice()
                     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0].id;
             }
-            modal_utils_hideModal();
+            hideModal();
             window.location.href = `page-profile-editor.html?pageId=${encodeURIComponent(targetPageId)}&presetId=${encodeURIComponent(currentPresetId)}`;
         });
     }).catch((error) => {
         console.error('Failed to load pages:', error);
-        modal_utils_showToast('Failed to load pages. Please try again.', 'error');
+        showToast('Failed to load pages. Please try again.', 'error');
     });
 }
 // Load saved values for current page
 async function loadSavedValues() {
     if (!currentPageData)
         return;
-    savedValuesList = await storage_service_StorageService.getSavedValuesForPage(currentPageData.id);
+    savedValuesList = await StorageService.getSavedValuesForPage(currentPageData.id);
     originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList)); // Deep copy
     hasUnsavedSavedValuesChanges = false;
     renderSavedValuesTable();
@@ -2468,17 +2424,17 @@ async function savePageProfile() {
     const matchIdentifyEl2 = document.getElementById('pageMatchIdentify');
     const matchIdentify2 = (matchIdentifyEl2?.value ?? 'prefixMatch');
     if (!title || !url) {
-        modal_utils_showToast('Title and URL are required', 'warning');
+        showToast('Title and URL are required', 'warning');
         return;
     }
     currentPageData.pageTitle = title;
     currentPageData.url = url;
     currentPageData.description = description;
     currentPageData.matchIdentify = matchIdentify2;
-    currentPageData.updatedAt = helpers_getCurrentTimestamp();
-    await storage_service_StorageService.updatePage(currentPageData.id, currentPageData);
+    currentPageData.updatedAt = getCurrentTimestamp();
+    await StorageService.updatePage(currentPageData.id, currentPageData);
     updatePageProfileButtons();
-    modal_utils_showToast('Page profile saved successfully', 'success');
+    showToast('Page profile saved successfully', 'success');
 }
 // Reset page profile data
 function resetPageProfile() {
@@ -2499,18 +2455,18 @@ async function savePresetData() {
     const name = document.getElementById('presetName').value.trim();
     const description = document.getElementById('presetDescription').value.trim();
     if (!name) {
-        modal_utils_showToast('Preset name is required', 'warning');
+        showToast('Preset name is required', 'warning');
         return;
     }
     currentPreset.name = name;
     currentPreset.description = description;
     currentPreset.formData = [...formDataList];
-    currentPreset.updatedAt = helpers_getCurrentTimestamp();
-    await storage_service_StorageService.updatePreset(currentPreset.id, currentPreset);
+    currentPreset.updatedAt = getCurrentTimestamp();
+    await StorageService.updatePreset(currentPreset.id, currentPreset);
     originalFormDataList = JSON.parse(JSON.stringify(formDataList));
     hasUnsavedPresetChanges = false;
     updatePresetButtons();
-    modal_utils_showToast('Preset saved successfully', 'success');
+    showToast('Preset saved successfully', 'success');
 }
 // Reset preset data
 function resetPresetData() {
@@ -2526,7 +2482,7 @@ async function deleteCurrentPreset() {
     if (!await showConfirm('Delete Preset', `Delete preset "${currentPreset.name}"? This cannot be undone.`)) {
         return;
     }
-    await storage_service_StorageService.deletePreset(currentPreset.id);
+    await StorageService.deletePreset(currentPreset.id);
     // Reset to create new preset mode
     currentPresetId = null;
     currentPreset = null;
@@ -2538,25 +2494,25 @@ async function deleteCurrentPreset() {
     document.getElementById('presetDescription').value = '';
     updatePresetButtons();
     renderFormDataTable();
-    modal_utils_showToast('Preset deleted successfully', 'success');
+    showToast('Preset deleted successfully', 'success');
 }
 // Save saved values data
 async function saveSavedValuesData() {
     if (!currentPageData)
         return;
     // Update all saved values for this page
-    const data = await storage_service_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     // Remove old saved values for this page
     data.savedValues = data.savedValues.filter(sv => sv.pageId !== currentPageId);
     // Add updated saved values
     data.savedValues.push(...savedValuesList);
-    await storage_service_StorageService.setData(data);
+    await StorageService.setData(data);
     originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList));
     hasUnsavedSavedValuesChanges = false;
     updateSavedValuesButtons();
-    modal_utils_showToast('Saved values saved successfully', 'success');
+    showToast('Saved values saved successfully', 'success');
 }
 // Reset saved values data
 function resetSavedValuesData() {
@@ -2768,7 +2724,7 @@ function setupEventListeners() {
 // Add new form data row
 function addFormDataRow(data) {
     const newData = data || {
-        id: helpers_generateGuid(),
+        id: generateGuid(),
         type: 'text',
         title: '',
         value: '',
@@ -2776,8 +2732,8 @@ function addFormDataRow(data) {
         querySelector: '',
         fillDelay: 0,
         autoBlur: true,
-        createdAt: helpers_getCurrentTimestamp(),
-        updatedAt: helpers_getCurrentTimestamp(),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp(),
         order: formDataList.length + 1
     };
     formDataList.push(newData);
@@ -2812,21 +2768,24 @@ function renderFormDataTable() {
             valueCell = `<label class="toggle-switch"><input type="checkbox" class="value-checkbox" ${checked} data-id="${data.id}" /><span class="toggle-slider"></span></label>`;
         }
         else if (data.type === 'radio') {
-            valueCell = `<input type="text" class="value-input" value="${common_escapeHtml(String(data.value || ''))}" data-id="${data.id}" placeholder="Radio value" />`;
+            valueCell = `<input type="text" class="value-input" value="${escapeHtml(String(data.value || ''))}" data-id="${data.id}" placeholder="Radio value" />`;
         }
         else if (data.type === 'range' || data.type === 'number') {
-            valueCell = `<input type="number" class="value-input" value="${common_escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
+            valueCell = `<input type="number" class="value-input" value="${escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
         }
         else if (data.type === 'color') {
             const colorValue = data.value || '#000000';
             valueCell = `
         <div class="color-input-group">
-          <input type="color" class="value-color-picker" value="${common_escapeHtml(String(colorValue))}" data-id="${data.id}" />
-          <input type="text" class="value-color-text" value="${common_escapeHtml(String(colorValue))}" data-id="${data.id}" placeholder="#000000" />
+          <input type="color" class="value-color-picker" value="${escapeHtml(String(colorValue))}" data-id="${data.id}" />
+          <input type="text" class="value-color-text" value="${escapeHtml(String(colorValue))}" data-id="${data.id}" placeholder="#000000" />
         </div>`;
         }
         else if (data.type === 'datepicker') {
-            valueCell = `<input type="date" class="value-input" value="${common_escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
+            valueCell = `<input type="date" class="value-input" value="${escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
+        }
+        else if (data.type === 'htmlEditor') {
+            valueCell = `<textarea class="value-input html-editor-value" rows="3" data-id="${data.id}" placeholder="HTML content">${escapeHtml(String(data.value || ''))}</textarea>`;
         }
         else if (data.type === 'dynamicDate') {
             // Parse existing value or use defaults
@@ -2857,12 +2816,12 @@ function renderFormDataTable() {
             valueCell = `
         <div class="clickable-input-group">
           <span class="clickable-label">wait for</span>
-          <input type="number" class="value-clickable-delay" value="${common_escapeHtml(String(data.value || '0'))}" min="1" max="30000" step="100" data-id="${data.id}" placeholder="0" />
+          <input type="number" class="value-clickable-delay" value="${escapeHtml(String(data.value || '0'))}" min="1" max="30000" step="100" data-id="${data.id}" placeholder="0" />
           <span class="clickable-label">(ms) before clicking</span>
         </div>`;
         }
         else {
-            valueCell = `<input type="text" class="value-input" value="${common_escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
+            valueCell = `<input type="text" class="value-input" value="${escapeHtml(String(data.value || ''))}" data-id="${data.id}" />`;
         }
         row.innerHTML = `
       <td class="order-cell">
@@ -2901,7 +2860,7 @@ function renderFormDataTable() {
           <button class="btn-order-action btn-share-action" data-id="${data.id}" title="Share row to other presets" data-icons="Share"></button>
         </div>
       </td>
-      <td><input type="text" class="title-input" value="${common_escapeHtml(data.title || '')}" data-id="${data.id}" placeholder="Field title" /></td>
+      <td><input type="text" class="title-input" value="${escapeHtml(data.title || '')}" data-id="${data.id}" placeholder="Field title" /></td>
       <td>
         <select class="type-select" data-id="${data.id}">
           <option value="text" ${data.type === 'text' ? 'selected' : ''}>Text</option>
@@ -2913,13 +2872,14 @@ function renderFormDataTable() {
           <option value="range" ${data.type === 'range' ? 'selected' : ''}>Range</option>
           <option value="number" ${data.type === 'number' ? 'selected' : ''}>Number</option>
           <option value="color" ${data.type === 'color' ? 'selected' : ''}>Color</option>
+          <option value="htmlEditor" ${data.type === 'htmlEditor' ? 'selected' : ''}>HTML Editor</option>
           <option value="dynamicDate" ${data.type === 'dynamicDate' ? 'selected' : ''}>Dynamic Date</option>
           <option value="clickable" ${data.type === 'clickable' ? 'selected' : ''}>Click on</option>
         </select>
       </td>
       <td class="value-cell">${valueCell}</td>
-      <td><input type="text" class="testid-input" value="${common_escapeHtml(data.testId || '')}" data-id="${data.id}" placeholder="data-testid" /></td>
-      <td><input type="text" class="querySelector-input" value="${common_escapeHtml(data.querySelector || '')}" data-id="${data.id}" placeholder="CSS selector" /></td>
+      <td><input type="text" class="testid-input" value="${escapeHtml(data.testId || '')}" data-id="${data.id}" placeholder="data-testid" /></td>
+      <td><input type="text" class="querySelector-input" value="${escapeHtml(data.querySelector || '')}" data-id="${data.id}" placeholder="CSS selector" /></td>
       <td><input type="number" class="delay-input" value="${data.fillDelay || 0}" min="0" max="30000" step="100" data-id="${data.id}" placeholder="0" /></td>
       <td><button class="action-btn action-btn--delete" data-id="${data.id}" title="Delete row" data-icons="Trash"></button></td>
     `;
@@ -3089,7 +3049,7 @@ function updateFormData(id, updates) {
         formDataList[index] = {
             ...formDataList[index],
             ...updates,
-            updatedAt: helpers_getCurrentTimestamp()
+            updatedAt: getCurrentTimestamp()
         };
         hasUnsavedPresetChanges = true;
         updatePresetButtons();
@@ -3124,7 +3084,7 @@ function insertRowBelow(id) {
     if (index === -1)
         return;
     const newData = {
-        id: helpers_generateGuid(),
+        id: generateGuid(),
         type: 'text',
         title: '',
         value: '',
@@ -3132,8 +3092,8 @@ function insertRowBelow(id) {
         querySelector: '',
         fillDelay: 0,
         autoBlur: true,
-        createdAt: helpers_getCurrentTimestamp(),
-        updatedAt: helpers_getCurrentTimestamp(),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp(),
         order: index + 2
     };
     formDataList.splice(index + 1, 0, newData);
@@ -3159,9 +3119,9 @@ function cloneRowBelow(id) {
     const sourceData = formDataList[index];
     const clonedData = {
         ...sourceData,
-        id: helpers_generateGuid(),
-        createdAt: helpers_getCurrentTimestamp(),
-        updatedAt: helpers_getCurrentTimestamp(),
+        id: generateGuid(),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp(),
         order: index + 2
     };
     formDataList.splice(index + 1, 0, clonedData);
@@ -3202,13 +3162,13 @@ function moveRowToPosition(id) {
       </div>
     </div>
   `;
-    modal_utils_showModal('Move row to new position', body, () => { });
-    document.getElementById('moveCancelBtn')?.addEventListener('click', () => modal_utils_hideModal());
+    showModal('Move row to new position', body, () => { });
+    document.getElementById('moveCancelBtn')?.addEventListener('click', () => hideModal());
     document.getElementById('moveConfirmBtn')?.addEventListener('click', () => {
         const inputEl = document.getElementById('movePositionInput');
         const newPos = parseInt(inputEl.value);
         if (isNaN(newPos) || newPos < 1 || newPos > formDataList.length) {
-            modal_utils_showToast('Invalid position', 'error');
+            showToast('Invalid position', 'error');
             return;
         }
         // Move the item
@@ -3218,23 +3178,23 @@ function moveRowToPosition(id) {
         renderFormDataTable();
         hasUnsavedPresetChanges = true;
         updatePresetButtons();
-        modal_utils_hideModal();
+        hideModal();
     });
 }
 // Open modal to select target presets and share (clone) a row into them
 async function openShareRowModal(rowId) {
     const sourceField = formDataList.find(f => f.id === rowId);
     if (!sourceField) {
-        modal_utils_showToast('Field not found', 'error');
+        showToast('Field not found', 'error');
         return;
     }
     try {
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         const allPresets = data?.presets ?? [];
         // Exclude current preset
         const targets = allPresets.filter(p => p.id !== currentPresetId);
         if (targets.length === 0) {
-            modal_utils_showToast('No other presets available to share to', 'info');
+            showToast('No other presets available to share to', 'info');
             return;
         }
         const itemsHtml = targets.map(p => {
@@ -3243,8 +3203,8 @@ async function openShareRowModal(rowId) {
         <label class="modal-list-item">
           <input type="checkbox" class="share-preset-checkbox" value="${p.id}" />
           <div class="meta">
-            <div class="title">${common_escapeHtml(p.name || '(Untitled)')}</div>
-            <div class="subtitle">${common_escapeHtml(p.description || '')}</div>
+            <div class="title">${escapeHtml(p.name || '(Untitled)')}</div>
+            <div class="subtitle">${escapeHtml(p.description || '')}</div>
             <div class="subtitle">Fields: ${fieldsCount}</div>
           </div>
         </label>
@@ -3260,7 +3220,7 @@ async function openShareRowModal(rowId) {
         </div>
       </div>
     `;
-        modal_utils_showModal('Share Field To Presets', body, () => { });
+        showModal('Share Field To Presets', body, () => { });
         // Update counter when checkboxes change
         const updateCounter = () => {
             const checkedCount = document.querySelectorAll('.share-preset-checkbox:checked').length;
@@ -3274,48 +3234,48 @@ async function openShareRowModal(rowId) {
         document.querySelectorAll('.share-preset-checkbox').forEach(cb => {
             cb.addEventListener('change', updateCounter);
         });
-        document.getElementById('shareCancelBtn')?.addEventListener('click', () => modal_utils_hideModal());
+        document.getElementById('shareCancelBtn')?.addEventListener('click', () => hideModal());
         document.getElementById('shareConfirmBtn')?.addEventListener('click', async () => {
             const selected = [];
             document.querySelectorAll('.share-preset-checkbox:checked').forEach(cb => selected.push(cb.value));
             if (selected.length === 0) {
-                modal_utils_showToast('Please choose at least one preset', 'warning');
+                showToast('Please choose at least one preset', 'warning');
                 return;
             }
             try {
                 for (const presetId of selected) {
-                    const preset = await storage_service_StorageService.getPresetById(presetId);
+                    const preset = await StorageService.getPresetById(presetId);
                     if (!preset)
                         continue;
                     const newField = {
                         ...sourceField,
-                        id: helpers_generateGuid(),
-                        createdAt: helpers_getCurrentTimestamp(),
-                        updatedAt: helpers_getCurrentTimestamp(),
+                        id: generateGuid(),
+                        createdAt: getCurrentTimestamp(),
+                        updatedAt: getCurrentTimestamp(),
                         order: (preset.formData?.length || 0) + 1
                     };
                     const updatedFormData = [...(preset.formData || []), newField];
-                    await storage_service_StorageService.updatePreset(presetId, { formData: updatedFormData });
+                    await StorageService.updatePreset(presetId, { formData: updatedFormData });
                 }
-                modal_utils_hideModal();
-                modal_utils_showToast(`Field shared to ${selected.length} preset(s)`, 'success');
+                hideModal();
+                showToast(`Field shared to ${selected.length} preset(s)`, 'success');
             }
             catch (err) {
                 console.error('Failed to share field:', err);
-                modal_utils_showToast('Failed to share field. Please try again.', 'error');
+                showToast('Failed to share field. Please try again.', 'error');
             }
         });
     }
     catch (err) {
         console.error('Failed to load presets:', err);
-        modal_utils_showToast('Failed to load presets. Please try again.', 'error');
+        showToast('Failed to load presets. Please try again.', 'error');
     }
 }
 // Reorder form data after changes
 function reorderFormData() {
     formDataList.forEach((item, index) => {
         item.order = index + 1;
-        item.updatedAt = helpers_getCurrentTimestamp();
+        item.updatedAt = getCurrentTimestamp();
     });
 }
 // Drag and drop handlers
@@ -3380,12 +3340,12 @@ async function exportPageData() {
     if (!currentPageData)
         return;
     const page = currentPageData;
-    const presets = await storage_service_StorageService.getPresetsForPage(page.id);
-    const savedValues = await storage_service_StorageService.getSavedValuesForPage(page.id);
-    const data = await storage_service_StorageService.getData();
+    const presets = await StorageService.getPresetsForPage(page.id);
+    const savedValues = await StorageService.getSavedValuesForPage(page.id);
+    const data = await StorageService.getData();
     const presetIds = new Set(presets.map(p => p.id));
     const presetPageLinks = (data?.presetPageLinks ?? []).filter(link => link.pageId === page.id && presetIds.has(link.presetId));
-    const exportFile = export_format_createExportFile({
+    const exportFile = createExportFile({
         included: {
             pages: true,
             presets: true,
@@ -3400,29 +3360,29 @@ async function exportPageData() {
         },
     });
     const filename = page.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    common_downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
-    modal_utils_showToast('Page profile exported and downloaded', 'success');
+    downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
+    showToast('Page profile exported and downloaded', 'success');
 }
 // Export preset only to JSON
 function exportPresetOnly() {
     const name = document.getElementById('presetName').value || 'preset';
     const description = document.getElementById('presetDescription').value;
-    const exportedAt = getCurrentTimestamp();
+    const exportedAt = page_profile_editor_getCurrentTimestamp();
     const preset = {
-        id: `export-${generateGuid()}`,
+        id: `export-${page_profile_editor_generateGuid()}`,
         name,
         description,
         formData: formDataList,
         createdAt: exportedAt,
         updatedAt: exportedAt,
     };
-    const exportFile = createExportFile({
+    const exportFile = page_profile_editor_createExportFile({
         included: { presets: true },
         data: { presets: [preset] },
         exportedAt,
     });
-    downloadFile(JSON.stringify(exportFile, null, 2), `${name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_preset.json`);
-    showToast('Preset exported and downloaded', 'success');
+    page_profile_editor_downloadFile(JSON.stringify(exportFile, null, 2), `${name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_preset.json`);
+    page_profile_editor_showToast('Preset exported and downloaded', 'success');
 }
 // Import preset from JSON and create new preset
 async function importPresetFromJson(file) {
@@ -3430,15 +3390,15 @@ async function importPresetFromJson(file) {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.presets || !Array.isArray(imported.data.presets) || imported.data.presets.length === 0) {
-            modal_utils_showToast('Invalid import file: presets section not included', 'error');
+            showToast('Invalid import file: presets section not included', 'error');
             return;
         }
         if (!currentPageData) {
-            modal_utils_showToast('No page data available', 'error');
+            showToast('No page data available', 'error');
             return;
         }
         // Get current data to check for duplicates
-        const data = await storage_service_StorageService.getData();
+        const data = await StorageService.getData();
         if (!data)
             return;
         let importedCount = 0;
@@ -3454,11 +3414,11 @@ async function importPresetFromJson(file) {
                 continue;
             }
             // Create new preset with imported data (ignore exported ids/timestamps)
-            const newPreset = await storage_service_StorageService.addPreset({
+            const newPreset = await StorageService.addPreset({
                 name: presetToImport.name || 'Imported Preset',
                 description: presetToImport.description || '',
                 formData: (presetToImport.formData || []).map((field, index) => ({
-                    id: helpers_generateGuid(),
+                    id: generateGuid(),
                     type: field.type || 'text',
                     title: field.title || '',
                     value: field.value || '',
@@ -3466,13 +3426,13 @@ async function importPresetFromJson(file) {
                     querySelector: field.querySelector || '',
                     fillDelay: field.fillDelay || 0,
                     autoBlur: field.autoBlur ?? true,
-                    createdAt: helpers_getCurrentTimestamp(),
-                    updatedAt: helpers_getCurrentTimestamp(),
+                    createdAt: getCurrentTimestamp(),
+                    updatedAt: getCurrentTimestamp(),
                     order: index + 1
                 }))
             });
             // Link to current page
-            await storage_service_StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
             // Track first imported preset for redirect
             if (!firstImportedPresetId) {
                 firstImportedPresetId = newPreset.id;
@@ -3481,13 +3441,13 @@ async function importPresetFromJson(file) {
         }
         // Show summary notification
         if (importedCount === 0 && ignoredCount > 0) {
-            modal_utils_showToast(`All ${ignoredCount} preset(s) already exist (same IDs). If the duplicated ones are owned by another page, try to link them to there. Finally: Import skipped.`, 'info');
+            showToast(`All ${ignoredCount} preset(s) already exist (same IDs). If the duplicated ones are owned by another page, try to link them to there. Finally: Import skipped.`, 'info');
         }
         else if (importedCount > 0 && ignoredCount === 0) {
-            modal_utils_showToast(`${importedCount} preset(s) imported successfully.`, 'success');
+            showToast(`${importedCount} preset(s) imported successfully.`, 'success');
         }
         else if (importedCount > 0 && ignoredCount > 0) {
-            modal_utils_showToast(`${importedCount} preset(s) imported, ${ignoredCount} duplicate(s) ignored. If the duplicated ones are owned by another page, try to link them to there.`, 'success');
+            showToast(`${importedCount} preset(s) imported, ${ignoredCount} duplicate(s) ignored. If the duplicated ones are owned by another page, try to link them to there.`, 'success');
         }
         // Reload the page with the first imported preset (or just current page if none imported)
         if (firstImportedPresetId) {
@@ -3496,7 +3456,7 @@ async function importPresetFromJson(file) {
     }
     catch (error) {
         console.error('Import error:', error);
-        modal_utils_showToast('Failed to import preset. Please check the file format.', 'error');
+        showToast('Failed to import preset. Please check the file format.', 'error');
     }
 }
 // Save preset
@@ -3504,18 +3464,18 @@ async function savePreset() {
     const name = document.getElementById('presetName').value;
     const description = document.getElementById('presetDescription').value;
     if (!name) {
-        showToast('Preset name is required', 'warning');
+        page_profile_editor_showToast('Preset name is required', 'warning');
         return false;
     }
     // Sort form data by order
     formDataList.sort((a, b) => a.order - b.order);
     if (!currentPageData) {
-        showToast('Page data not found', 'error');
+        page_profile_editor_showToast('Page data not found', 'error');
         return false;
     }
     if (currentPresetId && currentPreset) {
         // Update existing preset
-        await StorageService.updatePreset(currentPresetId, {
+        await page_profile_editor_StorageService.updatePreset(currentPresetId, {
             name,
             description,
             formData: formDataList
@@ -3523,13 +3483,13 @@ async function savePreset() {
     }
     else {
         // Create new preset
-        const newPreset = await StorageService.addPreset({
+        const newPreset = await page_profile_editor_StorageService.addPreset({
             name,
             description,
             formData: formDataList
         });
         // Link to current page
-        await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+        await page_profile_editor_StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
     }
     await loadPagePresets(); // Refresh preset list
     return true;
@@ -3545,21 +3505,21 @@ async function saveAllData() {
     hasUnsavedPresetChanges = false;
     hasUnsavedSavedValuesChanges = false;
     updateButtonVisibility();
-    showToast('All changes saved successfully!', 'success');
+    page_profile_editor_showToast('All changes saved successfully!', 'success');
 }
 // Save saved values
 async function saveSavedValues() {
     if (!currentPageData)
         return;
     // Update all saved values for this page
-    const data = await StorageService.getData();
+    const data = await page_profile_editor_StorageService.getData();
     if (!data)
         return;
     // Remove old saved values for this page
     data.savedValues = data.savedValues.filter(sv => sv.pageId !== currentPageId);
     // Add updated saved values
     data.savedValues.push(...savedValuesList);
-    await StorageService.setData(data);
+    await page_profile_editor_StorageService.setData(data);
     originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList));
 }
 // Tab switching
@@ -3576,14 +3536,14 @@ function switchTab(tabId) {
 // Add new saved value row
 function addSavedValueRow(data) {
     const newData = data || {
-        id: helpers_generateGuid(),
+        id: generateGuid(),
         pageId: currentPageId,
         label: '',
         value: '',
         testId: '',
         querySelector: '',
-        createdAt: helpers_getCurrentTimestamp(),
-        updatedAt: helpers_getCurrentTimestamp()
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
     };
     savedValuesList.push(newData);
     renderSavedValuesTable();
@@ -3711,7 +3671,7 @@ function handleSavedValueInputChange(e) {
         return;
     // Update the data
     savedValue[field] = input.value;
-    savedValue.updatedAt = helpers_getCurrentTimestamp();
+    savedValue.updatedAt = getCurrentTimestamp();
     hasUnsavedSavedValuesChanges = true;
     updateSavedValuesButtons();
 }
@@ -3731,31 +3691,31 @@ async function deleteSavedValue(id) {
 // Export saved values to JSON
 async function exportSavedValues() {
     if (!currentPageData) {
-        modal_utils_showToast('No page selected', 'warning');
+        showToast('No page selected', 'warning');
         return;
     }
     if (savedValuesList.length === 0) {
-        modal_utils_showToast('No saved values to export', 'info');
+        showToast('No saved values to export', 'info');
         return;
     }
-    const exportFile = export_format_createExportFile({
+    const exportFile = createExportFile({
         included: { pages: true, savedValues: true },
         data: { pages: [currentPageData], savedValues: savedValuesList },
     });
-    common_downloadFile(JSON.stringify(exportFile, null, 2), `saved-values-${currentPageData.pageTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.json`);
-    modal_utils_showToast('Saved values exported and downloaded', 'success');
+    downloadFile(JSON.stringify(exportFile, null, 2), `saved-values-${currentPageData.pageTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.json`);
+    showToast('Saved values exported and downloaded', 'success');
 }
 // Import saved values from JSON
 async function importSavedValues(file) {
     if (!currentPageData) {
-        modal_utils_showToast('No page selected', 'warning');
+        showToast('No page selected', 'warning');
         return;
     }
     try {
         const text = await file.text();
         const imported = parseExtensionExportJson(text);
         if (!imported.included.savedValues || !Array.isArray(imported.data.savedValues)) {
-            modal_utils_showToast('Invalid import file: savedValues section not included', 'error');
+            showToast('Invalid import file: savedValues section not included', 'error');
             return;
         }
         let addedCount = 0;
@@ -3776,7 +3736,7 @@ async function importSavedValues(file) {
                     existing.value = value.value;
                     existing.testId = value.testId;
                     existing.querySelector = value.querySelector;
-                    existing.updatedAt = helpers_getCurrentTimestamp();
+                    existing.updatedAt = getCurrentTimestamp();
                     updatedCount++;
                 }
                 else {
@@ -3787,10 +3747,10 @@ async function importSavedValues(file) {
                 // Add new saved value with new ID
                 const newValue = {
                     ...value,
-                    id: helpers_generateGuid(),
+                    id: generateGuid(),
                     pageId: currentPageData.id,
-                    createdAt: helpers_getCurrentTimestamp(),
-                    updatedAt: helpers_getCurrentTimestamp()
+                    createdAt: getCurrentTimestamp(),
+                    updatedAt: getCurrentTimestamp()
                 };
                 savedValuesList.push(newValue);
                 addedIds.push(newValue.id);
@@ -3818,11 +3778,11 @@ async function importSavedValues(file) {
                 }
             }, 100);
         }
-        modal_utils_showToast(`Import complete: Added: ${addedCount}, Updated: ${updatedCount}, Skipped: ${skippedCount}`, 'success');
+        showToast(`Import complete: Added: ${addedCount}, Updated: ${updatedCount}, Skipped: ${skippedCount}`, 'success');
     }
     catch (error) {
         console.error('Import saved values error:', error);
-        modal_utils_showToast('Failed to import saved values. Please check the file format.', 'error');
+        showToast('Failed to import saved values. Please check the file format.', 'error');
     }
 }
 // Show export selection modal for page profile
@@ -3830,8 +3790,8 @@ async function showExportSelectionModal() {
     if (!currentPageData)
         return;
     const page = currentPageData;
-    const presets = await StorageService.getPresetsForPage(page.id);
-    const savedValues = await StorageService.getSavedValuesForPage(page.id);
+    const presets = await page_profile_editor_StorageService.getPresetsForPage(page.id);
+    const savedValues = await page_profile_editor_StorageService.getSavedValuesForPage(page.id);
     const modalContent = `
     <div class="export-selection">
       <p>Select what you want to export for this page profile:</p>
@@ -3840,7 +3800,7 @@ async function showExportSelectionModal() {
         <label class="export-option">
           <input type="checkbox" id="exportPage" checked>
           <span class="checkmark"></span>
-          Page Information (${escapeHtml(page.pageTitle)})
+          Page Information (${page_profile_editor_escapeHtml(page.pageTitle)})
         </label>
         
         <label class="export-option">
@@ -3875,7 +3835,7 @@ async function showExportSelectionModal() {
       </div>
     </div>
   `;
-    showModal('Export Page Profile', modalContent);
+    page_profile_editor_showModal('Export Page Profile', modalContent);
     // Handle select all button
     document.getElementById('selectAllBtn')?.addEventListener('click', () => {
         const checkboxes = document.querySelectorAll('.export-selection input[type="checkbox"]');
@@ -3890,24 +3850,24 @@ async function showExportSelectionModal() {
         const exportPresets = document.getElementById('exportPresets').checked;
         const exportSavedValues = document.getElementById('exportSavedValues').checked;
         if (!exportPage && !exportPresets && !exportSavedValues) {
-            showToast('Please select at least one item to export', 'warning');
+            page_profile_editor_showToast('Please select at least one item to export', 'warning');
             return;
         }
-        hideModal();
+        page_profile_editor_hideModal();
         await performExport(exportPage, exportPresets, exportSavedValues);
     });
     // Handle cancel button
     document.getElementById('cancelExportBtn')?.addEventListener('click', () => {
-        hideModal();
+        page_profile_editor_hideModal();
     });
 }
 // Show preset export selection modal for current page presets
 async function showPresetExportSelectionModal() {
     if (!currentPageData)
         return;
-    const presets = await storage_service_StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(currentPageData.id);
     if (presets.length === 0) {
-        modal_utils_showToast('No presets available for this page', 'info');
+        showToast('No presets available for this page', 'info');
         return;
     }
     const modalContent = `
@@ -3928,8 +3888,8 @@ async function showPresetExportSelectionModal() {
               <input type="checkbox" class="preset-checkbox" value="${preset.id}" checked>
               <span class="checkmark"></span>
               <div class="preset-card">
-                <div class="preset-title">${common_escapeHtml(preset.name)}</div>
-                ${preset.description ? `<div class="preset-card-description">${common_escapeHtml(preset.description)}</div>` : '<div class="preset-card-description">No description</div>'}
+                <div class="preset-title">${escapeHtml(preset.name)}</div>
+                ${preset.description ? `<div class="preset-card-description">${escapeHtml(preset.description)}</div>` : '<div class="preset-card-description">No description</div>'}
               </div>
             </label>
           `).join('')}
@@ -3950,7 +3910,7 @@ async function showPresetExportSelectionModal() {
       </div>
     </div>
   `;
-    modal_utils_showModal('Export Presets', modalContent);
+    showModal('Export Presets', modalContent);
     // Update counter function
     const updateCounter = () => {
         const checkedCount = document.querySelectorAll('.preset-checkbox:checked').length;
@@ -3984,16 +3944,16 @@ async function showPresetExportSelectionModal() {
         const selectedIds = Array.from(document.querySelectorAll('.preset-checkbox:checked'))
             .map(cb => cb.value);
         if (selectedIds.length === 0) {
-            modal_utils_showToast('Please select at least one preset to export', 'warning');
+            showToast('Please select at least one preset to export', 'warning');
             return;
         }
         const selectedPresets = presets.filter(preset => selectedIds.includes(preset.id));
-        modal_utils_hideModal();
+        hideModal();
         await performPresetExport(selectedPresets);
     });
     // Handle cancel button
     document.getElementById('cancelPresetExportBtn')?.addEventListener('click', () => {
-        modal_utils_hideModal();
+        hideModal();
     });
 }
 // Perform the actual export based on selections
@@ -4001,9 +3961,9 @@ async function performExport(includePage, includePresets, includeSavedValues) {
     if (!currentPageData)
         return;
     const page = currentPageData;
-    const presets = includePresets ? await StorageService.getPresetsForPage(page.id) : [];
-    const savedValues = includeSavedValues ? await StorageService.getSavedValuesForPage(page.id) : [];
-    const data = await StorageService.getData();
+    const presets = includePresets ? await page_profile_editor_StorageService.getPresetsForPage(page.id) : [];
+    const savedValues = includeSavedValues ? await page_profile_editor_StorageService.getSavedValuesForPage(page.id) : [];
+    const data = await page_profile_editor_StorageService.getData();
     const presetIds = new Set(presets.map(p => p.id));
     const presetPageLinks = includePresets ? (data?.presetPageLinks ?? []).filter(link => link.pageId === page.id && presetIds.has(link.presetId)) : [];
     const included = {};
@@ -4022,7 +3982,7 @@ async function performExport(includePage, includePresets, includeSavedValues) {
         included.savedValues = true;
         exportData.savedValues = savedValues;
     }
-    const exportFile = createExportFile({
+    const exportFile = page_profile_editor_createExportFile({
         included,
         data: exportData,
     });
@@ -4034,20 +3994,20 @@ async function performExport(includePage, includePresets, includeSavedValues) {
         selectedItems.push('presets');
     if (includeSavedValues)
         selectedItems.push('saved values');
-    downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
-    showToast(`Selected ${selectedItems.join(', ')} exported and downloaded`, 'success');
+    page_profile_editor_downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
+    page_profile_editor_showToast(`Selected ${selectedItems.join(', ')} exported and downloaded`, 'success');
 }
 // Perform the actual preset export
 async function performPresetExport(selectedPresets) {
     if (!currentPageData)
         return;
-    const exportFile = export_format_createExportFile({
+    const exportFile = createExportFile({
         included: { presets: true },
         data: { presets: selectedPresets }
     });
     const filename = currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    common_downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_presets.json`);
-    modal_utils_showToast(`${selectedPresets.length} preset${selectedPresets.length === 1 ? '' : 's'} exported and downloaded`, 'success');
+    downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_presets.json`);
+    showToast(`${selectedPresets.length} preset${selectedPresets.length === 1 ? '' : 's'} exported and downloaded`, 'success');
 }
 // Initialize
 init();

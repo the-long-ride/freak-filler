@@ -6,18 +6,18 @@
  * Application-wide constants
  */
 // Storage keys
-const STORAGE_KEYS = {
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
     DATA: 'formFillerData',
     SETTINGS: 'formFillerSettings',
     MIGRATION: 'formFillerMigrationCompleted'
-};
+}));
 // Theme constants
-const appConstants_THEMES = {
+const THEMES = (/* unused pure expression or super */ null && ({
     LIGHT: 'light',
     DARK: 'dark'
-};
+}));
 // Form field types
-const FIELD_TYPES = {
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
     TEXT: 'text',
     SEARCH: 'search',
     CHECKBOX: 'checkbox',
@@ -28,10 +28,11 @@ const FIELD_TYPES = {
     RANGE: 'range',
     NUMBER: 'number',
     COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate'
-};
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
 // UI messages
-const MESSAGES = {
+const MESSAGES = (/* unused pure expression or super */ null && ({
     NO_PAGE_URL: 'Page URL is required',
     NO_PRESETS: 'No presets yet',
     NO_PAGES: 'No pages available',
@@ -40,7 +41,7 @@ const MESSAGES = {
     UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
     SUCCESS_SAVE: 'Saved successfully!',
     INVALID_DATA: 'Invalid data format'
-};
+}));
 // Default values
 const DEFAULTS = {
     FILL_DELAY: 0,
@@ -69,18 +70,18 @@ const LIMITS = {
     QUANTIFIER_MAX_REPEAT: 10
 };
 // Sort directions
-const SORT_DIRECTION = {
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
     ASC: 'asc',
     DESC: 'desc'
-};
+}));
 // CSS class names
-const CSS_CLASSES = {
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
     ACTIVE: 'active',
     CHECKED: 'checked',
     HIDDEN: 'hidden',
     DISABLED: 'disabled',
     LOADING: 'loading'
-};
+}));
 // Export/Import JSON schema
 const EXPORT_SCHEMA = 'form-filler.export.v1';
 // Character sets for random string generation
@@ -92,13 +93,13 @@ const CHAR_SETS = {
     WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
 };
 // Random string character set templates
-const RANDOM_STRING_CHARSETS = {
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
     ALPHABET: 'alphabet',
     NUMERIC: 'numeric',
     ALPHANUMERIC: 'alphanumeric',
     ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
     ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-};
+}));
 // Default regex patterns
 const DEFAULT_REGEX_PATTERNS = [
     { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
@@ -326,70 +327,13 @@ function generateFromRegex(regex, length) {
         return generateRandomString(length, 'alphanumeric');
     }
 }
-/**
- * Get element locators (testId and querySelector)
- */
-function getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
-    }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid');
-                levelsUp = i + 1;
-                break;
-            }
-            element = element.parentElement;
-        }
-        if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            // Add each level in the path
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
-            if (inputType) {
-                inputSelector += `[type='${inputType}']`;
-            }
-            const inputName = inputElement.getAttribute('name');
-            if (inputName) {
-                inputSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(inputSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
-}
 
 ;// ./src/services/storage.service.ts
 
 
 const STORAGE_KEY = 'formFillerData';
 const SETTINGS_KEY = 'formFillerSettings';
-class storage_service_StorageService {
+class StorageService {
     // Initialize storage with default data
     static async initialize() {
         const data = await this.getData();
@@ -521,7 +465,7 @@ class storage_service_StorageService {
                             }
                             // Save migrated settings
                             if (needsMigration) {
-                                storage_service_StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
                             }
                             settings = migratedSettings;
                         }
@@ -867,108 +811,518 @@ class storage_service_StorageService {
     }
 }
 
-;// ./src/content/element-helpers.ts
+;// ./src/utils/common.ts
+/* unused harmony import specifier */ var common_THEMES;
+/* unused harmony import specifier */ var common_StorageService;
 /**
- * Helper functions for extracting element identifiers
+ * Common utility functions shared across the application
  */
+
+
 /**
- * Get element locators (testId and querySelector)
- * @param inputElement - The input element
- * @returns Object with testId and querySelector
+ * Escape HTML special characters to prevent XSS
  */
-function element_helpers_getElementLocators(inputElement) {
-    // Get field identifiers
-    const testId = inputElement.getAttribute('data-testid') || inputElement.id || '';
-    // Build querySelector - only if element doesn't have data-testid
-    let querySelector = '';
-    if (inputElement.id) {
-        querySelector = `#${inputElement.id}`;
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+/**
+ * Format date string to human-readable format
+ */
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    if (diffMins < 1)
+        return 'Just now';
+    if (diffMins < 60)
+        return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24)
+        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 7)
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+}
+/**
+ * Initialize version display - Read from manifest and update all data-version elements
+ */
+async function initVersion() {
+    try {
+        const manifest = chrome.runtime.getManifest();
+        const versionText = `Version: ${manifest.version} | Author: The Long Ride`;
+        const versionElements = document.querySelectorAll('[data-version]');
+        versionElements.forEach(element => {
+            element.textContent = versionText;
+        });
     }
-    else if (!inputElement.getAttribute('data-testid')) {
-        // Try to find id or data-testid in parent hierarchy (up to 7 levels)
-        let element = inputElement.parentElement;
+    catch (error) {
+        console.error('Failed to initialize version:', error);
+    }
+}
+/**
+ * Initialize theme system - Uses StorageService for persistence
+ */
+async function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    // Load theme from StorageService
+    const theme = await common_StorageService.getTheme();
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcons(theme);
+    themeToggle?.addEventListener('click', toggleTheme);
+}
+/**
+ * Toggle between light and dark theme
+ */
+async function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || common_THEMES.DARK;
+    const newTheme = currentTheme === common_THEMES.LIGHT ? common_THEMES.DARK : common_THEMES.LIGHT;
+    document.documentElement.setAttribute('data-theme', newTheme);
+    await common_StorageService.setTheme(newTheme);
+    updateThemeIcons(newTheme);
+}
+/**
+ * Update theme icon display
+ */
+function updateThemeIcons(theme) {
+    const lightIcon = document.querySelector('.light-icon, .theme-icon.light-icon');
+    const darkIcon = document.querySelector('.dark-icon, .theme-icon.dark-icon');
+    if (lightIcon && darkIcon) {
+        darkIcon.style.display = theme === common_THEMES.LIGHT ? 'block' : 'none';
+        lightIcon.style.display = theme === common_THEMES.LIGHT ? 'none' : 'block';
+    }
+}
+/**
+ * Prompt user for confirmation
+ */
+function confirmAction(message) {
+    return confirm(message);
+}
+/**
+ * Show alert message
+ */
+function showAlert(message) {
+    alert(message);
+}
+/**
+ * Debounce function execution
+ */
+function debounce(func, delay) {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+}
+/**
+ * Sanitize filename for downloads
+ */
+function sanitizeFilename(name) {
+    return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+}
+/**
+ * Create and trigger file download
+ */
+function downloadFile(content, filename, type = 'application/json') {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+/**
+ * Read file as text
+ */
+async function readFileAsText(file) {
+    return await file.text();
+}
+/**
+ * Deep clone an object
+ */
+function deepClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+/**
+ * Check if element is visible
+ */
+function isElementVisible(element) {
+    const rect = element.getBoundingClientRect();
+    const style = window.getComputedStyle(element);
+    return (style.display !== 'none' &&
+        style.visibility !== 'hidden');
+}
+/**
+ * Get element position for sorting
+ */
+function getElementPosition(element) {
+    const rect = element.getBoundingClientRect();
+    return {
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX
+    };
+}
+/**
+ * Retry async operation with exponential backoff
+ */
+async function retryAsync(operation, maxRetries = 3, delay = 100) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            return await operation();
+        }
+        catch (error) {
+            if (i === maxRetries - 1)
+                throw error;
+            await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+        }
+    }
+    throw new Error('Max retries exceeded');
+}
+/**
+ * Wait for specified milliseconds
+ */
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+;// ./src/content/element-helpers.ts
+
+
+
+const ASSISTANT_INPUT_TYPES = new Set([
+    'text',
+    'date',
+    'datetime-local',
+    'email',
+    'tel',
+    'number',
+    'search',
+    'url',
+    'range',
+    'color',
+    'password'
+]);
+const TEXT_ACTION_INPUT_TYPES = new Set([
+    'text',
+    'search',
+    'url',
+    'tel',
+    'email',
+    'password',
+    'number'
+]);
+const INLINE_HTML_EDITOR_SELECTOR = [
+    '[contenteditable="true"]',
+    '[contenteditable="plaintext-only"]',
+    '[contenteditable=""]',
+    '[role="textbox"][contenteditable]',
+    '.alloy-editor[contenteditable]',
+    '.ce-block__content[contenteditable]',
+    '.ce-paragraph[contenteditable]',
+    '.ck-editor__editable[contenteditable]',
+    '.ck-editor__editable_inline[contenteditable]',
+    '.cke_editable[contenteditable]',
+    '.ck-content[contenteditable]',
+    '.codex-editor [contenteditable]',
+    '.editor-input[contenteditable]',
+    '.fr-element[contenteditable]',
+    '.jodit-wysiwyg[contenteditable]',
+    '.medium-editor-element[contenteditable]',
+    '.mce-content-body[contenteditable]',
+    '.mce-edit-focus[contenteditable]',
+    '.note-editable[contenteditable]',
+    '.pell-content[contenteditable]',
+    '.public-DraftEditor-content[contenteditable]',
+    '.ql-editor[contenteditable]',
+    '.redactor-in[contenteditable]',
+    '.se-wrapper-wysiwyg[contenteditable]',
+    '.scribe-editor[contenteditable]',
+    '.st-editor__editable[contenteditable]',
+    '.ProseMirror[contenteditable]',
+    '.tiptap[contenteditable]',
+    '.toastui-editor-contents[contenteditable]',
+    '.trumbowyg-editor[contenteditable]',
+    '.wym_iframe body[contenteditable]',
+    '[data-contents="true"][contenteditable]',
+    '[data-lexical-editor="true"]',
+    '[data-medium-editor-element="true"]',
+    '[data-slate-editor="true"]',
+    '[data-testid*="editor" i][contenteditable]',
+    '[class*="wysiwyg" i][contenteditable]',
+    '[class*="rich-text" i][contenteditable]',
+    '[class*="rte" i][contenteditable]',
+    'trix-editor',
+    'wysiwyg-editor'
+].join(', ');
+const HTML_EDITOR_IFRAME_SELECTOR = [
+    '.cke_wysiwyg_frame',
+    '.fr-iframe',
+    '.jodit-wysiwyg_iframe',
+    '.mce-edit-area iframe',
+    '.redactor-box iframe',
+    '.tox-edit-area iframe',
+    '.tox-edit-area__iframe',
+    '.wysihtml5-sandbox',
+    'iframe[id$="_ifr"]',
+    'iframe[name*="editor" i]',
+    'iframe[title*="editor" i]',
+    'iframe[title*="rich text" i]',
+    'iframe[title*="wysiwyg" i]',
+    'iframe[aria-label*="editor" i]',
+    'iframe[aria-label*="rich text" i]'
+].join(', ');
+const HTML_EDITOR_SELECTOR = [
+    INLINE_HTML_EDITOR_SELECTOR,
+    HTML_EDITOR_IFRAME_SELECTOR
+].join(', ');
+function getElementName(element) {
+    return element.name || '';
+}
+function getElementType(element) {
+    if (element instanceof HTMLInputElement) {
+        return (element.type || 'text').toLowerCase();
+    }
+    return element.tagName.toLowerCase();
+}
+function getFrameDocument(iframe) {
+    try {
+        return iframe.contentDocument || iframe.contentWindow?.document || null;
+    }
+    catch {
+        return null;
+    }
+}
+function getLinkedSourceElement(iframe) {
+    const sourceId = iframe.id.endsWith('_ifr') ? iframe.id.slice(0, -4) : '';
+    const source = sourceId ? document.getElementById(sourceId) : null;
+    return isNativeEditableElement(source) ? source : null;
+}
+function getIframeEditorBody(iframe) {
+    const frameDocument = getFrameDocument(iframe);
+    if (!frameDocument?.body) {
+        return null;
+    }
+    const body = frameDocument.body;
+    const editable = body.matches(INLINE_HTML_EDITOR_SELECTOR)
+        ? body
+        : body.querySelector(INLINE_HTML_EDITOR_SELECTOR);
+    return editable || body;
+}
+function isEditorIframeElement(element) {
+    if (!(element instanceof HTMLIFrameElement)) {
+        return false;
+    }
+    if (!element.matches(HTML_EDITOR_IFRAME_SELECTOR)) {
+        return false;
+    }
+    return !!getIframeEditorBody(element);
+}
+function getReadableName(value) {
+    return value
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/[_-]/g, ' ')
+        .replace(/\b\w/g, letter => letter.toUpperCase())
+        .trim();
+}
+function hasEditableContent(element) {
+    const contentEditable = element.getAttribute('contenteditable')?.toLowerCase();
+    return (contentEditable === 'true' ||
+        contentEditable === 'plaintext-only' ||
+        contentEditable === '' ||
+        element.hasAttribute('data-lexical-editor') ||
+        element.hasAttribute('data-slate-editor') ||
+        element.hasAttribute('data-medium-editor-element') ||
+        (element.getAttribute('role') === 'textbox' && element.isContentEditable) ||
+        element.tagName === 'TRIX-EDITOR');
+}
+function isNativeEditableElement(element) {
+    return !!element && (element instanceof HTMLInputElement ||
+        element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLSelectElement);
+}
+function isHtmlEditorElement(element) {
+    return isEditorIframeElement(element) || (element instanceof HTMLElement && hasEditableContent(element));
+}
+function isNestedHtmlEditorElement(element) {
+    const parentEditor = element.parentElement?.closest(HTML_EDITOR_SELECTOR);
+    return !!parentEditor && isHtmlEditorElement(parentEditor);
+}
+function isAssistantElement(element) {
+    if (element instanceof HTMLInputElement) {
+        return ASSISTANT_INPUT_TYPES.has((element.type || 'text').toLowerCase());
+    }
+    return (element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLSelectElement ||
+        isEditorIframeElement(element) ||
+        isHtmlEditorElement(element));
+}
+function getAssistantElementFromTarget(target) {
+    if (!(target instanceof Element)) {
+        return null;
+    }
+    const element = target.closest(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
+    return isAssistantElement(element) ? element : null;
+}
+function allowsTextActions(element) {
+    if (element instanceof HTMLTextAreaElement || isHtmlEditorElement(element)) {
+        return true;
+    }
+    return element instanceof HTMLInputElement && TEXT_ACTION_INPUT_TYPES.has((element.type || 'text').toLowerCase());
+}
+function dispatchValueEvents(element) {
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+}
+function getEditableValue(element) {
+    if (isEditorIframeElement(element)) {
+        return getIframeEditorBody(element)?.innerHTML || '';
+    }
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        return element.value;
+    }
+    const valueElement = element;
+    if (typeof valueElement.value === 'string') {
+        return valueElement.value;
+    }
+    return element.innerHTML || element.textContent || '';
+}
+function setEditableValue(element, value) {
+    if (isEditorIframeElement(element)) {
+        const editorBody = getIframeEditorBody(element);
+        if (editorBody) {
+            editorBody.innerHTML = value;
+            dispatchValueEvents(editorBody);
+        }
+        const source = getLinkedSourceElement(element);
+        if (source) {
+            source.value = value;
+            dispatchValueEvents(source);
+        }
+        dispatchValueEvents(element);
+        return;
+    }
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        element.value = value;
+        dispatchValueEvents(element);
+        return;
+    }
+    const valueElement = element;
+    if (typeof valueElement.value === 'string') {
+        valueElement.value = value;
+    }
+    else if (element.getAttribute('contenteditable')?.toLowerCase() === 'plaintext-only') {
+        element.textContent = value;
+    }
+    else {
+        element.innerHTML = value;
+    }
+    dispatchValueEvents(element);
+}
+function getFieldTypeForElement(element) {
+    if (isHtmlEditorElement(element)) {
+        return 'htmlEditor';
+    }
+    if (element instanceof HTMLSelectElement) {
+        return 'dropdown';
+    }
+    if (element instanceof HTMLTextAreaElement) {
+        return 'text';
+    }
+    if (element instanceof HTMLInputElement) {
+        switch ((element.type || 'text').toLowerCase()) {
+            case 'search':
+                return 'search';
+            case 'checkbox':
+                return 'checkbox';
+            case 'radio':
+                return 'radio';
+            case 'range':
+                return 'range';
+            case 'number':
+                return 'number';
+            case 'color':
+                return 'color';
+            case 'date':
+            case 'datetime-local':
+                return 'datepicker';
+            default:
+                return 'text';
+        }
+    }
+    return 'text';
+}
+function getElementLocators(element) {
+    const testId = element.getAttribute('data-testid') || element.id || '';
+    let querySelector = '';
+    if (element.id) {
+        querySelector = `#${element.id}`;
+    }
+    else if (!element.getAttribute('data-testid')) {
+        let parent = element.parentElement;
         let foundId = '';
         let foundTestId = '';
         let levelsUp = 0;
         const pathElements = [];
-        for (let i = 0; i < 7 && element; i++) {
-            pathElements.push(element);
-            if (!foundId && element.id) {
-                foundId = element.id;
+        for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
+            pathElements.push(parent);
+            if (!foundId && parent.id) {
+                foundId = parent.id;
                 levelsUp = i + 1;
             }
-            if (!foundTestId && element.getAttribute('data-testid')) {
-                foundTestId = element.getAttribute('data-testid') || '';
+            if (!foundTestId && parent.getAttribute('data-testid')) {
+                foundTestId = parent.getAttribute('data-testid') || '';
                 levelsUp = i + 1;
                 break;
             }
-            element = element.parentElement;
+            parent = parent.parentElement;
         }
         if (foundId || foundTestId) {
-            // Build selector using parent's id or data-testid with exact path
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid=\'${foundTestId}\']`;
+            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
             const pathParts = [parentSelector];
-            // Add each level in the path
             for (let i = levelsUp - 2; i >= 0; i--) {
                 pathParts.push(pathElements[i].tagName.toLowerCase());
             }
-            // Add the input element itself
-            const tagName = inputElement.tagName.toLowerCase();
-            let inputSelector = tagName;
-            // Add more specificity if needed - use single quotes to avoid HTML attribute conflicts
-            const inputType = inputElement.getAttribute('type');
+            const tagName = element.tagName.toLowerCase();
+            let elementSelector = tagName;
+            const inputType = element.getAttribute('type');
+            const inputName = getElementName(element);
             if (inputType) {
-                inputSelector += `[type='${inputType}']`;
+                elementSelector += `[type='${inputType}']`;
             }
-            const inputName = inputElement.getAttribute('name');
             if (inputName) {
-                inputSelector += `[name='${inputName}']`;
+                elementSelector += `[name='${inputName}']`;
             }
-            pathParts.push(inputSelector);
+            pathParts.push(elementSelector);
             querySelector = pathParts.join(' > ');
         }
     }
     return { testId, querySelector };
 }
-/**
- * Get the data-testid attribute or fall back to element id
- * @param element - The input element
- * @returns The test ID or empty string
- */
 function getTestId(element) {
-    return element_helpers_getElementLocators(element).testId;
+    return getElementLocators(element).testId;
 }
-/**
- * Get the CSS selector for an element
- * @param element - The input element
- * @returns A CSS selector string or empty string
- */
 function getSelector(element) {
-    return element_helpers_getElementLocators(element).querySelector;
+    return getElementLocators(element).querySelector;
 }
-/**
- * Get element selector prioritizing data-testid
- * @param element - The input element
- * @returns data-testid if available, otherwise querySelector
- */
 function getElementSelector(element) {
     if (!element)
         return '';
     const el = element;
-    // Prefer explicit id first (higher priority)
     if (el.id)
         return `${el.tagName.toLowerCase()}#${el.id}`;
-    // Then prefer explicit data-testid
     const testId = el.getAttribute('data-testid');
     if (testId)
         return `${el.tagName.toLowerCase()}[data-testid='${testId}']`;
-    // Search up the parent chain for an anchor id or data-testid (up to 7 levels)
     let parent = el.parentElement;
     let foundId = '';
     let foundTestId = '';
     let levelsUp = 0;
     const pathElements = [];
-    for (let i = 0; i < 7 && parent; i++) {
+    for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
         pathElements.push(parent);
         if (!foundId && parent.id) {
             foundId = parent.id;
@@ -981,31 +1335,28 @@ function getElementSelector(element) {
         parent = parent.parentElement;
     }
     if (foundId || foundTestId) {
-        const parentSelector = foundId ? `#${foundId}` : `[data-testid=\'${foundTestId}\']`;
+        const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
         const pathParts = [parentSelector];
         for (let i = levelsUp - 2; i >= 0; i--) {
             pathParts.push(pathElements[i].tagName.toLowerCase());
         }
-        // Build element selector with some specificity
         const tagName = el.tagName.toLowerCase();
-        let elemSelector = tagName;
+        let elementSelector = tagName;
         const inputType = el.getAttribute('type');
-        if (inputType)
-            elemSelector += `[type='${inputType}']`;
-        const inputName = el.getAttribute('name');
-        if (inputName)
-            elemSelector += `[name='${inputName}']`;
+        const inputName = getElementName(el);
         const classes = Array.from(el.classList).filter(Boolean);
-        if (classes.length > 0) {
-            elemSelector += `.${classes[0]}`;
-        }
-        pathParts.push(elemSelector);
+        if (inputType)
+            elementSelector += `[type='${inputType}']`;
+        if (inputName)
+            elementSelector += `[name='${inputName}']`;
+        if (classes.length > 0)
+            elementSelector += `.${classes[0]}`;
+        pathParts.push(elementSelector);
         return pathParts.join(' > ');
     }
-    // Fallback: build a local selector using tag + class/name or nth-child
     let selector = el.tagName.toLowerCase();
     const classes = Array.from(el.classList).filter(Boolean);
-    const nameAttr = el.getAttribute('name');
+    const nameAttr = getElementName(el);
     if (nameAttr) {
         selector += `[name='${nameAttr}']`;
         return selector;
@@ -1014,22 +1365,117 @@ function getElementSelector(element) {
         selector += `.${classes[0]}`;
         return selector;
     }
-    // Last resort: use parent > tag:nth-child(index)
     const parentEl = el.parentElement;
     if (parentEl) {
         const children = Array.from(parentEl.children);
-        const idx = children.indexOf(el) + 1;
-        const parentTag = parentEl.tagName.toLowerCase();
-        selector = `${parentTag} > ${el.tagName.toLowerCase()}:nth-child(${idx})`;
+        const index = children.indexOf(el) + 1;
+        selector = `${parentEl.tagName.toLowerCase()} > ${el.tagName.toLowerCase()}:nth-child(${index})`;
     }
     return selector;
 }
-/**
- * Auto-populate test ID and selector inputs
- * @param element - The input element
- * @param testIdInput - The test ID input field
- * @param selectorInput - The selector input field
- */
+function getElementLabel(element) {
+    if (isEditorIframeElement(element)) {
+        const source = getLinkedSourceElement(element);
+        if (source) {
+            return getElementLabel(source);
+        }
+    }
+    const closestLabel = element.closest('label');
+    if (closestLabel && closestLabel.textContent?.trim()) {
+        return closestLabel.textContent.trim();
+    }
+    if (element.id) {
+        const labelFor = document.querySelector(`label[for="${element.id}"]`);
+        if (labelFor && labelFor.textContent?.trim()) {
+            return labelFor.textContent.trim();
+        }
+    }
+    const labelledBy = element.getAttribute('aria-labelledby');
+    if (labelledBy) {
+        const labelText = labelledBy
+            .split(/\s+/)
+            .map(id => document.getElementById(id)?.textContent?.trim() || '')
+            .filter(Boolean)
+            .join(' ');
+        if (labelText) {
+            return labelText;
+        }
+    }
+    const ariaLabel = element.getAttribute('aria-label');
+    if (ariaLabel?.trim())
+        return ariaLabel.trim();
+    if (element.title?.trim())
+        return element.title.trim();
+    const placeholder = element.getAttribute('placeholder');
+    if (placeholder?.trim())
+        return placeholder.trim();
+    const name = getElementName(element);
+    if (name.trim())
+        return name.trim();
+    const testId = element.getAttribute('data-testid');
+    if (testId?.trim())
+        return testId.trim();
+    if (element.id?.trim())
+        return element.id.trim();
+    const ownText = (element.textContent || '').trim();
+    let parent = element.parentElement;
+    for (let i = 0; i < 3 && parent; i++) {
+        if (parent.tagName === 'FORM' || (parent.tagName === 'DIV' && parent.children.length > 5)) {
+            parent = parent.parentElement;
+            continue;
+        }
+        const cleanText = (parent.textContent || '').replace(ownText, '').trim();
+        if (cleanText && cleanText.length < 50) {
+            return cleanText;
+        }
+        parent = parent.parentElement;
+    }
+    const prevSibling = element.previousElementSibling;
+    if (prevSibling && prevSibling.textContent?.trim()) {
+        const text = prevSibling.textContent.trim();
+        if (text.length < 50)
+            return text;
+    }
+    if (name)
+        return getReadableName(name);
+    if (element.id)
+        return getReadableName(element.id);
+    const typeLabels = {
+        text: 'Text Field',
+        email: 'Email',
+        password: 'Password',
+        tel: 'Phone',
+        url: 'Website',
+        search: 'Search',
+        number: 'Number',
+        range: 'Range',
+        date: 'Date',
+        'datetime-local': 'Date & Time',
+        color: 'Color',
+        checkbox: 'Checkbox',
+        radio: 'Radio Button',
+        htmlEditor: 'HTML Editor'
+    };
+    return typeLabels[getFieldTypeForElement(element)] || typeLabels[getElementType(element)] || 'Form Field';
+}
+function createScannedField(element, type, value, order) {
+    const { testId, querySelector } = getElementLocators(element);
+    const timestamp = getCurrentTimestamp();
+    return {
+        id: `${Date.now()}_${order - 1}`,
+        type,
+        title: getElementLabel(element),
+        value,
+        testId,
+        querySelector: querySelector || getElementSelector(element),
+        fillDelay: DEFAULTS.FILL_DELAY,
+        autoBlur: DEFAULTS.AUTO_BLUR,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        order,
+        position: getElementPosition(element)
+    };
+}
 function populateIdentifiers(element, testIdInput, selectorInput) {
     testIdInput.value = getTestId(element);
     selectorInput.value = getSelector(element);
@@ -1127,7 +1573,7 @@ async function setupImportSection(popup, inputElement, pageData, afterClick) {
     let hasPresetValues = false;
     // Populate saved values grid
     if (pageData?.id) {
-        const savedValues = await storage_service_StorageService.getSavedValuesForPage(pageData.id);
+        const savedValues = await StorageService.getSavedValuesForPage(pageData.id);
         const matchingSavedValues = savedValues
             .filter((sv) => (testId && sv.testId === testId) || (querySelector && sv.querySelector === querySelector))
             .sort((a, b) => (a.label || '').localeCompare(b.label || ''));
@@ -1153,27 +1599,26 @@ async function setupImportSection(popup, inputElement, pageData, afterClick) {
                 const importBtn = document.createElement('button');
                 importBtn.type = 'button';
                 importBtn.className = 'import-value-btn';
-                importBtn.innerHTML = 'APPLY';
+                importBtn.textContent = 'APPLY';
                 importBtn.title = 'Import this value into the field';
                 importBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if (currentInputElement) {
-                        currentInputElement.value = value;
-                        currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
+                        setEditableValue(currentInputElement, value);
                     }
                     afterClick?.();
                 });
                 const delBtn = document.createElement('button');
                 delBtn.type = 'button';
                 delBtn.className = 'delete-saved-value-btn';
-                delBtn.innerHTML = 'DEL';
+                delBtn.textContent = 'DEL';
                 delBtn.title = 'Delete this saved value';
                 delBtn.addEventListener('click', async (e) => {
                     e.stopPropagation();
                     try {
                         if (!pageData?.url)
                             return;
-                        await storage_service_StorageService.deleteSavedFormData(pageData.url, sv.id);
+                        await StorageService.deleteSavedFormData(pageData.url, sv.id);
                         showNotification('Saved value deleted');
                         // Remove the row from the DOM immediately for a snappier UI
                         if (row && row.parentElement) {
@@ -1192,21 +1637,13 @@ async function setupImportSection(popup, inputElement, pageData, afterClick) {
                 row.appendChild(cellLabel);
                 row.appendChild(cellValue);
                 row.appendChild(cellActions);
-                // Row click still imports value
-                // row.addEventListener('click', () => {
-                //   if (currentInputElement) {
-                //     currentInputElement.value = value;
-                //     currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
-                //   }
-                //   afterClick?.();
-                // });
                 savedValuesGridBody.appendChild(row);
             });
         }
     }
     // Populate preset values grid
     if (pageData?.id) {
-        const presets = await storage_service_StorageService.getPresetsForPage(pageData.id);
+        const presets = await StorageService.getPresetsForPage(pageData.id);
         const presetValues = [];
         presets.forEach((preset) => {
             if (preset.formData?.length > 0) {
@@ -1237,8 +1674,7 @@ async function setupImportSection(popup, inputElement, pageData, afterClick) {
                     { text: displayValue, title: value },
                 ], () => {
                     if (currentInputElement) {
-                        currentInputElement.value = value;
-                        currentInputElement.dispatchEvent(new Event('input', { bubbles: true }));
+                        setEditableValue(currentInputElement, value);
                     }
                     afterClick?.();
                 });
@@ -1279,16 +1715,12 @@ async function setupSaveSection(popup, inputElement, pageData) {
         }
     };
     // Auto-generate name from field attributes
-    nameInput.value = String(inputElement.getAttribute('aria-label') ||
-        inputElement.getAttribute('placeholder') ||
-        inputElement.name ||
-        inputElement.getAttribute('title') ||
-        'Input Field');
+    nameInput.value = getElementLabel(inputElement);
     // Auto-populate test ID and selector
     populateIdentifiers(inputElement, testIdInput, selectorInput);
     // Populate preset selector
     if (pageData?.id) {
-        const presets = await storage_service_StorageService.getPresetsForPage(pageData.id);
+        const presets = await StorageService.getPresetsForPage(pageData.id);
         if (presets.length > 0) {
             presets.forEach((preset) => {
                 const option = document.createElement('option');
@@ -1300,7 +1732,7 @@ async function setupSaveSection(popup, inputElement, pageData) {
     }
     // Apply default save target from settings
     try {
-        const settings = await storage_service_StorageService.getSettings();
+        const settings = await StorageService.getSettings();
         if (settings && settings.defaultSaveItemTo) {
             // If there are no presets available, don't default to 'preset'
             const hasPresets = presetSelector.options.length > 0;
@@ -1334,7 +1766,7 @@ async function setupSaveSection(popup, inputElement, pageData) {
     // Save button handler
     saveBtn.addEventListener('click', async () => {
         const name = nameInput.value.trim();
-        const value = inputElement.value;
+        const value = getEditableValue(inputElement);
         const testId = testIdInput.value.trim();
         const selector = selectorInput.value.trim();
         const currentUrl = window.location.href;
@@ -1349,12 +1781,12 @@ async function setupSaveSection(popup, inputElement, pageData) {
         }
         if (saveTarget.value === 'savedValues') {
             // Get page data to find pageId
-            const currentPageData = await storage_service_StorageService.getCurrentPageData(currentUrl);
+            const currentPageData = await StorageService.getCurrentPageData(currentUrl);
             if (!currentPageData) {
                 dispatchNotification('Page not found');
                 return;
             }
-            await storage_service_StorageService.addSavedValue(currentPageData.id, {
+            await StorageService.addSavedValue(currentPageData.id, {
                 id: generateGuid(),
                 label: name,
                 value: value,
@@ -1371,7 +1803,7 @@ async function setupSaveSection(popup, inputElement, pageData) {
                 dispatchNotification('Please select a preset');
                 return;
             }
-            const preset = await storage_service_StorageService.getPresetById(presetId);
+            const preset = await StorageService.getPresetById(presetId);
             if (preset) {
                 // Only check for duplicates if both testId AND querySelector match
                 const existingField = preset.formData.find((f) => testId && selector && f.testId === testId && f.querySelector === selector);
@@ -1383,7 +1815,7 @@ async function setupSaveSection(popup, inputElement, pageData) {
                 const maxOrder = preset.formData.reduce((max, item) => Math.max(max, item.order || 0), 0);
                 const fieldData = {
                     id: generateGuid(),
-                    type: (inputElement.tagName === 'TEXTAREA' ? 'text' : 'text'),
+                    type: getFieldTypeForElement(inputElement),
                     title: name,
                     value: value,
                     testId: testId,
@@ -1395,7 +1827,7 @@ async function setupSaveSection(popup, inputElement, pageData) {
                     order: maxOrder + 1
                 };
                 preset.formData.push(fieldData);
-                await storage_service_StorageService.updatePreset(presetId, {
+                await StorageService.updatePreset(presetId, {
                     formData: preset.formData
                 });
                 dispatchNotification('Value saved to preset successfully!');
@@ -1405,182 +1837,6 @@ async function setupSaveSection(popup, inputElement, pageData) {
     });
 }
 
-;// ./src/utils/common.ts
-/**
- * Common utility functions shared across the application
- */
-
-
-/**
- * Escape HTML special characters to prevent XSS
- */
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-/**
- * Format date string to human-readable format
- */
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-    if (diffMins < 1)
-        return 'Just now';
-    if (diffMins < 60)
-        return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
-    if (diffHours < 24)
-        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays < 7)
-        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-    return date.toLocaleDateString();
-}
-/**
- * Initialize version display - Read from manifest and update all data-version elements
- */
-async function initVersion() {
-    try {
-        const manifest = chrome.runtime.getManifest();
-        const versionText = `Version: ${manifest.version} | Author: The Long Ride`;
-        const versionElements = document.querySelectorAll('[data-version]');
-        versionElements.forEach(element => {
-            element.textContent = versionText;
-        });
-    }
-    catch (error) {
-        console.error('Failed to initialize version:', error);
-    }
-}
-/**
- * Initialize theme system - Uses StorageService for persistence
- */
-async function initTheme() {
-    const themeToggle = document.getElementById('themeToggle');
-    // Load theme from StorageService
-    const theme = await StorageService.getTheme();
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcons(theme);
-    themeToggle?.addEventListener('click', toggleTheme);
-}
-/**
- * Toggle between light and dark theme
- */
-async function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || THEMES.DARK;
-    const newTheme = currentTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
-    document.documentElement.setAttribute('data-theme', newTheme);
-    await StorageService.setTheme(newTheme);
-    updateThemeIcons(newTheme);
-}
-/**
- * Update theme icon display
- */
-function updateThemeIcons(theme) {
-    const lightIcon = document.querySelector('.light-icon, .theme-icon.light-icon');
-    const darkIcon = document.querySelector('.dark-icon, .theme-icon.dark-icon');
-    if (lightIcon && darkIcon) {
-        darkIcon.style.display = theme === THEMES.LIGHT ? 'block' : 'none';
-        lightIcon.style.display = theme === THEMES.LIGHT ? 'none' : 'block';
-    }
-}
-/**
- * Prompt user for confirmation
- */
-function confirmAction(message) {
-    return confirm(message);
-}
-/**
- * Show alert message
- */
-function showAlert(message) {
-    alert(message);
-}
-/**
- * Debounce function execution
- */
-function debounce(func, delay) {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func(...args), delay);
-    };
-}
-/**
- * Sanitize filename for downloads
- */
-function sanitizeFilename(name) {
-    return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-}
-/**
- * Create and trigger file download
- */
-function downloadFile(content, filename, type = 'application/json') {
-    const blob = new Blob([content], { type });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-/**
- * Read file as text
- */
-async function readFileAsText(file) {
-    return await file.text();
-}
-/**
- * Deep clone an object
- */
-function deepClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-}
-/**
- * Check if element is visible
- */
-function isElementVisible(element) {
-    const rect = element.getBoundingClientRect();
-    const style = window.getComputedStyle(element);
-    return (style.display !== 'none' &&
-        style.visibility !== 'hidden');
-}
-/**
- * Get element position for sorting
- */
-function getElementPosition(element) {
-    const rect = element.getBoundingClientRect();
-    return {
-        top: rect.top + window.scrollY,
-        left: rect.left + window.scrollX
-    };
-}
-/**
- * Retry async operation with exponential backoff
- */
-async function retryAsync(operation, maxRetries = 3, delay = 100) {
-    for (let i = 0; i < maxRetries; i++) {
-        try {
-            return await operation();
-        }
-        catch (error) {
-            if (i === maxRetries - 1)
-                throw error;
-            await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-        }
-    }
-    throw new Error('Max retries exceeded');
-}
-/**
- * Wait for specified milliseconds
- */
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 ;// ./src/content/content.ts
 
 
@@ -1588,7 +1844,6 @@ function wait(ms) {
 
 
 
-// ICON_MAP not used in this file anymore
 
 
 let autoFillPopup = null;
@@ -1621,7 +1876,7 @@ async function init() {
             console.warn('Freak Filler: Extension context invalid at init');
             return;
         }
-        currentSettings = await storage_service_StorageService.getSettings();
+        currentSettings = await StorageService.getSettings();
         // Always attach listeners - the popup shows based on settings
         attachInputListeners();
     }
@@ -1667,20 +1922,16 @@ async function handleInputClick(event) {
     if (target.closest('.form-filler-popup')) {
         return;
     }
-    // Handle text inputs, textareas, date pickers, and dropdowns
-    if ((target.tagName === 'INPUT' && ['text', 'date', 'datetime-local', 'email', 'tel', 'number', 'search', 'url', 'range', 'color'].includes(target.type)) ||
-        target.tagName === 'TEXTAREA' ||
-        target.tagName === 'SELECT') {
-        if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) {
-            content_currentInputElement = target;
-            try {
-                await showFillingAssistantPopup(content_currentInputElement);
-            }
-            catch (error) {
-                console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-                contextInvalidated = true;
-                removePopup();
-            }
+    const editableElement = getAssistantElementFromTarget(target);
+    if (editableElement) {
+        content_currentInputElement = editableElement;
+        try {
+            await showFillingAssistantPopup(content_currentInputElement);
+        }
+        catch (error) {
+            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+            contextInvalidated = true;
+            removePopup();
         }
     }
 }
@@ -1704,18 +1955,16 @@ async function handleInputFocus(event) {
     if (target.closest('.form-filler-popup')) {
         return;
     }
-    if ((target.tagName === 'INPUT' && !['submit', 'reset'].includes(target.type)) ||
-        target.tagName === 'TEXTAREA') {
-        if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
-            content_currentInputElement = target;
-            try {
-                await showFillingAssistantPopup(content_currentInputElement);
-            }
-            catch (error) {
-                console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-                contextInvalidated = true;
-                removePopup();
-            }
+    const editableElement = getAssistantElementFromTarget(target);
+    if (editableElement) {
+        content_currentInputElement = editableElement;
+        try {
+            await showFillingAssistantPopup(content_currentInputElement);
+        }
+        catch (error) {
+            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+            contextInvalidated = true;
+            removePopup();
         }
     }
 }
@@ -1723,8 +1972,10 @@ async function handleInputFocus(event) {
 function handleContextMenu(event) {
     const mouseEvent = event;
     const initial = document.elementFromPoint(mouseEvent.clientX, mouseEvent.clientY) || event.target;
-    // First priority: Editable controls (inputs, textareas, selects, contenteditable) - check if clicked element or ancestor is editable
-    const editable = initial.closest('input, textarea, select, [contenteditable]');
+    lastContextMenuTarget = null;
+    lastContextMenuTargetType = null;
+    // First priority: editable controls, including contenteditable HTML editors.
+    const editable = getAssistantElementFromTarget(initial);
     if (editable) {
         lastContextMenuTarget = editable;
         lastContextMenuTargetType = 'editable';
@@ -1755,7 +2006,7 @@ function handleContextMenu(event) {
                     }
                 }
                 else {
-                    const inner = label.querySelector('input, textarea, select');
+                    const inner = label.querySelector(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
                     if (inner) {
                         lastContextMenuTarget = inner;
                         lastContextMenuTargetType = 'label-associated';
@@ -1808,7 +2059,7 @@ async function showFillingAssistantPopup(inputElement) {
     setCurrentInputElement(inputElement);
     // Get page data
     const currentUrl = window.location.href;
-    const pageData = await storage_service_StorageService.getCurrentPageData(currentUrl);
+    const pageData = await StorageService.getCurrentPageData(currentUrl);
     // Show toast if save/import enabled but no page profile
     if (!pageData && (currentSettings?.enableSaveValue || currentSettings?.enableImportValue) &&
         (!currentSettings?.enableRandomStringInAssistant &&
@@ -1826,11 +2077,7 @@ async function showFillingAssistantPopup(inputElement) {
     if (!hasFeatures) {
         return;
     }
-    // Determine the input type to decide which sections are allowed
-    const textLikeTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'];
-    const inputType = (inputElement instanceof HTMLInputElement) ? (inputElement.type || 'text') : inputElement.tagName.toLowerCase();
-    // Allow text-like sections for inputs and for textareas
-    const allowTextSections = (inputElement instanceof HTMLTextAreaElement) || textLikeTypes.includes(inputType);
+    const allowTextSections = allowsTextActions(inputElement);
     const popup = createPopup(pageData, allowTextSections);
     autoFillPopup = popup;
     // Append to body first to calculate height
@@ -1852,7 +2099,7 @@ async function showFillingAssistantPopup(inputElement) {
         });
     }
     if (currentSettings?.enableRandomStringInAssistant && allowTextSections) {
-        setupRandomStringSection(popup, inputElement, currentUrl);
+        setupRandomStringSection(popup, inputElement);
     }
     if (currentSettings?.enableLocatorRetriever) {
         setupLocatorRetrieverSection(popup, inputElement);
@@ -2058,14 +2305,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     else if (request.action === 'showAssistantFromContextMenu') {
         // Show assistant for the element that was right-clicked
-        storage_service_StorageService.getSettings().then((settings) => {
-            const enabled = settings?.enableSaveValue || settings?.enableImportValue || settings?.enableLiveAssistant || settings?.enableRandomStringInAssistant;
+        StorageService.getSettings().then((settings) => {
+            const enabled = settings?.enableSaveValue ||
+                settings?.enableImportValue ||
+                settings?.enableLiveAssistant ||
+                settings?.enableRandomStringInAssistant ||
+                settings?.enableLocatorRetriever ||
+                settings?.enableRegexPattern;
             if (!enabled) {
                 sendResponse({ success: false, error: 'Assistant disabled in settings' });
                 return;
             }
-            if (lastContextMenuTarget) {
-                // Type-check: showAutoFillPopup expects HTMLInputElement/TextAreaElement/SelectElement
+            if (lastContextMenuTarget && isAssistantElement(lastContextMenuTarget)) {
                 content_currentInputElement = lastContextMenuTarget;
                 showFillingAssistantPopup(content_currentInputElement).then(() => {
                     sendResponse({ success: true });
@@ -2074,7 +2325,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 });
             }
             else {
-                sendResponse({ success: false, error: 'No target element' });
+                sendResponse({ success: false, error: 'No editable target element' });
             }
         }).catch(err => {
             console.warn('Failed to read settings before showing assistant', err);
@@ -2127,178 +2378,34 @@ function decodeHtmlEntities(text) {
         return text;
     }
 }
-// Get label for an input element with priority order
-function getElementLabel(element) {
-    // 1. Closest label tag
-    const closestLabel = element.closest('label');
-    if (closestLabel && closestLabel.textContent?.trim()) {
-        return closestLabel.textContent.trim();
-    }
-    // 2. Label tag with for="element.id"
-    if (element.id) {
-        const labelFor = document.querySelector(`label[for="${element.id}"]`);
-        if (labelFor && labelFor.textContent?.trim()) {
-            return labelFor.textContent.trim();
-        }
-    }
-    // 3. aria-label attribute
-    const ariaLabel = element.getAttribute('aria-label');
-    if (ariaLabel?.trim()) {
-        return ariaLabel.trim();
-    }
-    // 4. title attribute
-    if (element.title?.trim()) {
-        return element.title.trim();
-    }
-    // 5. placeholder attribute
-    const placeholder = element.getAttribute('placeholder');
-    if (placeholder?.trim()) {
-        return placeholder.trim();
-    }
-    // 6. name attribute
-    if (element.name?.trim()) {
-        return element.name.trim();
-    }
-    // 7. data-testid attribute
-    const testId = element.getAttribute('data-testid');
-    if (testId?.trim()) {
-        return testId.trim();
-    }
-    // 8. id attribute
-    if (element.id?.trim()) {
-        return element.id.trim();
-    }
-    // 9. Look for nearby text content in parent elements
-    let parent = element.parentElement;
-    for (let i = 0; i < 3 && parent; i++) {
-        // Skip if parent is a form or div with many children
-        if (parent.tagName === 'FORM' || (parent.tagName === 'DIV' && parent.children.length > 5)) {
-            parent = parent.parentElement;
-            continue;
-        }
-        // Look for text content in the parent
-        const textContent = parent.textContent?.trim();
-        if (textContent && textContent.length < 100 && textContent !== element.value) {
-            // Remove the element's own text if it's included
-            const elementText = element.textContent?.trim() || '';
-            const cleanText = textContent.replace(elementText, '').trim();
-            if (cleanText && cleanText.length < 50) {
-                return cleanText;
-            }
-        }
-        parent = parent.parentElement;
-    }
-    // 10. Look for preceding sibling text
-    const prevSibling = element.previousElementSibling;
-    if (prevSibling && prevSibling.textContent?.trim()) {
-        const text = prevSibling.textContent.trim();
-        if (text.length < 50) {
-            return text;
-        }
-    }
-    // 11. Fallback: Generate meaningful name from element attributes
-    const type = element.type || 'text';
-    const name = element.name || '';
-    const id = element.id || '';
-    if (name) {
-        // Convert camelCase or snake_case to readable text
-        return name.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim();
-    }
-    if (id) {
-        // Convert camelCase or snake_case to readable text
-        return id.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim();
-    }
-    // Type-based fallback
-    const typeLabels = {
-        'text': 'Text Field',
-        'email': 'Email',
-        'password': 'Password',
-        'tel': 'Phone',
-        'url': 'Website',
-        'search': 'Search',
-        'number': 'Number',
-        'range': 'Range',
-        'date': 'Date',
-        'datetime-local': 'Date & Time',
-        'color': 'Color',
-        'checkbox': 'Checkbox',
-        'radio': 'Radio Button'
-    };
-    return typeLabels[type] || 'Form Field';
-}
 // Scan form fields on the page
 function scanFormFields() {
     const fields = [];
     const scannedElements = new Set();
-    // Helper to check if value is a placeholder or default
-    const isPlaceholderValue = (element, value) => {
-        if (!value)
-            return false;
-        // Check if value matches placeholder
-        const placeholder = element.getAttribute('placeholder');
-        if (placeholder && value === placeholder)
-            return true;
-        // Check for common default values
-        if (['x', 'X', '0.00', '0', '00/00/0000', 'MM/DD/YYYY'].includes(value.trim()))
-            return true;
-        // Check if it's a date field with default date
-        if (element.type === 'date' && value === '02/06/2026')
-            return true;
-        return false;
+    const scanElements = (selector, getValue, typeOverride) => {
+        document.querySelectorAll(selector).forEach(element => {
+            addScannedField(element, getValue, typeOverride);
+        });
     };
-    // Scan text inputs
-    document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input[type="search"], input:not([type])').forEach(input => {
-        if (scannedElements.has(input))
+    const addScannedField = (element, getValue, typeOverride) => {
+        if (scannedElements.has(element))
             return;
-        if (!isElementVisible(input))
+        if (!isElementVisible(element))
             return;
-        scannedElements.add(input);
-        const inputEl = input;
-        const testId = inputEl.getAttribute('data-testid') || inputEl.id || '';
-        const querySelector = getElementSelector(inputEl);
-        const label = getElementLabel(inputEl);
-        console.log('Scanned text input:', { selector: querySelector, label, value: inputEl.value });
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'text',
-            title: label,
-            value: isPlaceholderValue(inputEl, inputEl.value) ? '' : (inputEl.value || ''),
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(inputEl)
-        });
-    });
-    // Scan search inputs
-    document.querySelectorAll('input[type="search"]').forEach(input => {
-        if (scannedElements.has(input))
+        if (element.closest('.form-filler-popup'))
             return;
-        if (!isElementVisible(input))
+        if (isHtmlEditorElement(element) && isNestedHtmlEditorElement(element))
             return;
-        scannedElements.add(input);
-        const inputEl = input;
-        const testId = inputEl.getAttribute('data-testid') || inputEl.id || '';
-        const querySelector = getElementSelector(inputEl);
-        const label = getElementLabel(inputEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'search',
-            title: label,
-            value: isPlaceholderValue(inputEl, inputEl.value) ? '' : (inputEl.value || ''),
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(inputEl)
-        });
-    });
+        scannedElements.add(element);
+        fields.push(createScannedField(element, typeOverride || getFieldTypeForElement(element), getValue(element), fields.length + 1));
+    };
+    const getInputValue = (element) => {
+        const value = getEditableValue(element);
+        return isPlaceholderValue(element, value) ? '' : value;
+    };
+    // Scan search before the broader text selector so it keeps its specific type.
+    scanElements('input[type="search"]', getInputValue, 'search');
+    scanElements('input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], input:not([type])', getInputValue, 'text');
     // Scan radio inputs: only capture the currently checked radio for each named group.
     const allRadios = Array.from(document.querySelectorAll('input[type="radio"]'));
     const radiosByName = new Map();
@@ -2312,235 +2419,27 @@ function scanFormFields() {
         if (name) {
             // For named groups, only include the checked radio
             const checked = group.find(r => r.checked);
-            if (checked && !scannedElements.has(checked) && isElementVisible(checked)) {
-                scannedElements.add(checked);
-                const testId = checked.getAttribute('data-testid') || checked.id || '';
-                const querySelector = getElementSelector(checked);
-                const label = getElementLabel(checked) || checked.value;
-                fields.push({
-                    id: `${Date.now()}_${fields.length}`,
-                    type: 'radio',
-                    title: label,
-                    value: checked.value || '',
-                    testId,
-                    querySelector,
-                    fillDelay: DEFAULTS.FILL_DELAY,
-                    autoBlur: DEFAULTS.AUTO_BLUR,
-                    createdAt: getCurrentTimestamp(),
-                    updatedAt: getCurrentTimestamp(),
-                    order: fields.length + 1,
-                    position: getElementPosition(checked)
-                });
+            if (checked) {
+                addScannedField(checked, element => getEditableValue(element) || '', 'radio');
             }
         }
         else {
             // For radios without a name, treat each radio individually but only if checked
             group.forEach(radioEl => {
-                if (radioEl.checked && !scannedElements.has(radioEl) && isElementVisible(radioEl)) {
-                    scannedElements.add(radioEl);
-                    const testId = radioEl.getAttribute('data-testid') || radioEl.id || '';
-                    const querySelector = getElementSelector(radioEl);
-                    const label = getElementLabel(radioEl) || radioEl.value;
-                    fields.push({
-                        id: `${Date.now()}_${fields.length}`,
-                        type: 'radio',
-                        title: label,
-                        value: radioEl.value || '',
-                        testId,
-                        querySelector,
-                        fillDelay: DEFAULTS.FILL_DELAY,
-                        autoBlur: DEFAULTS.AUTO_BLUR,
-                        createdAt: getCurrentTimestamp(),
-                        updatedAt: getCurrentTimestamp(),
-                        order: fields.length + 1,
-                        position: getElementPosition(radioEl)
-                    });
+                if (radioEl.checked) {
+                    addScannedField(radioEl, element => getEditableValue(element) || '', 'radio');
                 }
             });
         }
     });
-    // Scan range inputs
-    document.querySelectorAll('input[type="range"]').forEach(range => {
-        if (scannedElements.has(range))
-            return;
-        if (!isElementVisible(range))
-            return;
-        scannedElements.add(range);
-        const rangeEl = range;
-        const testId = rangeEl.getAttribute('data-testid') || rangeEl.id || '';
-        const querySelector = getElementSelector(rangeEl);
-        const label = getElementLabel(rangeEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'range',
-            title: label,
-            value: rangeEl.value || '',
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(rangeEl)
-        });
-    });
-    // Scan number inputs
-    document.querySelectorAll('input[type="number"]').forEach(number => {
-        if (scannedElements.has(number))
-            return;
-        if (!isElementVisible(number))
-            return;
-        scannedElements.add(number);
-        const numberEl = number;
-        const testId = numberEl.getAttribute('data-testid') || numberEl.id || '';
-        const querySelector = getElementSelector(numberEl);
-        const label = getElementLabel(numberEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'number',
-            title: label,
-            value: isPlaceholderValue(numberEl, numberEl.value) ? '' : (numberEl.value || ''),
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(numberEl)
-        });
-    });
-    // Scan color inputs
-    document.querySelectorAll('input[type="color"]').forEach(color => {
-        if (scannedElements.has(color))
-            return;
-        if (!isElementVisible(color))
-            return;
-        scannedElements.add(color);
-        const colorEl = color;
-        const testId = colorEl.getAttribute('data-testid') || colorEl.id || '';
-        const querySelector = getElementSelector(colorEl);
-        const label = getElementLabel(colorEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'color',
-            title: label,
-            value: colorEl.value || '#000000',
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(colorEl)
-        });
-    });
-    // Scan date/datetime-local inputs
-    document.querySelectorAll('input[type="date"], input[type="datetime-local"]').forEach(date => {
-        if (scannedElements.has(date))
-            return;
-        if (!isElementVisible(date))
-            return;
-        scannedElements.add(date);
-        const dateEl = date;
-        const testId = dateEl.getAttribute('data-testid') || dateEl.id || '';
-        const querySelector = getElementSelector(dateEl);
-        const label = getElementLabel(dateEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'datepicker',
-            title: label,
-            value: isPlaceholderValue(dateEl, dateEl.value) ? '' : (dateEl.value || ''),
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(dateEl)
-        });
-    });
-    // Scan textareas
-    document.querySelectorAll('textarea').forEach(textarea => {
-        if (scannedElements.has(textarea))
-            return;
-        if (!isElementVisible(textarea))
-            return;
-        scannedElements.add(textarea);
-        const textareaEl = textarea;
-        const testId = textareaEl.getAttribute('data-testid') || textareaEl.id || '';
-        const querySelector = getElementSelector(textareaEl);
-        const label = getElementLabel(textareaEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'text',
-            title: label,
-            value: isPlaceholderValue(textareaEl, textareaEl.value) ? '' : (textareaEl.value || ''),
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(textareaEl)
-        });
-    });
-    // Scan checkboxes
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        if (scannedElements.has(checkbox))
-            return;
-        if (!isElementVisible(checkbox))
-            return;
-        scannedElements.add(checkbox);
-        const checkboxEl = checkbox;
-        const testId = checkboxEl.getAttribute('data-testid') || checkboxEl.id || '';
-        const querySelector = getElementSelector(checkboxEl);
-        const label = getElementLabel(checkboxEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'checkbox',
-            title: label,
-            value: checkboxEl.checked ? true : false,
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(checkboxEl)
-        });
-    });
-    // Scan select dropdowns
-    document.querySelectorAll('select').forEach(select => {
-        if (scannedElements.has(select))
-            return;
-        if (!isElementVisible(select))
-            return;
-        scannedElements.add(select);
-        const selectEl = select;
-        const testId = selectEl.getAttribute('data-testid') || selectEl.id || '';
-        const querySelector = getElementSelector(selectEl);
-        const label = getElementLabel(selectEl);
-        fields.push({
-            id: `${Date.now()}_${fields.length}`,
-            type: 'dropdown',
-            title: label,
-            value: selectEl.value || '',
-            testId,
-            querySelector,
-            fillDelay: DEFAULTS.FILL_DELAY,
-            autoBlur: DEFAULTS.AUTO_BLUR,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp(),
-            order: fields.length + 1,
-            position: getElementPosition(selectEl)
-        });
-    });
+    scanElements('input[type="range"]', element => getEditableValue(element) || '', 'range');
+    scanElements('input[type="number"]', getInputValue, 'number');
+    scanElements('input[type="color"]', element => getEditableValue(element) || '#000000', 'color');
+    scanElements('input[type="date"], input[type="datetime-local"]', getInputValue, 'datepicker');
+    scanElements('textarea', getInputValue, 'text');
+    scanElements('input[type="checkbox"]', element => element.checked, 'checkbox');
+    scanElements('select', element => getEditableValue(element) || '', 'dropdown');
+    scanElements(HTML_EDITOR_SELECTOR, element => getEditableValue(element), 'htmlEditor');
     // Sort fields by position (top-left to bottom-right)
     fields.sort((a, b) => {
         const posA = a.position;
@@ -2553,6 +2452,16 @@ function scanFormFields() {
         return posA.left - posB.left;
     });
     return fields;
+}
+function isPlaceholderValue(element, value) {
+    if (!value)
+        return false;
+    const placeholder = element.getAttribute('placeholder');
+    if (placeholder && value === placeholder)
+        return true;
+    if (['x', 'X', '0.00', '0', '00/00/0000', 'MM/DD/YYYY'].includes(value.trim()))
+        return true;
+    return element instanceof HTMLInputElement && element.type === 'date' && value === '02/06/2026';
 }
 // Show temporary notification
 // Notifications handled by src/utils/notification.ts (listens for formFiller:notify events)
@@ -2580,149 +2489,103 @@ async function applypresetToPage(formData) {
 }
 // Apply single field to page
 async function applyFieldToPage(field) {
-    return new Promise((resolve) => {
-        let element = null;
-        // Try to find element by test ID first
-        if (field.testId) {
-            element = document.querySelector(`[data-testid="${field.testId}"]`);
-        }
-        // Try query selector if test ID didn't work
-        if (!element && field.querySelector) {
+    const element = findFieldElement(field);
+    if (!element) {
+        return;
+    }
+    if (field.type === 'checkbox') {
+        applyCheckboxField(element, field);
+        return;
+    }
+    if (field.type === 'radio') {
+        applyRadioField(element, field);
+        return;
+    }
+    if (field.type === 'clickable') {
+        await waitFor(parseInt(String(field.value), 10) || 0);
+        simulateClick(element);
+        blurAfterFill(element, field);
+        return;
+    }
+    const value = field.type === 'dynamicDate'
+        ? getDynamicDateValue(field.value)
+        : getFieldValueForFill(field);
+    setEditableValue(element, value);
+    blurAfterFill(element, field);
+    await waitFor(field.fillDelay);
+}
+function findFieldElement(field) {
+    let element = null;
+    if (field.testId) {
+        element = document.querySelector(`[data-testid="${field.testId}"]`);
+    }
+    if (!element && field.querySelector) {
+        try {
             element = document.querySelector(field.querySelector);
         }
-        if (element) {
-            if (field.type === 'checkbox') {
-                if (element.checked !== field.value)
-                    simulateClick(element);
-                // Optionally blur after fill
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                resolve();
-            }
-            else if (field.type === 'radio') {
-                // For radio buttons, select the one with matching value
-                const radios = document.querySelectorAll(`input[type="radio"][name="${element.name}"]`);
-                radios.forEach(radio => {
-                    if (radio.value === String(field.value)) {
-                        simulateClick(radio);
-                        if (!radio.checked) {
-                            radio.checked = true;
-                        }
-                    }
-                });
-                // Trigger change and input events
-                element.dispatchEvent(new Event('input', { bubbles: true }));
-                element.dispatchEvent(new Event('change', { bubbles: true }));
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                resolve();
-            }
-            else if (field.type === 'clickable') {
-                // For clickable elements, wait for specified delay then click
-                const delay = parseInt(String(field.value)) || 0;
-                setTimeout(() => {
-                    simulateClick(element);
-                    if (field.autoBlur) {
-                        element.blur();
-                    }
-                    resolve();
-                }, delay);
-            }
-            else if (field.type === 'range' || field.type === 'number') {
-                // For range and number inputs
-                element.value = decodeHtmlEntities(String(field.value));
-                // Trigger change and input events
-                element.dispatchEvent(new Event('input', { bubbles: true }));
-                element.dispatchEvent(new Event('change', { bubbles: true }));
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                setTimeout(resolve, field.fillDelay);
-            }
-            else if (field.type === 'color') {
-                // For color inputs
-                element.value = decodeHtmlEntities(String(field.value));
-                // Trigger change and input events
-                element.dispatchEvent(new Event('input', { bubbles: true }));
-                element.dispatchEvent(new Event('change', { bubbles: true }));
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                setTimeout(resolve, field.fillDelay);
-            }
-            else if (field.type === 'datepicker') {
-                // For date inputs
-                element.value = decodeHtmlEntities(String(field.value));
-                // Trigger change and input events
-                element.dispatchEvent(new Event('input', { bubbles: true }));
-                element.dispatchEvent(new Event('change', { bubbles: true }));
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                setTimeout(resolve, field.fillDelay);
-            }
-            else if (field.type === 'dynamicDate') {
-                // For dynamicDate, calculate the date based on offsets
-                try {
-                    const offsets = JSON.parse(String(field.value));
-                    const years = offsets.years || 0;
-                    const months = offsets.months || 0;
-                    const days = offsets.days || 0;
-                    // Calculate the date
-                    const currentDate = new Date();
-                    currentDate.setFullYear(currentDate.getFullYear() + years);
-                    currentDate.setMonth(currentDate.getMonth() + months);
-                    currentDate.setDate(currentDate.getDate() + days);
-                    // Format as YYYY-MM-DD for date inputs
-                    const year = currentDate.getFullYear();
-                    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                    const day = String(currentDate.getDate()).padStart(2, '0');
-                    const dateString = `${year}-${month}-${day}`;
-                    element.value = dateString;
-                    // Trigger change and input events
-                    element.dispatchEvent(new Event('input', { bubbles: true }));
-                    element.dispatchEvent(new Event('change', { bubbles: true }));
-                    if (field.autoBlur) {
-                        element.blur();
-                    }
-                    setTimeout(resolve, field.fillDelay);
-                }
-                catch (e) {
-                    console.error('Failed to parse dynamicDate value:', e);
-                    // If parsing fails, just use current date
-                    const currentDate = new Date();
-                    const year = currentDate.getFullYear();
-                    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                    const day = String(currentDate.getDate()).padStart(2, '0');
-                    element.value = `${year}-${month}-${day}`;
-                    element.dispatchEvent(new Event('input', { bubbles: true }));
-                    element.dispatchEvent(new Event('change', { bubbles: true }));
-                    if (field.autoBlur) {
-                        element.blur();
-                    }
-                    setTimeout(resolve, field.fillDelay);
-                }
-            }
-            else {
-                element.value = decodeHtmlEntities(String(field.value));
-                // Trigger change and input events
-                element.dispatchEvent(new Event('input', { bubbles: true }));
-                element.dispatchEvent(new Event('change', { bubbles: true }));
-                if (field.autoBlur) {
-                    element.blur();
-                }
-                setTimeout(resolve, field.fillDelay);
-            }
+        catch (error) {
+            console.warn('Freak Filler: Invalid selector in preset', field.querySelector, error);
         }
-        else {
-            resolve();
+    }
+    return element instanceof HTMLElement ? element : null;
+}
+function getFieldValueForFill(field) {
+    const value = String(field.value ?? '');
+    return field.type === 'htmlEditor' ? value : decodeHtmlEntities(value);
+}
+function applyCheckboxField(element, field) {
+    const shouldBeChecked = field.value === true || field.value === 'true';
+    if (element instanceof HTMLInputElement && element.checked !== shouldBeChecked) {
+        simulateClick(element);
+    }
+    blurAfterFill(element, field);
+}
+function applyRadioField(element, field) {
+    if (!(element instanceof HTMLInputElement)) {
+        return;
+    }
+    const radios = document.querySelectorAll(`input[type="radio"][name="${element.name}"]`);
+    radios.forEach(radio => {
+        if (radio.value === String(field.value)) {
+            simulateClick(radio);
+            if (!radio.checked) {
+                radio.checked = true;
+            }
         }
     });
+    dispatchValueEvents(element);
+    blurAfterFill(element, field);
+}
+function getDynamicDateValue(value) {
+    try {
+        const offsets = JSON.parse(String(value));
+        return formatDateWithOffsets(offsets.years || 0, offsets.months || 0, offsets.days || 0);
+    }
+    catch (e) {
+        console.error('Failed to parse dynamicDate value:', e);
+        return formatDateWithOffsets(0, 0, 0);
+    }
+}
+function formatDateWithOffsets(years, months, days) {
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() + years);
+    currentDate.setMonth(currentDate.getMonth() + months);
+    currentDate.setDate(currentDate.getDate() + days);
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+function blurAfterFill(element, field) {
+    if (field.autoBlur) {
+        element.blur();
+    }
+}
+function waitFor(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 // Setup random string section
-function setupRandomStringSection(popup, inputElement, currentUrl) {
+function setupRandomStringSection(popup, inputElement) {
     const charsetSelect = popup.querySelector('.charset-select');
     const lengthInput = popup.querySelector('.length-input');
     const enterBtn = popup.querySelector('.enter-btn');
@@ -2745,7 +2608,7 @@ function setupRandomStringSection(popup, inputElement, currentUrl) {
         }
     }
     // Check length configurations
-    storage_service_StorageService.getData().then(data => {
+    StorageService.getData().then(data => {
         if (data?.lengthConfigurations) {
             // Try to match by testId first
             const testId = inputElement.getAttribute('data-testid');
@@ -2778,11 +2641,7 @@ function setupRandomStringSection(popup, inputElement, currentUrl) {
             const charset = charsetSelect.value;
             const length = parseInt(lengthInput.value) || 10;
             const randomString = generateRandomString(length, charset);
-            // Fill the input field with the random string
-            inputElement.value = randomString;
-            // Trigger input and change events to ensure the field registers the change
-            inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-            inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+            setEditableValue(inputElement, randomString);
         }
         catch (error) {
             console.error('Freak Filler: Failed to generate random string:', error);
@@ -2801,9 +2660,10 @@ function setupLocatorRetrieverSection(popup, inputElement) {
     }
     // Get element locators
     const { testId, querySelector } = getElementLocators(inputElement);
+    const selector = querySelector || getElementSelector(inputElement);
     // Populate the display fields
     testIdDisplay.value = testId;
-    selectorDisplay.value = querySelector;
+    selectorDisplay.value = selector;
     // Setup copy buttons
     copyTestIdBtn.addEventListener('click', () => {
         if (testId) {
@@ -2819,9 +2679,9 @@ function setupLocatorRetrieverSection(popup, inputElement) {
         }
     });
     copySelectorBtn.addEventListener('click', () => {
-        if (querySelector) {
-            navigator.clipboard.writeText(querySelector).then(() => {
-                showNotification(`Selector copied: ${querySelector}`);
+        if (selector) {
+            navigator.clipboard.writeText(selector).then(() => {
+                showNotification(`Selector copied: ${selector}`);
             }).catch((error) => {
                 console.error('Freak Filler: Failed to copy selector:', error);
                 showNotification('Failed to copy selector');
@@ -2840,7 +2700,7 @@ function setupRegexPatternSection(popup, inputElement) {
         return;
     }
     // Load regex patterns from storage and render pill buttons
-    storage_service_StorageService.getData().then(data => {
+    StorageService.getData().then(data => {
         buttonsContainer.innerHTML = '';
         if (data?.regexPatterns && data.regexPatterns.length > 0) {
             data.regexPatterns.forEach((pattern) => {
@@ -2872,9 +2732,7 @@ function setupRegexPatternSection(popup, inputElement) {
                             }
                         }
                         const generated = generateFromRegex(pattern.regex, length);
-                        inputElement.value = generated;
-                        inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-                        inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+                        setEditableValue(inputElement, generated);
                         showNotification('Value generated from regex pattern');
                     }
                     catch (err) {
