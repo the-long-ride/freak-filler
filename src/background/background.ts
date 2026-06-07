@@ -47,7 +47,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'showFillingAssistant') {
     // Check settings before sending message
     StorageService.getSettings().then(settings => {
-      const enabled = settings?.enableSaveValue || settings?.enableImportValue || settings?.enableLiveAssistant || settings?.enableRandomStringInAssistant;
+      const enabled =
+        settings?.enableSaveValue ||
+        settings?.enableImportValue ||
+        settings?.enableLiveAssistant ||
+        settings?.enableRandomStringInAssistant ||
+        settings?.enableLocatorRetriever ||
+        settings?.enableRegexPattern;
       if (!enabled) {
         console.log('Assistant disabled by settings; not opening from context menu');
         return;

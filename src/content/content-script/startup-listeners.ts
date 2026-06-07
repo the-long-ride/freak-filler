@@ -68,10 +68,10 @@ export async function init() {
 
 // Attach listeners to input fields
 export function attachInputListeners() {
-    document.addEventListener('focusin', actions.handleInputFocus);
-    document.addEventListener('focusout', actions.handleInputFocusOut);
-    document.addEventListener('click', actions.handleInputClick);
-    document.addEventListener('contextmenu', actions.handleContextMenu);
+    document.addEventListener('focusin', actions.handleInputFocus, true);
+    document.addEventListener('focusout', actions.handleInputFocusOut, true);
+    document.addEventListener('click', actions.handleInputClick, true);
+    document.addEventListener('contextmenu', actions.handleContextMenu, true);
 }
 
 // Handle input click (for live assistant mode)
