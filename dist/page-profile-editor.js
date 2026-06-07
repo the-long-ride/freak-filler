@@ -1,9 +1,478 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/startup.ts
+var startup_namespaceObject = {};
+__webpack_require__.r(startup_namespaceObject);
+__webpack_require__.d(startup_namespaceObject, {
+  init: () => (init),
+  loadPagePresets: () => (loadPagePresets),
+  loadPreset: () => (loadPreset),
+  loadSavedValues: () => (loadSavedValues),
+  setupPresetOnlyModeUI: () => (setupPresetOnlyModeUI),
+  updateLinkPresetsButtonVisibility: () => (updateLinkPresetsButtonVisibility)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/linking-modals.ts
+var linking_modals_namespaceObject = {};
+__webpack_require__.r(linking_modals_namespaceObject);
+__webpack_require__.d(linking_modals_namespaceObject, {
+  showLinkPresetToPagesModal: () => (showLinkPresetToPagesModal),
+  showLinkPresetsToPageModal: () => (showLinkPresetsToPageModal)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/page-profile-actions.ts
+var page_profile_actions_namespaceObject = {};
+__webpack_require__.r(page_profile_actions_namespaceObject);
+__webpack_require__.d(page_profile_actions_namespaceObject, {
+  checkPageProfileChanges: () => (checkPageProfileChanges),
+  checkPresetInfoChanges: () => (checkPresetInfoChanges),
+  deleteCurrentPreset: () => (deleteCurrentPreset),
+  resetPageProfile: () => (resetPageProfile),
+  resetPresetData: () => (resetPresetData),
+  resetSavedValuesData: () => (resetSavedValuesData),
+  savePageProfile: () => (savePageProfile),
+  savePresetData: () => (savePresetData),
+  saveSavedValuesData: () => (saveSavedValuesData),
+  setupPageProfileChangeTracking: () => (setupPageProfileChangeTracking),
+  updatePageProfileButtons: () => (updatePageProfileButtons),
+  updatePresetButtons: () => (updatePresetButtons),
+  updateSavedValuesButtons: () => (updateSavedValuesButtons)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/event-listeners.ts
+var event_listeners_namespaceObject = {};
+__webpack_require__.r(event_listeners_namespaceObject);
+__webpack_require__.d(event_listeners_namespaceObject, {
+  setupEventListeners: () => (setupEventListeners)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/form-data-table.ts
+var form_data_table_namespaceObject = {};
+__webpack_require__.r(form_data_table_namespaceObject);
+__webpack_require__.d(form_data_table_namespaceObject, {
+  addFormDataRow: () => (addFormDataRow),
+  addTableEventListeners: () => (addTableEventListeners),
+  renderFormDataTable: () => (renderFormDataTable)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/form-data-actions.ts
+var form_data_actions_namespaceObject = {};
+__webpack_require__.r(form_data_actions_namespaceObject);
+__webpack_require__.d(form_data_actions_namespaceObject, {
+  cloneRowBelow: () => (cloneRowBelow),
+  deleteFormDataRow: () => (deleteFormDataRow),
+  handleDragEnd: () => (handleDragEnd),
+  handleDragOver: () => (handleDragOver),
+  handleDragStart: () => (handleDragStart),
+  handleDrop: () => (handleDrop),
+  insertRowBelow: () => (insertRowBelow),
+  moveRowToPosition: () => (moveRowToPosition),
+  openShareRowModal: () => (openShareRowModal),
+  reorderFormData: () => (reorderFormData),
+  resetFormData: () => (resetFormData),
+  updateButtonVisibility: () => (updateButtonVisibility),
+  updateFormData: () => (updateFormData)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/preset-persistence.ts
+var preset_persistence_namespaceObject = {};
+__webpack_require__.r(preset_persistence_namespaceObject);
+__webpack_require__.d(preset_persistence_namespaceObject, {
+  exportPageData: () => (exportPageData),
+  exportPresetOnly: () => (exportPresetOnly),
+  importPresetFromJson: () => (importPresetFromJson),
+  saveAllData: () => (saveAllData),
+  savePreset: () => (savePreset),
+  saveSavedValues: () => (saveSavedValues)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/tabs.ts
+var tabs_namespaceObject = {};
+__webpack_require__.r(tabs_namespaceObject);
+__webpack_require__.d(tabs_namespaceObject, {
+  switchTab: () => (switchTab)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/saved-values.ts
+var page_profile_editor_page_saved_values_namespaceObject = {};
+__webpack_require__.r(page_profile_editor_page_saved_values_namespaceObject);
+__webpack_require__.d(page_profile_editor_page_saved_values_namespaceObject, {
+  addSavedValueRow: () => (addSavedValueRow),
+  deleteSavedValue: () => (saved_values_deleteSavedValue),
+  exportSavedValues: () => (exportSavedValues),
+  handleSavedValueInputChange: () => (handleSavedValueInputChange),
+  importSavedValues: () => (importSavedValues),
+  renderSavedValuesTable: () => (renderSavedValuesTable),
+  updateSavedValuesCount: () => (updateSavedValuesCount)
+});
+
+// NAMESPACE OBJECT: ./src/pages/page-profile-editor-page/export-modals.ts
+var export_modals_namespaceObject = {};
+__webpack_require__.r(export_modals_namespaceObject);
+__webpack_require__.d(export_modals_namespaceObject, {
+  performExport: () => (performExport),
+  performPresetExport: () => (performPresetExport),
+  showExportSelectionModal: () => (showExportSelectionModal),
+  showPresetExportSelectionModal: () => (showPresetExportSelectionModal)
+});
+
+;// ./src/pages/page-profile-editor-page/context.ts
+const state = {
+    currentPageId: '',
+    currentPageData: null,
+    currentPresetId: null,
+    currentPreset: null,
+    formDataList: [],
+    originalFormDataList: [],
+    savedValuesList: [],
+    originalSavedValuesList: [],
+    draggedRow: null,
+    hasUnsavedPresetChanges: false,
+    hasUnsavedSavedValuesChanges: false,
+    isPresetOnlyMode: false
+};
+const actions = {};
+
+;// ./src/constants/appConstants.ts
+/**
+ * Application-wide constants
+ */
+// Storage keys
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
+    DATA: 'formFillerData',
+    SETTINGS: 'formFillerSettings',
+    MIGRATION: 'formFillerMigrationCompleted'
+}));
+// Theme constants
+const THEMES = {
+    LIGHT: 'light',
+    DARK: 'dark'
+};
+// Form field types
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
+    TEXT: 'text',
+    SEARCH: 'search',
+    CHECKBOX: 'checkbox',
+    DROPDOWN: 'dropdown',
+    DATEPICKER: 'datepicker',
+    CLICKABLE: 'clickable',
+    RADIO: 'radio',
+    RANGE: 'range',
+    NUMBER: 'number',
+    COLOR: 'color',
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
+// UI messages
+const MESSAGES = (/* unused pure expression or super */ null && ({
+    NO_PAGE_URL: 'Page URL is required',
+    NO_PRESETS: 'No presets yet',
+    NO_PAGES: 'No pages available',
+    NO_FORM_FIELDS: 'No form fields found on the page',
+    CONFIRM_DELETE: 'Are you sure you want to delete this',
+    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
+    SUCCESS_SAVE: 'Saved successfully!',
+    INVALID_DATA: 'Invalid data format'
+}));
+// Default values
+const DEFAULTS = {
+    FILL_DELAY: 0,
+    AUTO_BLUR: true,
+    MUST_BE_MATCHED: false,
+    ENABLE_SAVE_VALUE: true,
+    ENABLE_IMPORT_VALUE: true,
+    ENABLE_LIVE_ASSISTANT: false,
+    DEFAULT_SAVE_ITEM_TO: 'savedValues',
+    THEME: 'light',
+    ENABLE_LOCATOR_RETRIEVER: false,
+    ENABLE_REGEX_PATTERN: false,
+    ENABLE_RANDOM_STRING_SECTION: false,
+    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
+    RANDOM_STRING_CHARSET: 'alphanumeric-special',
+    RANDOM_STRING_LENGTH: 100
+};
+// Limits and thresholds
+const LIMITS = (/* unused pure expression or super */ null && ({
+    PARENT_SEARCH_DEPTH: 7,
+    SAME_ROW_THRESHOLD: 10, // pixels
+    DEFAULT_PAGE_SIZE: 25,
+    MAX_RETRIES: 3,
+    MIN_STRING_LENGTH: 1,
+    MAX_STRING_LENGTH: 99999,
+    QUANTIFIER_MAX_REPEAT: 10
+}));
+// Sort directions
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
+    ASC: 'asc',
+    DESC: 'desc'
+}));
+// CSS class names
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
+    ACTIVE: 'active',
+    CHECKED: 'checked',
+    HIDDEN: 'hidden',
+    DISABLED: 'disabled',
+    LOADING: 'loading'
+}));
+// Export/Import JSON schema
+const EXPORT_SCHEMA = 'form-filler.export.v1';
+// Character sets for random string generation
+const CHAR_SETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    DIGITS: '0123456789',
+    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    CONTROL: '~`\'"\\/',
+    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+}));
+// Random string character set templates
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'alphabet',
+    NUMERIC: 'numeric',
+    ALPHANUMERIC: 'alphanumeric',
+    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
+    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
+}));
+// Default regex patterns
+const DEFAULT_REGEX_PATTERNS = [
+    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
+    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
+    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
+];
+
+;// ./src/services/storage/keys.ts
+const STORAGE_KEY = 'formFillerData';
+const SETTINGS_KEY = 'formFillerSettings';
+
+;// ./src/services/storage/core.ts
+
+
+
+async function initialize() {
+    const data = await StorageService.getData();
+    if (!data) {
+        await StorageService.setData({
+            pages: [],
+            presets: [],
+            presetPageLinks: [],
+            savedValues: [],
+            regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
+            lengthConfigurations: []
+        });
+    }
+    const settings = await StorageService.getSettings();
+    if (!settings) {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme: DEFAULTS.THEME,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
+async function getData() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([STORAGE_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    const data = result[STORAGE_KEY] || null;
+                    // Migration: Convert old mustBeMatched to matchIdentify
+                    if (data && data.pages) {
+                        let needsMigration = false;
+                        data.pages.forEach((page) => {
+                            // Ensure all pages have matchIdentify
+                            if (!page.matchIdentify) {
+                                page.matchIdentify = 'prefixMatch';
+                                needsMigration = true;
+                            }
+                        });
+                        // Save migrated data
+                        if (needsMigration) {
+                            StorageService.setData(data).catch(err => console.error('Migration save failed:', err));
+                        }
+                    }
+                    resolve(data);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage access failed:', error);
+        return null;
+    }
+}
+async function setData(data) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage write failed:', error);
+    }
+}
+async function getSettings() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([SETTINGS_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    let settings = result[SETTINGS_KEY] || null;
+                    // Migrate settings to include new properties
+                    if (settings) {
+                        let needsMigration = false;
+                        const migratedSettings = { ...settings };
+                        if (settings.enableLocatorRetriever === undefined) {
+                            migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRegexPattern === undefined) {
+                            migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRandomStringSectionInPopup === undefined) {
+                            migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringCharset === undefined) {
+                            migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringLength === undefined) {
+                            migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
+                            needsMigration = true;
+                        }
+                        // Save migrated settings
+                        if (needsMigration) {
+                            StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                        }
+                        settings = migratedSettings;
+                    }
+                    resolve(settings);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings access failed:', error);
+        return null;
+    }
+}
+async function setSettings(settings) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings write failed:', error);
+    }
+}
+async function getTheme() {
+    const settings = await StorageService.getSettings();
+    return settings?.theme || 'dark';
+}
+async function setTheme(theme) {
+    const settings = await StorageService.getSettings();
+    if (settings) {
+        settings.theme = theme;
+        await StorageService.setSettings(settings);
+    }
+    else {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
 
 ;// ./src/utils/helpers.ts
-/* unused harmony import specifier */ var CHAR_SETS;
-/* unused harmony import specifier */ var LIMITS;
+/* unused harmony import specifier */ var helpers_CHAR_SETS;
+/* unused harmony import specifier */ var helpers_LIMITS;
 // Utility functions
 
 function generateGuid() {
@@ -37,21 +506,21 @@ function buildQuantityString(quantity) {
 function getCharacterSet(template) {
     switch (template) {
         case 'numeric':
-            return CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.DIGITS;
         case 'alphabet':
-            return CHAR_SETS.ALPHABET;
+            return helpers_CHAR_SETS.ALPHABET;
         case 'alphanumeric':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS;
         case 'alphanumeric-special':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS + helpers_CHAR_SETS.SPECIAL;
         case 'alphanumeric-special-control':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL + CHAR_SETS.CONTROL;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS + helpers_CHAR_SETS.SPECIAL + helpers_CHAR_SETS.CONTROL;
         default:
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS;
     }
 }
 function generateRandomString(length, charset) {
-    const constrainedLength = constrainNumber(length, LIMITS.MIN_STRING_LENGTH, LIMITS.MAX_STRING_LENGTH);
+    const constrainedLength = constrainNumber(length, helpers_LIMITS.MIN_STRING_LENGTH, helpers_LIMITS.MAX_STRING_LENGTH);
     let chars;
     if (['numeric', 'alphabet', 'alphanumeric', 'alphanumeric-special', 'alphanumeric-special-control'].includes(charset)) {
         chars = getCharacterSet(charset);
@@ -115,7 +584,7 @@ function generateFromRegex(regex, length) {
                 }
                 else if (next === 'w') {
                     // Word character (alphanumeric + underscore)
-                    generatedPart = () => CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * CHAR_SETS.WORD_CHARS.length)];
+                    generatedPart = () => helpers_CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * helpers_CHAR_SETS.WORD_CHARS.length)];
                 }
                 else {
                     // Other escaped characters (literal)
@@ -166,7 +635,7 @@ function generateFromRegex(regex, length) {
             }
             else if (char === '.') {
                 // Any character (using alphanumeric set)
-                generatedPart = () => CHAR_SETS.ALPHABET[Math.floor(Math.random() * CHAR_SETS.ALPHABET.length)];
+                generatedPart = () => helpers_CHAR_SETS.ALPHABET[Math.floor(Math.random() * helpers_CHAR_SETS.ALPHABET.length)];
                 i++;
             }
             else if (char === '+' || char === '*' || char === '?' || char === '{') {
@@ -203,7 +672,7 @@ function generateFromRegex(regex, length) {
                 // + (one or more) or * (zero or more)
                 const isPlus = pattern[i] === '+';
                 const min = isPlus ? 1 : 0;
-                const count = min + Math.floor(Math.random() * (LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
+                const count = min + Math.floor(Math.random() * (helpers_LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
                 // Generate the character 'count' times
                 for (let j = 0; j < count && result.length < length; j++) {
                     result += typeof generatedPart === 'function' ? generatedPart() : generatedPart;
@@ -224,592 +693,356 @@ function generateFromRegex(regex, length) {
     }
 }
 
-;// ./src/constants/appConstants.ts
-/**
- * Application-wide constants
- */
-// Storage keys
-const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
-    DATA: 'formFillerData',
-    SETTINGS: 'formFillerSettings',
-    MIGRATION: 'formFillerMigrationCompleted'
-}));
-// Theme constants
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-// Form field types
-const FIELD_TYPES = (/* unused pure expression or super */ null && ({
-    TEXT: 'text',
-    SEARCH: 'search',
-    CHECKBOX: 'checkbox',
-    DROPDOWN: 'dropdown',
-    DATEPICKER: 'datepicker',
-    CLICKABLE: 'clickable',
-    RADIO: 'radio',
-    RANGE: 'range',
-    NUMBER: 'number',
-    COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate',
-    HTML_EDITOR: 'htmlEditor'
-}));
-// UI messages
-const MESSAGES = (/* unused pure expression or super */ null && ({
-    NO_PAGE_URL: 'Page URL is required',
-    NO_PRESETS: 'No presets yet',
-    NO_PAGES: 'No pages available',
-    NO_FORM_FIELDS: 'No form fields found on the page',
-    CONFIRM_DELETE: 'Are you sure you want to delete this',
-    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
-    SUCCESS_SAVE: 'Saved successfully!',
-    INVALID_DATA: 'Invalid data format'
-}));
-// Default values
-const DEFAULTS = {
-    FILL_DELAY: 0,
-    AUTO_BLUR: true,
-    MUST_BE_MATCHED: false,
-    ENABLE_SAVE_VALUE: true,
-    ENABLE_IMPORT_VALUE: true,
-    ENABLE_LIVE_ASSISTANT: false,
-    DEFAULT_SAVE_ITEM_TO: 'savedValues',
-    THEME: 'light',
-    ENABLE_LOCATOR_RETRIEVER: false,
-    ENABLE_REGEX_PATTERN: false,
-    ENABLE_RANDOM_STRING_SECTION: false,
-    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
-    RANDOM_STRING_CHARSET: 'alphanumeric-special',
-    RANDOM_STRING_LENGTH: 100
-};
-// Limits and thresholds
-const appConstants_LIMITS = (/* unused pure expression or super */ null && ({
-    PARENT_SEARCH_DEPTH: 7,
-    SAME_ROW_THRESHOLD: 10, // pixels
-    DEFAULT_PAGE_SIZE: 25,
-    MAX_RETRIES: 3,
-    MIN_STRING_LENGTH: 1,
-    MAX_STRING_LENGTH: 99999,
-    QUANTIFIER_MAX_REPEAT: 10
-}));
-// Sort directions
-const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
-    ASC: 'asc',
-    DESC: 'desc'
-}));
-// CSS class names
-const CSS_CLASSES = (/* unused pure expression or super */ null && ({
-    ACTIVE: 'active',
-    CHECKED: 'checked',
-    HIDDEN: 'hidden',
-    DISABLED: 'disabled',
-    LOADING: 'loading'
-}));
-// Export/Import JSON schema
-const EXPORT_SCHEMA = 'form-filler.export.v1';
-// Character sets for random string generation
-const appConstants_CHAR_SETS = (/* unused pure expression or super */ null && ({
-    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    DIGITS: '0123456789',
-    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    CONTROL: '~`\'"\\/',
-    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
-}));
-// Random string character set templates
-const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
-    ALPHABET: 'alphabet',
-    NUMERIC: 'numeric',
-    ALPHANUMERIC: 'alphanumeric',
-    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
-    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-}));
-// Default regex patterns
-const DEFAULT_REGEX_PATTERNS = [
-    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
-    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
-    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
-];
+;// ./src/services/storage/pages.ts
+
+
+async function getPageByUrl(url, matchIdentify) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => {
+        if (matchIdentify === 'exactMatch') {
+            return page.url === url;
+        }
+        else {
+            return url.startsWith(page.url);
+        }
+    }) || null;
+}
+async function getPageById(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => page.id === pageId) || null;
+}
+async function getCurrentPageData(currentUrl) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    // First try exact match
+    let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
+    // Then try startsWith match
+    if (!page) {
+        page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
+    }
+    return page || null;
+}
+async function addPage(pageData) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing page IDs
+    const existingIds = data.pages.map(p => p.id);
+    const newPage = {
+        ...pageData,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.pages.push(newPage);
+    await StorageService.setData(data);
+    return newPage;
+}
+async function updatePage(id, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const pageIndex = data.pages.findIndex(p => p.id === id);
+    if (pageIndex !== -1) {
+        data.pages[pageIndex] = {
+            ...data.pages[pageIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+
+;// ./src/services/storage/presets.ts
+
+
+async function deletePreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Remove preset
+    data.presets = data.presets.filter(p => p.id !== presetId);
+    // Remove all links to this preset
+    data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
+    await StorageService.setData(data);
+}
+async function getPresetsForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get the actual presets
+    return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+}
+async function getPageIdsForPreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.presetPageLinks
+        .filter(link => link.presetId === presetId)
+        .map(link => link.pageId);
+}
+async function getUnlinkedPresets(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get presets that are NOT linked to this page
+    return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+}
+async function getPresetById(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    const preset = data.presets.find(p => p.id === presetId);
+    return preset || null;
+}
+async function addPreset(preset) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing preset IDs
+    const existingIds = data.presets.map(p => p.id);
+    const newPreset = {
+        ...preset,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.presets.push(newPreset);
+    await StorageService.setData(data);
+    return newPreset;
+}
+async function updatePreset(presetId, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const presetIndex = data.presets.findIndex(p => p.id === presetId);
+    if (presetIndex !== -1) {
+        data.presets[presetIndex] = {
+            ...data.presets[presetIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+async function linkPresetToPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Check if link already exists
+    const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
+    if (!existingLink) {
+        data.presetPageLinks.push({ presetId, pageId });
+        await StorageService.setData(data);
+    }
+}
+async function unlinkPresetFromPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
+    await StorageService.setData(data);
+}
+
+;// ./src/services/storage/saved-values.ts
+
+
+async function addSavedFormData(pageUrl, formData) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    // Generate unique ID that doesn't collide with existing saved value IDs
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newSavedValue = {
+        id: generateUniqueId(existingIds),
+        pageId: page.id,
+        label: formData.title,
+        value: String(formData.value),
+        testId: formData.testId,
+        querySelector: formData.querySelector,
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.savedValues.push(newSavedValue);
+    await StorageService.setData(data);
+}
+async function deleteSavedFormData(pageUrl, savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
+    await StorageService.setData(data);
+}
+async function getSavedFormDataForField(pageUrl, testId, querySelector) {
+    const page = await StorageService.getCurrentPageData(pageUrl);
+    if (!page)
+        return [];
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
+    return savedValuesForPage
+        .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+}
+async function getSavedValuesForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.savedValues.filter(sv => sv.pageId === pageId);
+}
+async function addSavedValue(pageId, savedValue) {
+    const data = await StorageService.getData();
+    if (!data)
+        throw new Error('No data');
+    // Generate unique ID if not provided
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newId = savedValue.id && !existingIds.includes(savedValue.id)
+        ? savedValue.id
+        : generateUniqueId(existingIds);
+    // Create the saved value
+    const newSavedValue = {
+        id: newId,
+        pageId,
+        label: savedValue.label || '',
+        value: savedValue.value || '',
+        testId: savedValue.testId || '',
+        querySelector: savedValue.querySelector || '',
+        createdAt: savedValue.createdAt || getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    // Check if saved value already exists for this page and id
+    const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
+    if (existingIndex !== -1) {
+        // Update existing saved value
+        data.savedValues[existingIndex] = newSavedValue;
+    }
+    else {
+        // Add new saved value
+        data.savedValues.push(newSavedValue);
+    }
+    await StorageService.setData(data);
+    return newSavedValue;
+}
+async function deleteSavedValue(savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
+    await StorageService.setData(data);
+}
 
 ;// ./src/services/storage.service.ts
 
-
-const STORAGE_KEY = 'formFillerData';
-const SETTINGS_KEY = 'formFillerSettings';
 class StorageService {
-    // Initialize storage with default data
     static async initialize() {
-        const data = await this.getData();
-        if (!data) {
-            await this.setData({
-                pages: [],
-                presets: [],
-                presetPageLinks: [],
-                savedValues: [],
-                regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
-                lengthConfigurations: []
-            });
-        }
-        const settings = await this.getSettings();
-        if (!settings) {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme: DEFAULTS.THEME,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return initialize();
     }
-    // Get all data
     static async getData() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([STORAGE_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        const data = result[STORAGE_KEY] || null;
-                        // Migration: Convert old mustBeMatched to matchIdentify
-                        if (data && data.pages) {
-                            let needsMigration = false;
-                            data.pages.forEach((page) => {
-                                // Ensure all pages have matchIdentify
-                                if (!page.matchIdentify) {
-                                    page.matchIdentify = 'prefixMatch';
-                                    needsMigration = true;
-                                }
-                            });
-                            // Save migrated data
-                            if (needsMigration) {
-                                this.setData(data).catch(err => console.error('Migration save failed:', err));
-                            }
-                        }
-                        resolve(data);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage access failed:', error);
-            return null;
-        }
+        return getData();
     }
-    // Set all data
     static async setData(data) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage write failed:', error);
-        }
+        return setData(data);
     }
-    // Get settings
     static async getSettings() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([SETTINGS_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        let settings = result[SETTINGS_KEY] || null;
-                        // Migrate settings to include new properties
-                        if (settings) {
-                            let needsMigration = false;
-                            const migratedSettings = { ...settings };
-                            if (settings.enableLocatorRetriever === undefined) {
-                                migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRegexPattern === undefined) {
-                                migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRandomStringSectionInPopup === undefined) {
-                                migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringCharset === undefined) {
-                                migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringLength === undefined) {
-                                migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
-                                needsMigration = true;
-                            }
-                            // Save migrated settings
-                            if (needsMigration) {
-                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
-                            }
-                            settings = migratedSettings;
-                        }
-                        resolve(settings);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings access failed:', error);
-            return null;
-        }
+        return getSettings();
     }
-    // Set settings
     static async setSettings(settings) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings write failed:', error);
-        }
+        return setSettings(settings);
     }
-    // Get current theme
     static async getTheme() {
-        const settings = await this.getSettings();
-        return settings?.theme || 'dark';
+        return getTheme();
     }
-    // Set theme
     static async setTheme(theme) {
-        const settings = await this.getSettings();
-        if (settings) {
-            settings.theme = theme;
-            await this.setSettings(settings);
-        }
-        else {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return setTheme(theme);
     }
-    // Get page data by URL
     static async getPageByUrl(url, matchIdentify) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => {
-            if (matchIdentify === 'exactMatch') {
-                return page.url === url;
-            }
-            else {
-                return url.startsWith(page.url);
-            }
-        }) || null;
+        return getPageByUrl(url, matchIdentify);
     }
-    // Get page data by ID
     static async getPageById(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => page.id === pageId) || null;
+        return getPageById(pageId);
     }
-    // Get page data matching current URL
     static async getCurrentPageData(currentUrl) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        // First try exact match
-        let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
-        // Then try startsWith match
-        if (!page) {
-            page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
-        }
-        return page || null;
+        return getCurrentPageData(currentUrl);
     }
-    // Add new page
     static async addPage(pageData) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing page IDs
-        const existingIds = data.pages.map(p => p.id);
-        const newPage = {
-            ...pageData,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.pages.push(newPage);
-        await this.setData(data);
-        return newPage;
+        return addPage(pageData);
     }
-    // Update page
-    /**
-     * Update a page by its id
-     * @param id - Page id
-     * @param updates - Partial page data
-     */
     static async updatePage(id, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const pageIndex = data.pages.findIndex(p => p.id === id);
-        if (pageIndex !== -1) {
-            data.pages[pageIndex] = {
-                ...data.pages[pageIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePage(id, updates);
     }
-    // Delete preset (removes preset and all its links)
     static async deletePreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Remove preset
-        data.presets = data.presets.filter(p => p.id !== presetId);
-        // Remove all links to this preset
-        data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
-        await this.setData(data);
+        return deletePreset(presetId);
     }
-    // Add saved form data
     static async addSavedFormData(pageUrl, formData) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        // Generate unique ID that doesn't collide with existing saved value IDs
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newSavedValue = {
-            id: generateUniqueId(existingIds),
-            pageId: page.id,
-            label: formData.title,
-            value: String(formData.value),
-            testId: formData.testId,
-            querySelector: formData.querySelector,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.savedValues.push(newSavedValue);
-        await this.setData(data);
+        return addSavedFormData(pageUrl, formData);
     }
-    // Delete saved form data
     static async deleteSavedFormData(pageUrl, savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
-        await this.setData(data);
+        return deleteSavedFormData(pageUrl, savedValueId);
     }
-    // Get saved form data matching input field  
     static async getSavedFormDataForField(pageUrl, testId, querySelector) {
-        const page = await this.getCurrentPageData(pageUrl);
-        if (!page)
-            return [];
-        const data = await this.getData();
-        if (!data)
-            return [];
-        const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
-        return savedValuesForPage
-            .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+        return getSavedFormDataForField(pageUrl, testId, querySelector);
     }
-    // Get presets for a page by page ID
     static async getPresetsForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get the actual presets
-        return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+        return getPresetsForPage(pageId);
     }
-    // Get page IDs linked to a preset
     static async getPageIdsForPreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.presetPageLinks
-            .filter(link => link.presetId === presetId)
-            .map(link => link.pageId);
+        return getPageIdsForPreset(presetId);
     }
-    // Get all presets not linked to a specific page
     static async getUnlinkedPresets(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get presets that are NOT linked to this page
-        return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+        return getUnlinkedPresets(pageId);
     }
-    // Get preset by ID
     static async getPresetById(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        const preset = data.presets.find(p => p.id === presetId);
-        return preset || null;
+        return getPresetById(presetId);
     }
-    // Add preset
     static async addPreset(preset) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing preset IDs
-        const existingIds = data.presets.map(p => p.id);
-        const newPreset = {
-            ...preset,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.presets.push(newPreset);
-        await this.setData(data);
-        return newPreset;
+        return addPreset(preset);
     }
-    // Update preset
     static async updatePreset(presetId, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const presetIndex = data.presets.findIndex(p => p.id === presetId);
-        if (presetIndex !== -1) {
-            data.presets[presetIndex] = {
-                ...data.presets[presetIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePreset(presetId, updates);
     }
-    // Link preset to page
     static async linkPresetToPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Check if link already exists
-        const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
-        if (!existingLink) {
-            data.presetPageLinks.push({ presetId, pageId });
-            await this.setData(data);
-        }
+        return linkPresetToPage(presetId, pageId);
     }
-    // Unlink preset from page
     static async unlinkPresetFromPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
-        await this.setData(data);
+        return unlinkPresetFromPage(presetId, pageId);
     }
-    // Get saved values for a page
     static async getSavedValuesForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.savedValues.filter(sv => sv.pageId === pageId);
+        return getSavedValuesForPage(pageId);
     }
-    // Add saved value
     static async addSavedValue(pageId, savedValue) {
-        const data = await this.getData();
-        if (!data)
-            throw new Error('No data');
-        // Generate unique ID if not provided
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newId = savedValue.id && !existingIds.includes(savedValue.id)
-            ? savedValue.id
-            : generateUniqueId(existingIds);
-        // Create the saved value
-        const newSavedValue = {
-            id: newId,
-            pageId,
-            label: savedValue.label || '',
-            value: savedValue.value || '',
-            testId: savedValue.testId || '',
-            querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        // Check if saved value already exists for this page and id
-        const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
-        if (existingIndex !== -1) {
-            // Update existing saved value
-            data.savedValues[existingIndex] = newSavedValue;
-        }
-        else {
-            // Add new saved value
-            data.savedValues.push(newSavedValue);
-        }
-        await this.setData(data);
-        return newSavedValue;
+        return addSavedValue(pageId, savedValue);
     }
-    // Delete saved value
     static async deleteSavedValue(savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
-        await this.setData(data);
+        return deleteSavedValue(savedValueId);
     }
 }
 
@@ -987,125 +1220,6 @@ async function retryAsync(operation, maxRetries = 3, delay = 100) {
  */
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-;// ./src/utils/export-format.ts
-
-
-const INCLUDED_KEYS = [
-    'settings',
-    'pages',
-    'presets',
-    'presetPageLinks',
-    'savedValues',
-];
-function isRecord(value) {
-    return typeof value === 'object' && value !== null;
-}
-function isString(value) {
-    return typeof value === 'string';
-}
-function isBoolean(value) {
-    return typeof value === 'boolean';
-}
-function isArray(value) {
-    return Array.isArray(value);
-}
-function createEmptyRootData() {
-    return {
-        pages: [],
-        presets: [],
-        presetPageLinks: [],
-        savedValues: [],
-        regexPatterns: [],
-        lengthConfigurations: []
-    };
-}
-function createDefaultSettings() {
-    return {
-        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-        theme: DEFAULTS.THEME,
-        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-    };
-}
-function normalizeIncluded(partial) {
-    return {
-        settings: partial?.settings ?? false,
-        pages: partial?.pages ?? false,
-        presets: partial?.presets ?? false,
-        presetPageLinks: partial?.presetPageLinks ?? false,
-        savedValues: partial?.savedValues ?? false,
-        regexPatterns: partial?.regexPatterns ?? false,
-        lengthConfigurations: partial?.lengthConfigurations ?? false
-    };
-}
-function createExportFile(params) {
-    const settings = params.settings ?? createDefaultSettings();
-    const emptyData = createEmptyRootData();
-    return {
-        schema: EXPORT_SCHEMA,
-        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
-        included: normalizeIncluded(params.included),
-        settings,
-        data: {
-            pages: params.data?.pages ?? emptyData.pages,
-            presets: params.data?.presets ?? emptyData.presets,
-            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
-            savedValues: params.data?.savedValues ?? emptyData.savedValues,
-            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
-            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
-        },
-    };
-}
-function isExtensionExportFile(value) {
-    if (!isRecord(value))
-        return false;
-    if (value.schema !== EXPORT_SCHEMA)
-        return false;
-    if (!isString(value.exportedAt))
-        return false;
-    if (!isRecord(value.included))
-        return false;
-    for (const key of INCLUDED_KEYS) {
-        if (!isBoolean(value.included[key]))
-            return false;
-    }
-    if (!isRecord(value.settings))
-        return false;
-    if (!isBoolean(value.settings.enableSaveValue))
-        return false;
-    if (!isBoolean(value.settings.enableImportValue))
-        return false;
-    if (!isBoolean(value.settings.enableLiveAssistant))
-        return false;
-    if (!isString(value.settings.theme))
-        return false;
-    if (!isRecord(value.data))
-        return false;
-    if (!isArray(value.data.pages))
-        return false;
-    if (!isArray(value.data.presets))
-        return false;
-    if (!isArray(value.data.presetPageLinks))
-        return false;
-    if (!isArray(value.data.savedValues))
-        return false;
-    return true;
-}
-function parseExtensionExportJson(text) {
-    const parsed = JSON.parse(text);
-    if (!isExtensionExportFile(parsed)) {
-        throw new Error('Invalid import file format (expected form-filler.export.v1)');
-    }
-    return parsed;
 }
 
 ;// ./src/utils/cyber-btn-init.ts
@@ -2030,16 +2144,7 @@ function injectGuideData(guideId, payload) {
     }
 }
 
-;// ./src/pages/page-profile-editor.ts
-/* unused harmony import specifier */ var page_profile_editor_StorageService;
-/* unused harmony import specifier */ var page_profile_editor_getCurrentTimestamp;
-/* unused harmony import specifier */ var page_profile_editor_generateGuid;
-/* unused harmony import specifier */ var page_profile_editor_downloadFile;
-/* unused harmony import specifier */ var page_profile_editor_escapeHtml;
-/* unused harmony import specifier */ var page_profile_editor_createExportFile;
-/* unused harmony import specifier */ var page_profile_editor_showToast;
-/* unused harmony import specifier */ var page_profile_editor_showModal;
-/* unused harmony import specifier */ var page_profile_editor_hideModal;
+;// ./src/pages/page-profile-editor-page/startup.ts
 
 
 
@@ -2047,19 +2152,6 @@ function injectGuideData(guideId, payload) {
 
 
 
-
-let currentPageId = '';
-let currentPageData = null;
-let currentPresetId = null;
-let currentPreset = null;
-let formDataList = [];
-let originalFormDataList = [];
-let savedValuesList = [];
-let originalSavedValuesList = [];
-let draggedRow = null;
-let hasUnsavedPresetChanges = false;
-let hasUnsavedSavedValuesChanges = false;
-let isPresetOnlyMode = false;
 // Initialize
 async function init() {
     // Initialize theme
@@ -2074,45 +2166,45 @@ async function init() {
     initGuideOverlays();
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    currentPageId = urlParams.get('pageId') || '';
-    currentPresetId = urlParams.get('presetId') || null;
-    isPresetOnlyMode = !currentPageId;
-    if (!isPresetOnlyMode) {
+    state.currentPageId = urlParams.get('pageId') || '';
+    state.currentPresetId = urlParams.get('presetId') || null;
+    state.isPresetOnlyMode = !state.currentPageId;
+    if (!state.isPresetOnlyMode) {
         // Load page data
-        currentPageData = await StorageService.getPageById(currentPageId);
-        if (!currentPageData) {
+        state.currentPageData = await StorageService.getPageById(state.currentPageId);
+        if (!state.currentPageData) {
             showToast('Page not found', 'error');
             return;
         }
         // Populate page information in sidebar
-        document.getElementById('pageId').textContent = currentPageData.id;
-        document.getElementById('pageTitle').value = currentPageData.pageTitle;
-        document.getElementById('pageUrl').value = currentPageData.url;
-        document.getElementById('pageDescription').value = currentPageData.description || '';
+        document.getElementById('pageId').textContent = state.currentPageData.id;
+        document.getElementById('pageTitle').value = state.currentPageData.pageTitle;
+        document.getElementById('pageUrl').value = state.currentPageData.url;
+        document.getElementById('pageDescription').value = state.currentPageData.description || '';
         const pageMatchIdentifyEl = document.getElementById('pageMatchIdentify');
         if (pageMatchIdentifyEl)
-            pageMatchIdentifyEl.value = currentPageData.matchIdentify;
+            pageMatchIdentifyEl.value = state.currentPageData.matchIdentify;
         // Load presets for this page
-        await loadPagePresets();
+        await actions.loadPagePresets();
         // Load saved values for this page
-        await loadSavedValues();
+        await actions.loadSavedValues();
         // Setup change tracking for page profile
-        setupPageProfileChangeTracking();
+        actions.setupPageProfileChangeTracking();
     }
     else {
-        setupPresetOnlyModeUI();
-        await loadPagePresets();
+        actions.setupPresetOnlyModeUI();
+        await actions.loadPagePresets();
     }
     // Load preset if editing
-    if (currentPresetId) {
-        await loadPreset();
+    if (state.currentPresetId) {
+        await actions.loadPreset();
     }
     else {
         // Set selector to "Create New"
         document.getElementById('presetSelector').value = '';
     }
     // Setup event listeners
-    setupEventListeners();
+    actions.setupEventListeners();
 }
 function setupPresetOnlyModeUI() {
     // Sidebar shows empty page info and is read-only
@@ -2133,8 +2225,7 @@ async function loadPagePresets() {
     const presetSelector = document.getElementById('presetSelector');
     if (!presetSelector)
         return;
-    const presets = currentPageData
-        ? await StorageService.getPresetsForPage(currentPageData.id)
+    const presets = state.currentPageData ? await StorageService.getPresetsForPage(state.currentPageData.id)
         : (await StorageService.getData())?.presets ?? [];
     // Clear existing options except "Create New"
     presetSelector.innerHTML = '<option value="">Create New Preset</option>';
@@ -2146,52 +2237,69 @@ async function loadPagePresets() {
         presetSelector.appendChild(option);
     });
     // Set current selection
-    if (currentPresetId) {
-        presetSelector.value = currentPresetId;
+    if (state.currentPresetId) {
+        presetSelector.value = state.currentPresetId;
     }
     // Update link presets button visibility
-    await updateLinkPresetsButtonVisibility();
+    await actions.updateLinkPresetsButtonVisibility();
 }
 // Update visibility of link presets button based on available unlinked presets
 async function updateLinkPresetsButtonVisibility() {
     const linkPresetsBtn = document.getElementById('linkPresetsBtn');
-    if (!linkPresetsBtn || !currentPageData)
+    if (!linkPresetsBtn || !state.currentPageData)
         return;
-    const unlinkedPresets = await StorageService.getUnlinkedPresets(currentPageData.id);
+    const unlinkedPresets = await StorageService.getUnlinkedPresets(state.currentPageData.id);
     linkPresetsBtn.style.display = unlinkedPresets.length > 0 ? 'block' : 'none';
 }
 // Load preset for editing
 async function loadPreset() {
-    if (!currentPresetId)
+    if (!state.currentPresetId)
         return;
-    currentPreset = await StorageService.getPresetById(currentPresetId);
-    if (!currentPreset)
+    state.currentPreset = await StorageService.getPresetById(state.currentPresetId);
+    if (!state.currentPreset)
         return;
     // Update preset selector
-    document.getElementById('presetSelector').value = currentPresetId;
+    document.getElementById('presetSelector').value = state.currentPresetId;
     // Show preset ID below selector
     const presetIdDisplay = document.getElementById('presetIdDisplay');
     const presetIdValue = document.getElementById('presetIdValue');
     if (presetIdDisplay && presetIdValue) {
-        presetIdValue.textContent = currentPreset.id;
+        presetIdValue.textContent = state.currentPreset.id;
         presetIdDisplay.style.display = 'block';
     }
     // Update name and description in tab
-    document.getElementById('presetName').value = currentPreset.name;
-    document.getElementById('presetDescription').value = currentPreset.description || '';
+    document.getElementById('presetName').value = state.currentPreset.name;
+    document.getElementById('presetDescription').value = state.currentPreset.description || '';
     // Load form data
-    formDataList = [...currentPreset.formData].sort((a, b) => a.order - b.order);
-    originalFormDataList = JSON.parse(JSON.stringify(formDataList)); // Deep copy
-    hasUnsavedPresetChanges = false;
-    updatePresetButtons();
-    renderFormDataTable();
+    state.formDataList = [...state.currentPreset.formData].sort((a, b) => a.order - b.order);
+    state.originalFormDataList = JSON.parse(JSON.stringify(state.formDataList)); // Deep copy
+    state.hasUnsavedPresetChanges = false;
+    actions.updatePresetButtons();
+    actions.renderFormDataTable();
 }
+// Load saved values for current page
+async function loadSavedValues() {
+    if (!state.currentPageData)
+        return;
+    state.savedValuesList = await StorageService.getSavedValuesForPage(state.currentPageData.id);
+    state.originalSavedValuesList = JSON.parse(JSON.stringify(state.savedValuesList)); // Deep copy
+    state.hasUnsavedSavedValuesChanges = false;
+    actions.renderSavedValuesTable();
+    actions.updateSavedValuesCount();
+    actions.updateSavedValuesButtons();
+}
+
+;// ./src/pages/page-profile-editor-page/linking-modals.ts
+
+
+
+
 function showLinkPresetsToPageModal() {
-    if (!currentPageData) {
+    if (!state.currentPageData) {
         showToast('No current page data available', 'error');
         return;
     }
-    StorageService.getUnlinkedPresets(currentPageData.id).then((unlinkedPresets) => {
+    StorageService.getUnlinkedPresets(state.currentPageData.id).then((unlinkedPresets) => {
         if (unlinkedPresets.length === 0) {
             showToast('No unlinked presets available', 'info');
             return;
@@ -2263,13 +2371,13 @@ function showLinkPresetsToPageModal() {
                 return;
             }
             for (const presetId of selectedPresetIds) {
-                await StorageService.linkPresetToPage(presetId, currentPageData.id);
+                await StorageService.linkPresetToPage(presetId, state.currentPageData.id);
             }
             hideModal();
             showToast(`Linked ${selectedPresetIds.length} preset(s) to current page`, 'success');
             // Update button visibility and reload presets
-            await updateLinkPresetsButtonVisibility();
-            await loadPagePresets();
+            await actions.updateLinkPresetsButtonVisibility();
+            await actions.loadPagePresets();
         });
     }).catch((error) => {
         console.error('Failed to load unlinked presets:', error);
@@ -2277,7 +2385,7 @@ function showLinkPresetsToPageModal() {
     });
 }
 function showLinkPresetToPagesModal() {
-    if (!currentPresetId) {
+    if (!state.currentPresetId) {
         showToast('Please save/select a preset first', 'warning');
         return;
     }
@@ -2345,7 +2453,7 @@ function showLinkPresetToPagesModal() {
                 return;
             }
             for (const pageId of selectedPageIds) {
-                await StorageService.linkPresetToPage(currentPresetId, pageId);
+                await StorageService.linkPresetToPage(state.currentPresetId, pageId);
             }
             const selectedPages = pages.filter(p => selectedPageIds.includes(p.id));
             let targetPageId = selectedPageIds[0];
@@ -2355,24 +2463,19 @@ function showLinkPresetToPagesModal() {
                     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0].id;
             }
             hideModal();
-            window.location.href = `page-profile-editor.html?pageId=${encodeURIComponent(targetPageId)}&presetId=${encodeURIComponent(currentPresetId)}`;
+            window.location.href = `page-profile-editor.html?pageId=${encodeURIComponent(targetPageId)}&presetId=${encodeURIComponent(state.currentPresetId)}`;
         });
     }).catch((error) => {
         console.error('Failed to load pages:', error);
         showToast('Failed to load pages. Please try again.', 'error');
     });
 }
-// Load saved values for current page
-async function loadSavedValues() {
-    if (!currentPageData)
-        return;
-    savedValuesList = await StorageService.getSavedValuesForPage(currentPageData.id);
-    originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList)); // Deep copy
-    hasUnsavedSavedValuesChanges = false;
-    renderSavedValuesTable();
-    updateSavedValuesCount();
-    updateSavedValuesButtons();
-}
+
+;// ./src/pages/page-profile-editor-page/page-profile-actions.ts
+
+
+
+
 // Setup change tracking for page profile
 function setupPageProfileChangeTracking() {
     const pageInputs = ['pageTitle', 'pageUrl', 'pageDescription', 'pageMatchIdentify'];
@@ -2380,19 +2483,19 @@ function setupPageProfileChangeTracking() {
         const element = document.getElementById(id);
         if (element) {
             element.addEventListener('input', () => {
-                updatePageProfileButtons();
+                actions.updatePageProfileButtons();
             });
             element.addEventListener('change', () => {
-                updatePageProfileButtons();
+                actions.updatePageProfileButtons();
             });
         }
     });
     // Ensure buttons reflect current state (hidden if no changes)
-    updatePageProfileButtons();
+    actions.updatePageProfileButtons();
 }
 // Update page profile save/cancel button visibility
 function updatePageProfileButtons() {
-    const hasChanges = checkPageProfileChanges();
+    const hasChanges = actions.checkPageProfileChanges();
     const saveBtn = document.getElementById('saveBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     if (saveBtn)
@@ -2402,21 +2505,21 @@ function updatePageProfileButtons() {
 }
 // Check if page profile has changes
 function checkPageProfileChanges() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return false;
     const title = document.getElementById('pageTitle').value;
     const url = document.getElementById('pageUrl').value;
     const description = document.getElementById('pageDescription').value;
     const matchIdentifyEl = document.getElementById('pageMatchIdentify');
     const matchIdentify = (matchIdentifyEl?.value ?? 'prefixMatch');
-    return title !== currentPageData.pageTitle ||
-        url !== currentPageData.url ||
-        description !== (currentPageData.description || '') ||
-        matchIdentify !== currentPageData.matchIdentify;
+    return title !== state.currentPageData.pageTitle ||
+        url !== state.currentPageData.url ||
+        description !== (state.currentPageData.description || '') ||
+        matchIdentify !== state.currentPageData.matchIdentify;
 }
 // Save page profile data
 async function savePageProfile() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     const title = document.getElementById('pageTitle').value.trim();
     const url = document.getElementById('pageUrl').value.trim();
@@ -2427,30 +2530,30 @@ async function savePageProfile() {
         showToast('Title and URL are required', 'warning');
         return;
     }
-    currentPageData.pageTitle = title;
-    currentPageData.url = url;
-    currentPageData.description = description;
-    currentPageData.matchIdentify = matchIdentify2;
-    currentPageData.updatedAt = getCurrentTimestamp();
-    await StorageService.updatePage(currentPageData.id, currentPageData);
-    updatePageProfileButtons();
+    state.currentPageData.pageTitle = title;
+    state.currentPageData.url = url;
+    state.currentPageData.description = description;
+    state.currentPageData.matchIdentify = matchIdentify2;
+    state.currentPageData.updatedAt = getCurrentTimestamp();
+    await StorageService.updatePage(state.currentPageData.id, state.currentPageData);
+    actions.updatePageProfileButtons();
     showToast('Page profile saved successfully', 'success');
 }
 // Reset page profile data
 function resetPageProfile() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    document.getElementById('pageTitle').value = currentPageData.pageTitle;
-    document.getElementById('pageUrl').value = currentPageData.url;
-    document.getElementById('pageDescription').value = currentPageData.description || '';
+    document.getElementById('pageTitle').value = state.currentPageData.pageTitle;
+    document.getElementById('pageUrl').value = state.currentPageData.url;
+    document.getElementById('pageDescription').value = state.currentPageData.description || '';
     const pageMatchIdentifyEl2 = document.getElementById('pageMatchIdentify');
     if (pageMatchIdentifyEl2)
-        pageMatchIdentifyEl2.value = currentPageData.matchIdentify;
-    updatePageProfileButtons();
+        pageMatchIdentifyEl2.value = state.currentPageData.matchIdentify;
+    actions.updatePageProfileButtons();
 }
 // Save preset data
 async function savePresetData() {
-    if (!currentPreset)
+    if (!state.currentPreset)
         return;
     const name = document.getElementById('presetName').value.trim();
     const description = document.getElementById('presetDescription').value.trim();
@@ -2458,72 +2561,72 @@ async function savePresetData() {
         showToast('Preset name is required', 'warning');
         return;
     }
-    currentPreset.name = name;
-    currentPreset.description = description;
-    currentPreset.formData = [...formDataList];
-    currentPreset.updatedAt = getCurrentTimestamp();
-    await StorageService.updatePreset(currentPreset.id, currentPreset);
-    originalFormDataList = JSON.parse(JSON.stringify(formDataList));
-    hasUnsavedPresetChanges = false;
-    updatePresetButtons();
+    state.currentPreset.name = name;
+    state.currentPreset.description = description;
+    state.currentPreset.formData = [...state.formDataList];
+    state.currentPreset.updatedAt = getCurrentTimestamp();
+    await StorageService.updatePreset(state.currentPreset.id, state.currentPreset);
+    state.originalFormDataList = JSON.parse(JSON.stringify(state.formDataList));
+    state.hasUnsavedPresetChanges = false;
+    actions.updatePresetButtons();
     showToast('Preset saved successfully', 'success');
 }
 // Reset preset data
 function resetPresetData() {
-    formDataList = JSON.parse(JSON.stringify(originalFormDataList));
-    hasUnsavedPresetChanges = false;
-    updatePresetButtons();
-    renderFormDataTable();
+    state.formDataList = JSON.parse(JSON.stringify(state.originalFormDataList));
+    state.hasUnsavedPresetChanges = false;
+    actions.updatePresetButtons();
+    actions.renderFormDataTable();
 }
 // Delete current preset
 async function deleteCurrentPreset() {
-    if (!currentPreset)
+    if (!state.currentPreset)
         return;
-    if (!await showConfirm('Delete Preset', `Delete preset "${currentPreset.name}"? This cannot be undone.`)) {
+    if (!await showConfirm('Delete Preset', `Delete preset "${state.currentPreset.name}"? This cannot be undone.`)) {
         return;
     }
-    await StorageService.deletePreset(currentPreset.id);
+    await StorageService.deletePreset(state.currentPreset.id);
     // Reset to create new preset mode
-    currentPresetId = null;
-    currentPreset = null;
-    formDataList = [];
-    originalFormDataList = [];
-    hasUnsavedPresetChanges = false;
+    state.currentPresetId = null;
+    state.currentPreset = null;
+    state.formDataList = [];
+    state.originalFormDataList = [];
+    state.hasUnsavedPresetChanges = false;
     document.getElementById('presetSelector').value = '';
     document.getElementById('presetName').value = '';
     document.getElementById('presetDescription').value = '';
-    updatePresetButtons();
-    renderFormDataTable();
+    actions.updatePresetButtons();
+    actions.renderFormDataTable();
     showToast('Preset deleted successfully', 'success');
 }
 // Save saved values data
 async function saveSavedValuesData() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     // Update all saved values for this page
     const data = await StorageService.getData();
     if (!data)
         return;
     // Remove old saved values for this page
-    data.savedValues = data.savedValues.filter(sv => sv.pageId !== currentPageId);
+    data.savedValues = data.savedValues.filter(sv => sv.pageId !== state.currentPageId);
     // Add updated saved values
-    data.savedValues.push(...savedValuesList);
+    data.savedValues.push(...state.savedValuesList);
     await StorageService.setData(data);
-    originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList));
-    hasUnsavedSavedValuesChanges = false;
-    updateSavedValuesButtons();
+    state.originalSavedValuesList = JSON.parse(JSON.stringify(state.savedValuesList));
+    state.hasUnsavedSavedValuesChanges = false;
+    actions.updateSavedValuesButtons();
     showToast('Saved values saved successfully', 'success');
 }
 // Reset saved values data
 function resetSavedValuesData() {
-    savedValuesList = JSON.parse(JSON.stringify(originalSavedValuesList));
-    hasUnsavedSavedValuesChanges = false;
-    renderSavedValuesTable();
-    updateSavedValuesButtons();
+    state.savedValuesList = JSON.parse(JSON.stringify(state.originalSavedValuesList));
+    state.hasUnsavedSavedValuesChanges = false;
+    actions.renderSavedValuesTable();
+    actions.updateSavedValuesButtons();
 }
 // Update preset buttons visibility
 function updatePresetButtons() {
-    const hasChanges = hasUnsavedPresetChanges || checkPresetInfoChanges();
+    const hasChanges = state.hasUnsavedPresetChanges || actions.checkPresetInfoChanges();
     const saveBtn = document.getElementById('savePresetBtn');
     const rollbackBtn = document.getElementById('rollbackPresetBtn');
     const deleteBtn = document.getElementById('deletePresetBtn');
@@ -2532,19 +2635,19 @@ function updatePresetButtons() {
     if (rollbackBtn)
         rollbackBtn.style.display = hasChanges ? 'inline-block' : 'none';
     if (deleteBtn)
-        deleteBtn.style.display = currentPreset ? 'inline-block' : 'none';
+        deleteBtn.style.display = state.currentPreset ? 'inline-block' : 'none';
 }
 // Check if preset info (name/description) has changes
 function checkPresetInfoChanges() {
-    if (!currentPreset)
+    if (!state.currentPreset)
         return false;
     const name = document.getElementById('presetName').value;
     const description = document.getElementById('presetDescription').value;
-    return name !== currentPreset.name || description !== (currentPreset.description || '');
+    return name !== state.currentPreset.name || description !== (state.currentPreset.description || '');
 }
 // Update saved values buttons visibility
 function updateSavedValuesButtons() {
-    const hasChanges = hasUnsavedSavedValuesChanges || JSON.stringify(savedValuesList) !== JSON.stringify(originalSavedValuesList);
+    const hasChanges = state.hasUnsavedSavedValuesChanges || JSON.stringify(state.savedValuesList) !== JSON.stringify(state.originalSavedValuesList);
     const saveBtn = document.getElementById('saveSavedValuesBtn');
     const rollbackBtn = document.getElementById('rollbackSavedValuesBtn');
     if (saveBtn)
@@ -2552,29 +2655,33 @@ function updateSavedValuesButtons() {
     if (rollbackBtn)
         rollbackBtn.style.display = hasChanges ? 'inline-block' : 'none';
 }
+
+;// ./src/pages/page-profile-editor-page/event-listeners.ts
+
+
 // Setup event listeners
 function setupEventListeners() {
     // Preset selector change
     document.getElementById('presetSelector')?.addEventListener('change', async (e) => {
         const select = e.target;
         const newPresetId = select.value;
-        if (newPresetId === currentPresetId)
+        if (newPresetId === state.currentPresetId)
             return;
         // Warn if there are unsaved preset changes (saved-values edits shouldn't block switching presets)
-        if (hasUnsavedPresetChanges) {
+        if (state.hasUnsavedPresetChanges) {
             if (!await showConfirm('Unsaved Changes', 'You have unsaved preset changes. Do you want to discard them and switch preset?')) {
-                select.value = currentPresetId || '';
+                select.value = state.currentPresetId || '';
                 return;
             }
         }
-        if (currentPageData) {
+        if (state.currentPageData) {
             if (newPresetId) {
                 // Switch to existing preset
-                window.location.href = `page-profile-editor.html?pageId=${currentPageId}&presetId=${newPresetId}`;
+                window.location.href = `page-profile-editor.html?pageId=${state.currentPageId}&presetId=${newPresetId}`;
             }
             else {
                 // Create new preset
-                window.location.href = `page-profile-editor.html?pageId=${currentPageId}`;
+                window.location.href = `page-profile-editor.html?pageId=${state.currentPageId}`;
             }
             return;
         }
@@ -2588,23 +2695,23 @@ function setupEventListeners() {
     });
     // Preset name/description change tracking
     document.getElementById('presetName')?.addEventListener('input', () => {
-        updatePresetButtons();
+        actions.updatePresetButtons();
     });
     document.getElementById('presetDescription')?.addEventListener('input', () => {
-        updatePresetButtons();
+        actions.updatePresetButtons();
     });
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetTab = e.target.closest('.tab-btn')?.getAttribute('data-tab');
             if (targetTab)
-                switchTab(targetTab);
+                actions.switchTab(targetTab);
         });
     });
-    if (currentPageData) {
+    if (state.currentPageData) {
         // Add saved value button
         document.getElementById('addSavedValueBtn')?.addEventListener('click', () => {
-            addSavedValueRow();
+            actions.addSavedValueRow();
             // Scroll saved values container to bottom after row rendered
             setTimeout(() => {
                 const tbody = document.getElementById('savedValuesBody');
@@ -2625,11 +2732,11 @@ function setupEventListeners() {
         });
         // Export/import saved values
         document.getElementById('exportSavedValuesBtn')?.addEventListener('click', async () => {
-            await exportSavedValues();
+            await actions.exportSavedValues();
         });
         // Sidebar Link Presets button (link presets to current page)
         document.getElementById('linkPresetsBtn')?.addEventListener('click', () => {
-            showLinkPresetsToPageModal();
+            actions.showLinkPresetsToPageModal();
         });
         document.getElementById('importSavedValuesBtn')?.addEventListener('click', () => {
             const fileInput = document.getElementById('importSavedValuesFile');
@@ -2638,7 +2745,7 @@ function setupEventListeners() {
         document.getElementById('importSavedValuesFile')?.addEventListener('change', async (e) => {
             const input = e.target;
             if (input.files && input.files[0]) {
-                await importSavedValues(input.files[0]);
+                await actions.importSavedValues(input.files[0]);
                 input.value = '';
             }
         });
@@ -2647,54 +2754,54 @@ function setupEventListeners() {
         window.close();
     });
     document.getElementById('addFormDataBtn')?.addEventListener('click', () => {
-        addFormDataRow();
+        actions.addFormDataRow();
     });
     // Preset tab buttons
     document.getElementById('savePresetBtn')?.addEventListener('click', async () => {
-        await savePresetData();
+        await actions.savePresetData();
     });
     document.getElementById('rollbackPresetBtn')?.addEventListener('click', async () => {
         if (await showConfirm('Rollback Changes', 'Are you sure? Unsaved changes will be lost.')) {
-            resetPresetData();
+            actions.resetPresetData();
         }
     });
     document.getElementById('deletePresetBtn')?.addEventListener('click', async () => {
-        await deleteCurrentPreset();
+        await actions.deleteCurrentPreset();
         // Reload current page to reset state
-        if (currentPageData) {
-            window.location.href = `page-profile-editor.html?pageId=${currentPageData.id}`;
+        if (state.currentPageData) {
+            window.location.href = `page-profile-editor.html?pageId=${state.currentPageData.id}`;
         }
         else {
             window.location.href = `./html/settings.html`;
         }
     });
     // Saved values tab buttons
-    if (currentPageData) {
+    if (state.currentPageData) {
         document.getElementById('saveSavedValuesBtn')?.addEventListener('click', async () => {
-            await saveSavedValuesData();
+            await actions.saveSavedValuesData();
         });
         document.getElementById('rollbackSavedValuesBtn')?.addEventListener('click', async () => {
             if (await showConfirm('Rollback Changes', 'Are you sure? Unsaved changes will be lost.')) {
-                resetSavedValuesData();
+                actions.resetSavedValuesData();
                 // Ensure buttons hide after rollback
-                updateSavedValuesButtons();
+                actions.updateSavedValuesButtons();
             }
         });
         document.getElementById('saveBtn')?.addEventListener('click', async () => {
-            await savePageProfile();
+            await actions.savePageProfile();
         });
         document.getElementById('cancelBtn')?.addEventListener('click', async () => {
             if (await showConfirm('Cancel Changes', 'Are you sure? Unsaved changes will be lost.')) {
-                resetPageProfile();
+                actions.resetPageProfile();
             }
         });
         document.getElementById('exportBtn')?.addEventListener('click', async () => {
-            await exportPageData();
+            await actions.exportPageData();
         });
     }
     // New preset import/export buttons
     document.getElementById('exportPresetJsonBtn')?.addEventListener('click', async () => {
-        await showPresetExportSelectionModal();
+        await actions.showPresetExportSelectionModal();
     });
     document.getElementById('importPresetJsonBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importPresetFile');
@@ -2703,12 +2810,12 @@ function setupEventListeners() {
     document.getElementById('importPresetFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importPresetFromJson(input.files[0]);
+            await actions.importPresetFromJson(input.files[0]);
             input.value = ''; // Reset file input
         }
     });
     document.getElementById('linkPresetToPagesBtn')?.addEventListener('click', () => {
-        showLinkPresetToPagesModal();
+        actions.showLinkPresetToPagesModal();
     });
     // Settings button (open settings page in new tab)
     document.getElementById('settingsBtn')?.addEventListener('click', () => {
@@ -2721,6 +2828,11 @@ function setupEventListeners() {
         }
     });
 }
+
+;// ./src/pages/page-profile-editor-page/form-data-table.ts
+
+
+
 // Add new form data row
 function addFormDataRow(data) {
     const newData = data || {
@@ -2734,13 +2846,13 @@ function addFormDataRow(data) {
         autoBlur: true,
         createdAt: getCurrentTimestamp(),
         updatedAt: getCurrentTimestamp(),
-        order: formDataList.length + 1
+        order: state.formDataList.length + 1
     };
-    formDataList.push(newData);
-    renderFormDataTable();
+    state.formDataList.push(newData);
+    actions.renderFormDataTable();
     if (!data) {
-        hasUnsavedPresetChanges = true;
-        updateButtonVisibility();
+        state.hasUnsavedPresetChanges = true;
+        actions.updateButtonVisibility();
     }
     // Scroll to bottom and highlight new row
     setTimeout(() => {
@@ -2757,7 +2869,7 @@ function addFormDataRow(data) {
 function renderFormDataTable() {
     const tbody = document.getElementById('formDataBody');
     tbody.innerHTML = '';
-    formDataList.forEach((data, index) => {
+    state.formDataList.forEach((data, index) => {
         const row = document.createElement('tr');
         row.setAttribute('data-id', data.id);
         row.setAttribute('draggable', 'true');
@@ -2884,18 +2996,18 @@ function renderFormDataTable() {
       <td><button class="action-btn action-btn--delete" data-id="${data.id}" title="Delete row" data-icons="Trash"></button></td>
     `;
         // Add drag events
-        row.addEventListener('dragstart', handleDragStart);
-        row.addEventListener('dragover', handleDragOver);
-        row.addEventListener('drop', handleDrop);
-        row.addEventListener('dragend', handleDragEnd);
+        row.addEventListener('dragstart', actions.handleDragStart);
+        row.addEventListener('dragover', actions.handleDragOver);
+        row.addEventListener('drop', actions.handleDrop);
+        row.addEventListener('dragend', actions.handleDragEnd);
         tbody.appendChild(row);
     });
     // Add event listeners
-    addTableEventListeners();
+    actions.addTableEventListeners();
     // Update form data count
     const formDataCountEl = document.getElementById('formDataCount');
     if (formDataCountEl) {
-        formDataCountEl.textContent = buildQuantityString(formDataList.length);
+        formDataCountEl.textContent = buildQuantityString(state.formDataList.length);
     }
 }
 // Add event listeners to table inputs
@@ -2904,29 +3016,29 @@ function addTableEventListeners() {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.value;
-            updateFormData(id, { title: value });
+            actions.updateFormData(id, { title: value });
         });
     });
     document.querySelectorAll('.type-select').forEach(select => {
         select.addEventListener('change', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.value;
-            updateFormData(id, { type: value });
-            renderFormDataTable(); // Re-render to show correct value input
+            actions.updateFormData(id, { type: value });
+            actions.renderFormDataTable(); // Re-render to show correct value input
         });
     });
     document.querySelectorAll('.value-input').forEach(input => {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.value;
-            updateFormData(id, { value: value });
+            actions.updateFormData(id, { value: value });
         });
     });
     document.querySelectorAll('.value-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.checked;
-            updateFormData(id, { value: value });
+            actions.updateFormData(id, { value: value });
         });
     });
     // Color picker input synchronization
@@ -2939,7 +3051,7 @@ function addTableEventListeners() {
             if (textInput) {
                 textInput.value = value;
             }
-            updateFormData(id, { value: value });
+            actions.updateFormData(id, { value: value });
         });
     });
     // Clickable delay input
@@ -2947,7 +3059,7 @@ function addTableEventListeners() {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = parseInt(e.target.value) || 0;
-            updateFormData(id, { value: value });
+            actions.updateFormData(id, { value: value });
         });
     });
     // Color text input synchronization
@@ -2966,7 +3078,7 @@ function addTableEventListeners() {
                 if (colorPicker) {
                     colorPicker.value = value;
                 }
-                updateFormData(id, { value: value });
+                actions.updateFormData(id, { value: value });
             }
         });
     });
@@ -2974,21 +3086,21 @@ function addTableEventListeners() {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.value;
-            updateFormData(id, { testId: value });
+            actions.updateFormData(id, { testId: value });
         });
     });
     document.querySelectorAll('.querySelector-input').forEach(input => {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = e.target.value;
-            updateFormData(id, { querySelector: value });
+            actions.updateFormData(id, { querySelector: value });
         });
     });
     document.querySelectorAll('.delay-input').forEach(input => {
         input.addEventListener('input', (e) => {
             const id = e.target.getAttribute('data-id');
             const value = parseInt(e.target.value) || 0;
-            updateFormData(id, { fillDelay: Math.min(value, 30000) });
+            actions.updateFormData(id, { fillDelay: Math.min(value, 30000) });
         });
     });
     // Dynamic date input event listeners
@@ -3001,7 +3113,7 @@ function addTableEventListeners() {
             const months = parseInt(monthsInput.value) || 0;
             const days = parseInt(daysInput.value) || 0;
             const value = JSON.stringify({ years, months, days });
-            updateFormData(id, { value });
+            actions.updateFormData(id, { value });
         }
     };
     document.querySelectorAll('.value-dynamic-years, .value-dynamic-months, .value-dynamic-days').forEach(input => {
@@ -3014,7 +3126,7 @@ function addTableEventListeners() {
     document.querySelectorAll('.action-btn--delete').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const id = e.currentTarget.getAttribute('data-id');
-            deleteFormDataRow(id);
+            actions.deleteFormDataRow(id);
         });
     });
     document.querySelectorAll('.btn-order-action').forEach(btn => {
@@ -3023,13 +3135,13 @@ function addTableEventListeners() {
             const id = target.getAttribute('data-id');
             const action = target.getAttribute('data-action');
             if (action === 'insert') {
-                insertRowBelow(id);
+                actions.insertRowBelow(id);
             }
             else if (action === 'clone') {
-                cloneRowBelow(id);
+                actions.cloneRowBelow(id);
             }
             else if (action === 'move') {
-                moveRowToPosition(id);
+                actions.moveRowToPosition(id);
             }
         });
     });
@@ -3038,49 +3150,56 @@ function addTableEventListeners() {
         btn.addEventListener('click', (e) => {
             const id = e.currentTarget.getAttribute('data-id');
             if (id)
-                openShareRowModal(id);
+                actions.openShareRowModal(id);
         });
     });
 }
+
+;// ./src/pages/page-profile-editor-page/form-data-actions.ts
+
+
+
+
+
 // Update form data
 function updateFormData(id, updates) {
-    const index = formDataList.findIndex(f => f.id === id);
+    const index = state.formDataList.findIndex(f => f.id === id);
     if (index !== -1) {
-        formDataList[index] = {
-            ...formDataList[index],
+        state.formDataList[index] = {
+            ...state.formDataList[index],
             ...updates,
             updatedAt: getCurrentTimestamp()
         };
-        hasUnsavedPresetChanges = true;
-        updatePresetButtons();
+        state.hasUnsavedPresetChanges = true;
+        actions.updatePresetButtons();
     }
 }
 // Delete form data row
 function deleteFormDataRow(id) {
-    formDataList = formDataList.filter(f => f.id !== id);
-    reorderFormData();
-    renderFormDataTable();
-    hasUnsavedPresetChanges = true;
-    updatePresetButtons();
+    state.formDataList = state.formDataList.filter(f => f.id !== id);
+    actions.reorderFormData();
+    actions.renderFormDataTable();
+    state.hasUnsavedPresetChanges = true;
+    actions.updatePresetButtons();
 }
 // Reset form data to original state
 function resetFormData() {
-    formDataList = JSON.parse(JSON.stringify(originalFormDataList));
-    hasUnsavedPresetChanges = false;
-    updatePresetButtons();
+    state.formDataList = JSON.parse(JSON.stringify(state.originalFormDataList));
+    state.hasUnsavedPresetChanges = false;
+    actions.updatePresetButtons();
     // Reload UI
-    document.getElementById('presetName').value = currentPreset?.name || '';
-    document.getElementById('presetDescription').value = currentPreset?.description || '';
-    renderFormDataTable();
+    document.getElementById('presetName').value = state.currentPreset?.name || '';
+    document.getElementById('presetDescription').value = state.currentPreset?.description || '';
+    actions.renderFormDataTable();
 }
 // Update button visibility based on unsaved changes
 function updateButtonVisibility() {
-    updatePresetButtons();
-    updateSavedValuesButtons();
+    actions.updatePresetButtons();
+    actions.updateSavedValuesButtons();
 }
 // Insert new row below
 function insertRowBelow(id) {
-    const index = formDataList.findIndex(f => f.id === id);
+    const index = state.formDataList.findIndex(f => f.id === id);
     if (index === -1)
         return;
     const newData = {
@@ -3096,11 +3215,11 @@ function insertRowBelow(id) {
         updatedAt: getCurrentTimestamp(),
         order: index + 2
     };
-    formDataList.splice(index + 1, 0, newData);
-    reorderFormData();
-    renderFormDataTable();
-    hasUnsavedPresetChanges = true;
-    updateButtonVisibility();
+    state.formDataList.splice(index + 1, 0, newData);
+    actions.reorderFormData();
+    actions.renderFormDataTable();
+    state.hasUnsavedPresetChanges = true;
+    actions.updateButtonVisibility();
     // Highlight new row
     setTimeout(() => {
         const newRow = document.querySelector(`tr[data-id="${newData.id}"]`);
@@ -3113,10 +3232,10 @@ function insertRowBelow(id) {
 }
 // Clone row below
 function cloneRowBelow(id) {
-    const index = formDataList.findIndex(f => f.id === id);
+    const index = state.formDataList.findIndex(f => f.id === id);
     if (index === -1)
         return;
-    const sourceData = formDataList[index];
+    const sourceData = state.formDataList[index];
     const clonedData = {
         ...sourceData,
         id: generateGuid(),
@@ -3124,11 +3243,11 @@ function cloneRowBelow(id) {
         updatedAt: getCurrentTimestamp(),
         order: index + 2
     };
-    formDataList.splice(index + 1, 0, clonedData);
-    reorderFormData();
-    renderFormDataTable();
-    hasUnsavedPresetChanges = true;
-    updateButtonVisibility();
+    state.formDataList.splice(index + 1, 0, clonedData);
+    actions.reorderFormData();
+    actions.renderFormDataTable();
+    state.hasUnsavedPresetChanges = true;
+    actions.updateButtonVisibility();
     // Highlight cloned row
     setTimeout(() => {
         const newRow = document.querySelector(`tr[data-id="${clonedData.id}"]`);
@@ -3141,13 +3260,13 @@ function cloneRowBelow(id) {
 }
 // Move row to specified position
 function moveRowToPosition(id) {
-    const currentIndex = formDataList.findIndex(f => f.id === id);
+    const currentIndex = state.formDataList.findIndex(f => f.id === id);
     if (currentIndex === -1)
         return;
     const body = `
     <div class="modal-body">
-      <p>Enter the new position for this row (1 to ${formDataList.length}):</p>
-      <input class="modal-input" type="number" id="movePositionInput" min="1" max="${formDataList.length}" value="${currentIndex + 1}" />
+      <p>Enter the new position for this row (1 to ${state.formDataList.length}):</p>
+      <input class="modal-input" type="number" id="movePositionInput" min="1" max="${state.formDataList.length}" value="${currentIndex + 1}" />
       <div class="modal-actions">
         <button id="moveCancelBtn" class="cyber-btn cyber-btn--secondary">
           Cancel
@@ -3167,23 +3286,23 @@ function moveRowToPosition(id) {
     document.getElementById('moveConfirmBtn')?.addEventListener('click', () => {
         const inputEl = document.getElementById('movePositionInput');
         const newPos = parseInt(inputEl.value);
-        if (isNaN(newPos) || newPos < 1 || newPos > formDataList.length) {
+        if (isNaN(newPos) || newPos < 1 || newPos > state.formDataList.length) {
             showToast('Invalid position', 'error');
             return;
         }
         // Move the item
-        const item = formDataList.splice(currentIndex, 1)[0];
-        formDataList.splice(newPos - 1, 0, item);
-        reorderFormData();
-        renderFormDataTable();
-        hasUnsavedPresetChanges = true;
-        updatePresetButtons();
+        const item = state.formDataList.splice(currentIndex, 1)[0];
+        state.formDataList.splice(newPos - 1, 0, item);
+        actions.reorderFormData();
+        actions.renderFormDataTable();
+        state.hasUnsavedPresetChanges = true;
+        actions.updatePresetButtons();
         hideModal();
     });
 }
 // Open modal to select target presets and share (clone) a row into them
 async function openShareRowModal(rowId) {
-    const sourceField = formDataList.find(f => f.id === rowId);
+    const sourceField = state.formDataList.find(f => f.id === rowId);
     if (!sourceField) {
         showToast('Field not found', 'error');
         return;
@@ -3192,7 +3311,7 @@ async function openShareRowModal(rowId) {
         const data = await StorageService.getData();
         const allPresets = data?.presets ?? [];
         // Exclude current preset
-        const targets = allPresets.filter(p => p.id !== currentPresetId);
+        const targets = allPresets.filter(p => p.id !== state.currentPresetId);
         if (targets.length === 0) {
             showToast('No other presets available to share to', 'info');
             return;
@@ -3273,7 +3392,7 @@ async function openShareRowModal(rowId) {
 }
 // Reorder form data after changes
 function reorderFormData() {
-    formDataList.forEach((item, index) => {
+    state.formDataList.forEach((item, index) => {
         item.order = index + 1;
         item.updatedAt = getCurrentTimestamp();
     });
@@ -3286,8 +3405,8 @@ function handleDragStart(e) {
         e.preventDefault();
         return;
     }
-    draggedRow = e.currentTarget;
-    draggedRow.classList.add('dragging');
+    state.draggedRow = e.currentTarget;
+    state.draggedRow.classList.add('dragging');
     if (e.dataTransfer) {
         e.dataTransfer.effectAllowed = 'move';
     }
@@ -3303,7 +3422,7 @@ function handleDragOver(e) {
         row.classList.remove('drag-over');
     });
     // Add drag-over class to current target if it's not the dragged row
-    if (draggedRow && target !== draggedRow) {
+    if (state.draggedRow && target !== state.draggedRow) {
         target.classList.add('drag-over');
     }
 }
@@ -3311,35 +3430,162 @@ function handleDrop(e) {
     e.preventDefault();
     const target = e.currentTarget;
     target.classList.remove('drag-over');
-    if (!draggedRow || target === draggedRow)
+    if (!state.draggedRow || target === state.draggedRow)
         return;
-    const draggedId = draggedRow.getAttribute('data-id');
+    const draggedId = state.draggedRow.getAttribute('data-id');
     const targetId = target.getAttribute('data-id');
     if (!draggedId || !targetId)
         return;
-    const draggedIndex = formDataList.findIndex(f => f.id === draggedId);
-    const targetIndex = formDataList.findIndex(f => f.id === targetId);
+    const draggedIndex = state.formDataList.findIndex(f => f.id === draggedId);
+    const targetIndex = state.formDataList.findIndex(f => f.id === targetId);
     if (draggedIndex === -1 || targetIndex === -1)
         return;
     // Reorder array
-    const [removed] = formDataList.splice(draggedIndex, 1);
-    formDataList.splice(targetIndex, 0, removed);
-    reorderFormData();
-    renderFormDataTable();
-    hasUnsavedPresetChanges = true;
-    updateButtonVisibility();
+    const [removed] = state.formDataList.splice(draggedIndex, 1);
+    state.formDataList.splice(targetIndex, 0, removed);
+    actions.reorderFormData();
+    actions.renderFormDataTable();
+    state.hasUnsavedPresetChanges = true;
+    actions.updateButtonVisibility();
 }
 function handleDragEnd(e) {
     const target = e.currentTarget;
     target.classList.remove('dragging');
     document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-    draggedRow = null;
+    state.draggedRow = null;
 }
+
+;// ./src/utils/export-format.ts
+
+
+const INCLUDED_KEYS = [
+    'settings',
+    'pages',
+    'presets',
+    'presetPageLinks',
+    'savedValues',
+];
+function isRecord(value) {
+    return typeof value === 'object' && value !== null;
+}
+function isString(value) {
+    return typeof value === 'string';
+}
+function isBoolean(value) {
+    return typeof value === 'boolean';
+}
+function isArray(value) {
+    return Array.isArray(value);
+}
+function createEmptyRootData() {
+    return {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+}
+function createDefaultSettings() {
+    return {
+        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+        theme: DEFAULTS.THEME,
+        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+    };
+}
+function normalizeIncluded(partial) {
+    return {
+        settings: partial?.settings ?? false,
+        pages: partial?.pages ?? false,
+        presets: partial?.presets ?? false,
+        presetPageLinks: partial?.presetPageLinks ?? false,
+        savedValues: partial?.savedValues ?? false,
+        regexPatterns: partial?.regexPatterns ?? false,
+        lengthConfigurations: partial?.lengthConfigurations ?? false
+    };
+}
+function createExportFile(params) {
+    const settings = params.settings ?? createDefaultSettings();
+    const emptyData = createEmptyRootData();
+    return {
+        schema: EXPORT_SCHEMA,
+        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
+        included: normalizeIncluded(params.included),
+        settings,
+        data: {
+            pages: params.data?.pages ?? emptyData.pages,
+            presets: params.data?.presets ?? emptyData.presets,
+            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
+            savedValues: params.data?.savedValues ?? emptyData.savedValues,
+            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
+            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
+        },
+    };
+}
+function isExtensionExportFile(value) {
+    if (!isRecord(value))
+        return false;
+    if (value.schema !== EXPORT_SCHEMA)
+        return false;
+    if (!isString(value.exportedAt))
+        return false;
+    if (!isRecord(value.included))
+        return false;
+    for (const key of INCLUDED_KEYS) {
+        if (!isBoolean(value.included[key]))
+            return false;
+    }
+    if (!isRecord(value.settings))
+        return false;
+    if (!isBoolean(value.settings.enableSaveValue))
+        return false;
+    if (!isBoolean(value.settings.enableImportValue))
+        return false;
+    if (!isBoolean(value.settings.enableLiveAssistant))
+        return false;
+    if (!isString(value.settings.theme))
+        return false;
+    if (!isRecord(value.data))
+        return false;
+    if (!isArray(value.data.pages))
+        return false;
+    if (!isArray(value.data.presets))
+        return false;
+    if (!isArray(value.data.presetPageLinks))
+        return false;
+    if (!isArray(value.data.savedValues))
+        return false;
+    return true;
+}
+function parseExtensionExportJson(text) {
+    const parsed = JSON.parse(text);
+    if (!isExtensionExportFile(parsed)) {
+        throw new Error('Invalid import file format (expected form-filler.export.v1)');
+    }
+    return parsed;
+}
+
+;// ./src/pages/page-profile-editor-page/preset-persistence.ts
+
+
+
+
+
+
 // Export page data (full page profile including presets and saved values)
 async function exportPageData() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const page = currentPageData;
+    const page = state.currentPageData;
     const presets = await StorageService.getPresetsForPage(page.id);
     const savedValues = await StorageService.getSavedValuesForPage(page.id);
     const data = await StorageService.getData();
@@ -3367,22 +3613,22 @@ async function exportPageData() {
 function exportPresetOnly() {
     const name = document.getElementById('presetName').value || 'preset';
     const description = document.getElementById('presetDescription').value;
-    const exportedAt = page_profile_editor_getCurrentTimestamp();
+    const exportedAt = getCurrentTimestamp();
     const preset = {
-        id: `export-${page_profile_editor_generateGuid()}`,
+        id: `export-${generateGuid()}`,
         name,
         description,
-        formData: formDataList,
+        formData: state.formDataList,
         createdAt: exportedAt,
         updatedAt: exportedAt,
     };
-    const exportFile = page_profile_editor_createExportFile({
+    const exportFile = createExportFile({
         included: { presets: true },
         data: { presets: [preset] },
         exportedAt,
     });
-    page_profile_editor_downloadFile(JSON.stringify(exportFile, null, 2), `${name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_preset.json`);
-    page_profile_editor_showToast('Preset exported and downloaded', 'success');
+    downloadFile(JSON.stringify(exportFile, null, 2), `${name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_preset.json`);
+    showToast('Preset exported and downloaded', 'success');
 }
 // Import preset from JSON and create new preset
 async function importPresetFromJson(file) {
@@ -3393,7 +3639,7 @@ async function importPresetFromJson(file) {
             showToast('Invalid import file: presets section not included', 'error');
             return;
         }
-        if (!currentPageData) {
+        if (!state.currentPageData) {
             showToast('No page data available', 'error');
             return;
         }
@@ -3432,7 +3678,7 @@ async function importPresetFromJson(file) {
                 }))
             });
             // Link to current page
-            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+            await StorageService.linkPresetToPage(newPreset.id, state.currentPageData.id);
             // Track first imported preset for redirect
             if (!firstImportedPresetId) {
                 firstImportedPresetId = newPreset.id;
@@ -3451,7 +3697,7 @@ async function importPresetFromJson(file) {
         }
         // Reload the page with the first imported preset (or just current page if none imported)
         if (firstImportedPresetId) {
-            window.location.href = `page-profile-editor.html?pageId=${currentPageData.id}&presetId=${firstImportedPresetId}`;
+            window.location.href = `page-profile-editor.html?pageId=${state.currentPageData.id}&presetId=${firstImportedPresetId}`;
         }
     }
     catch (error) {
@@ -3464,64 +3710,66 @@ async function savePreset() {
     const name = document.getElementById('presetName').value;
     const description = document.getElementById('presetDescription').value;
     if (!name) {
-        page_profile_editor_showToast('Preset name is required', 'warning');
+        showToast('Preset name is required', 'warning');
         return false;
     }
     // Sort form data by order
-    formDataList.sort((a, b) => a.order - b.order);
-    if (!currentPageData) {
-        page_profile_editor_showToast('Page data not found', 'error');
+    state.formDataList.sort((a, b) => a.order - b.order);
+    if (!state.currentPageData) {
+        showToast('Page data not found', 'error');
         return false;
     }
-    if (currentPresetId && currentPreset) {
+    if (state.currentPresetId && state.currentPreset) {
         // Update existing preset
-        await page_profile_editor_StorageService.updatePreset(currentPresetId, {
+        await StorageService.updatePreset(state.currentPresetId, {
             name,
             description,
-            formData: formDataList
+            formData: state.formDataList
         });
     }
     else {
         // Create new preset
-        const newPreset = await page_profile_editor_StorageService.addPreset({
+        const newPreset = await StorageService.addPreset({
             name,
             description,
-            formData: formDataList
+            formData: state.formDataList
         });
         // Link to current page
-        await page_profile_editor_StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+        await StorageService.linkPresetToPage(newPreset.id, state.currentPageData.id);
     }
-    await loadPagePresets(); // Refresh preset list
+    await actions.loadPagePresets(); // Refresh preset list
     return true;
 }
 // Save all data (preset + saved values)
 async function saveAllData() {
     // Save preset
-    const presetSaved = await savePreset();
+    const presetSaved = await actions.savePreset();
     if (!presetSaved)
         return;
     // Save saved values
-    await saveSavedValues();
-    hasUnsavedPresetChanges = false;
-    hasUnsavedSavedValuesChanges = false;
-    updateButtonVisibility();
-    page_profile_editor_showToast('All changes saved successfully!', 'success');
+    await actions.saveSavedValues();
+    state.hasUnsavedPresetChanges = false;
+    state.hasUnsavedSavedValuesChanges = false;
+    actions.updateButtonVisibility();
+    showToast('All changes saved successfully!', 'success');
 }
 // Save saved values
 async function saveSavedValues() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     // Update all saved values for this page
-    const data = await page_profile_editor_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     // Remove old saved values for this page
-    data.savedValues = data.savedValues.filter(sv => sv.pageId !== currentPageId);
+    data.savedValues = data.savedValues.filter(sv => sv.pageId !== state.currentPageId);
     // Add updated saved values
-    data.savedValues.push(...savedValuesList);
-    await page_profile_editor_StorageService.setData(data);
-    originalSavedValuesList = JSON.parse(JSON.stringify(savedValuesList));
+    data.savedValues.push(...state.savedValuesList);
+    await StorageService.setData(data);
+    state.originalSavedValuesList = JSON.parse(JSON.stringify(state.savedValuesList));
 }
+
+;// ./src/pages/page-profile-editor-page/tabs.ts
 // Tab switching
 function switchTab(tabId) {
     // Update tab buttons
@@ -3533,11 +3781,18 @@ function switchTab(tabId) {
         content.classList.toggle('active', content.id === tabId);
     });
 }
+
+;// ./src/pages/page-profile-editor-page/saved-values.ts
+
+
+
+
+
 // Add new saved value row
 function addSavedValueRow(data) {
     const newData = data || {
         id: generateGuid(),
-        pageId: currentPageId,
+        pageId: state.currentPageId,
         label: '',
         value: '',
         testId: '',
@@ -3545,11 +3800,11 @@ function addSavedValueRow(data) {
         createdAt: getCurrentTimestamp(),
         updatedAt: getCurrentTimestamp()
     };
-    savedValuesList.push(newData);
-    renderSavedValuesTable();
-    updateSavedValuesCount();
-    hasUnsavedSavedValuesChanges = true;
-    updateButtonVisibility();
+    state.savedValuesList.push(newData);
+    actions.renderSavedValuesTable();
+    actions.updateSavedValuesCount();
+    state.hasUnsavedSavedValuesChanges = true;
+    actions.updateButtonVisibility();
     // Highlight and scroll to the new saved value row similar to preset editor
     setTimeout(() => {
         const newRow = document.querySelector(`tr[data-id="${newData.id}"]`);
@@ -3570,12 +3825,12 @@ function renderSavedValuesTable() {
     const tbody = document.getElementById('savedValuesBody');
     if (!tbody)
         return;
-    if (savedValuesList.length === 0) {
+    if (state.savedValuesList.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 24px;">No saved values yet</td></tr>';
         return;
     }
     tbody.innerHTML = '';
-    savedValuesList.forEach((data, index) => {
+    state.savedValuesList.forEach((data, index) => {
         const row = document.createElement('tr');
         row.setAttribute('data-id', data.id);
         const formattedDate = new Date(data.updatedAt).toLocaleString('en-US', {
@@ -3633,26 +3888,26 @@ function renderSavedValuesTable() {
     });
     // Add event listeners for inputs
     tbody.querySelectorAll('.table-input').forEach(input => {
-        input.addEventListener('input', handleSavedValueInputChange);
-        input.addEventListener('blur', () => { hasUnsavedSavedValuesChanges = true; updateSavedValuesButtons(); });
+        input.addEventListener('input', actions.handleSavedValueInputChange);
+        input.addEventListener('blur', () => { state.hasUnsavedSavedValuesChanges = true; actions.updateSavedValuesButtons(); });
     });
     // Add event listeners for delete buttons
     tbody.querySelectorAll('.action-btn--delete').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             const id = e.currentTarget.getAttribute('data-id');
             if (id)
-                await deleteSavedValue(id);
+                await actions.deleteSavedValue(id);
         });
     });
     // Update saved values count
-    updateSavedValuesCount();
+    actions.updateSavedValuesCount();
 }
 // Update saved values count (separate function to reuse)
 function updateSavedValuesCount() {
     const el = document.getElementById('savedValuesCount');
     if (!el)
         return;
-    el.textContent = buildQuantityString(savedValuesList.length);
+    el.textContent = buildQuantityString(state.savedValuesList.length);
 }
 // Handle saved value input change
 function handleSavedValueInputChange(e) {
@@ -3666,48 +3921,48 @@ function handleSavedValueInputChange(e) {
     const field = input.getAttribute('data-field');
     if (!field)
         return;
-    const savedValue = savedValuesList.find(d => d.id === id);
+    const savedValue = state.savedValuesList.find(d => d.id === id);
     if (!savedValue)
         return;
     // Update the data
     savedValue[field] = input.value;
     savedValue.updatedAt = getCurrentTimestamp();
-    hasUnsavedSavedValuesChanges = true;
-    updateSavedValuesButtons();
+    state.hasUnsavedSavedValuesChanges = true;
+    actions.updateSavedValuesButtons();
 }
 // Delete saved value
-async function deleteSavedValue(id) {
+async function saved_values_deleteSavedValue(id) {
     if (!await showConfirm('Delete Saved Value', 'Are you sure you want to delete this saved value?'))
         return;
-    const index = savedValuesList.findIndex(d => d.id === id);
+    const index = state.savedValuesList.findIndex(d => d.id === id);
     if (index === -1)
         return;
-    savedValuesList.splice(index, 1);
-    renderSavedValuesTable();
-    updateSavedValuesCount();
-    hasUnsavedSavedValuesChanges = true;
-    updateSavedValuesButtons();
+    state.savedValuesList.splice(index, 1);
+    actions.renderSavedValuesTable();
+    actions.updateSavedValuesCount();
+    state.hasUnsavedSavedValuesChanges = true;
+    actions.updateSavedValuesButtons();
 }
 // Export saved values to JSON
 async function exportSavedValues() {
-    if (!currentPageData) {
+    if (!state.currentPageData) {
         showToast('No page selected', 'warning');
         return;
     }
-    if (savedValuesList.length === 0) {
+    if (state.savedValuesList.length === 0) {
         showToast('No saved values to export', 'info');
         return;
     }
     const exportFile = createExportFile({
         included: { pages: true, savedValues: true },
-        data: { pages: [currentPageData], savedValues: savedValuesList },
+        data: { pages: [state.currentPageData], savedValues: state.savedValuesList },
     });
-    downloadFile(JSON.stringify(exportFile, null, 2), `saved-values-${currentPageData.pageTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.json`);
+    downloadFile(JSON.stringify(exportFile, null, 2), `saved-values-${state.currentPageData.pageTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.json`);
     showToast('Saved values exported and downloaded', 'success');
 }
 // Import saved values from JSON
 async function importSavedValues(file) {
-    if (!currentPageData) {
+    if (!state.currentPageData) {
         showToast('No page selected', 'warning');
         return;
     }
@@ -3724,7 +3979,7 @@ async function importSavedValues(file) {
         const addedIds = [];
         for (const value of imported.data.savedValues) {
             // Check for duplicate by testId AND querySelector
-            const existing = savedValuesList.find(v => v.testId === value.testId && v.querySelector === value.querySelector);
+            const existing = state.savedValuesList.find(v => v.testId === value.testId && v.querySelector === value.querySelector);
             if (existing) {
                 // Ask user if they want to overwrite
                 const overwrite = await showConfirm('Overwrite Saved Value', `A saved value with testId="${value.testId}" and querySelector="${value.querySelector}" already exists.\n\n` +
@@ -3748,19 +4003,19 @@ async function importSavedValues(file) {
                 const newValue = {
                     ...value,
                     id: generateGuid(),
-                    pageId: currentPageData.id,
+                    pageId: state.currentPageData.id,
                     createdAt: getCurrentTimestamp(),
                     updatedAt: getCurrentTimestamp()
                 };
-                savedValuesList.push(newValue);
+                state.savedValuesList.push(newValue);
                 addedIds.push(newValue.id);
                 addedCount++;
             }
         }
-        renderSavedValuesTable();
-        hasUnsavedSavedValuesChanges = true;
-        updateSavedValuesButtons();
-        updateSavedValuesCount();
+        actions.renderSavedValuesTable();
+        state.hasUnsavedSavedValuesChanges = true;
+        actions.updateSavedValuesButtons();
+        actions.updateSavedValuesCount();
         // Highlight the most recently added saved value (if any)
         if (addedIds.length > 0) {
             setTimeout(() => {
@@ -3785,13 +4040,20 @@ async function importSavedValues(file) {
         showToast('Failed to import saved values. Please check the file format.', 'error');
     }
 }
+
+;// ./src/pages/page-profile-editor-page/export-modals.ts
+
+
+
+
+
 // Show export selection modal for page profile
 async function showExportSelectionModal() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const page = currentPageData;
-    const presets = await page_profile_editor_StorageService.getPresetsForPage(page.id);
-    const savedValues = await page_profile_editor_StorageService.getSavedValuesForPage(page.id);
+    const page = state.currentPageData;
+    const presets = await StorageService.getPresetsForPage(page.id);
+    const savedValues = await StorageService.getSavedValuesForPage(page.id);
     const modalContent = `
     <div class="export-selection">
       <p>Select what you want to export for this page profile:</p>
@@ -3800,7 +4062,7 @@ async function showExportSelectionModal() {
         <label class="export-option">
           <input type="checkbox" id="exportPage" checked>
           <span class="checkmark"></span>
-          Page Information (${page_profile_editor_escapeHtml(page.pageTitle)})
+          Page Information (${escapeHtml(page.pageTitle)})
         </label>
         
         <label class="export-option">
@@ -3835,7 +4097,7 @@ async function showExportSelectionModal() {
       </div>
     </div>
   `;
-    page_profile_editor_showModal('Export Page Profile', modalContent);
+    showModal('Export Page Profile', modalContent);
     // Handle select all button
     document.getElementById('selectAllBtn')?.addEventListener('click', () => {
         const checkboxes = document.querySelectorAll('.export-selection input[type="checkbox"]');
@@ -3850,22 +4112,22 @@ async function showExportSelectionModal() {
         const exportPresets = document.getElementById('exportPresets').checked;
         const exportSavedValues = document.getElementById('exportSavedValues').checked;
         if (!exportPage && !exportPresets && !exportSavedValues) {
-            page_profile_editor_showToast('Please select at least one item to export', 'warning');
+            showToast('Please select at least one item to export', 'warning');
             return;
         }
-        page_profile_editor_hideModal();
-        await performExport(exportPage, exportPresets, exportSavedValues);
+        hideModal();
+        await actions.performExport(exportPage, exportPresets, exportSavedValues);
     });
     // Handle cancel button
     document.getElementById('cancelExportBtn')?.addEventListener('click', () => {
-        page_profile_editor_hideModal();
+        hideModal();
     });
 }
 // Show preset export selection modal for current page presets
 async function showPresetExportSelectionModal() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const presets = await StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
     if (presets.length === 0) {
         showToast('No presets available for this page', 'info');
         return;
@@ -3949,7 +4211,7 @@ async function showPresetExportSelectionModal() {
         }
         const selectedPresets = presets.filter(preset => selectedIds.includes(preset.id));
         hideModal();
-        await performPresetExport(selectedPresets);
+        await actions.performPresetExport(selectedPresets);
     });
     // Handle cancel button
     document.getElementById('cancelPresetExportBtn')?.addEventListener('click', () => {
@@ -3958,12 +4220,12 @@ async function showPresetExportSelectionModal() {
 }
 // Perform the actual export based on selections
 async function performExport(includePage, includePresets, includeSavedValues) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const page = currentPageData;
-    const presets = includePresets ? await page_profile_editor_StorageService.getPresetsForPage(page.id) : [];
-    const savedValues = includeSavedValues ? await page_profile_editor_StorageService.getSavedValuesForPage(page.id) : [];
-    const data = await page_profile_editor_StorageService.getData();
+    const page = state.currentPageData;
+    const presets = includePresets ? await StorageService.getPresetsForPage(page.id) : [];
+    const savedValues = includeSavedValues ? await StorageService.getSavedValuesForPage(page.id) : [];
+    const data = await StorageService.getData();
     const presetIds = new Set(presets.map(p => p.id));
     const presetPageLinks = includePresets ? (data?.presetPageLinks ?? []).filter(link => link.pageId === page.id && presetIds.has(link.presetId)) : [];
     const included = {};
@@ -3982,7 +4244,7 @@ async function performExport(includePage, includePresets, includeSavedValues) {
         included.savedValues = true;
         exportData.savedValues = savedValues;
     }
-    const exportFile = page_profile_editor_createExportFile({
+    const exportFile = createExportFile({
         included,
         data: exportData,
     });
@@ -3994,23 +4256,50 @@ async function performExport(includePage, includePresets, includeSavedValues) {
         selectedItems.push('presets');
     if (includeSavedValues)
         selectedItems.push('saved values');
-    page_profile_editor_downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
-    page_profile_editor_showToast(`Selected ${selectedItems.join(', ')} exported and downloaded`, 'success');
+    downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_page_profile.json`);
+    showToast(`Selected ${selectedItems.join(', ')} exported and downloaded`, 'success');
 }
 // Perform the actual preset export
 async function performPresetExport(selectedPresets) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     const exportFile = createExportFile({
         included: { presets: true },
         data: { presets: selectedPresets }
     });
-    const filename = currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const filename = state.currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
     downloadFile(JSON.stringify(exportFile, null, 2), `${filename}_presets.json`);
     showToast(`${selectedPresets.length} preset${selectedPresets.length === 1 ? '' : 's'} exported and downloaded`, 'success');
 }
-// Initialize
-init();
+
+;// ./src/pages/page-profile-editor-page/bootstrap.ts
+
+function bootstrap() {
+    // Initialize
+    actions.init();
+}
+
+;// ./src/pages/page-profile-editor-page/index.ts
+
+
+
+
+
+
+
+
+
+
+
+
+Object.assign(actions, startup_namespaceObject, linking_modals_namespaceObject, page_profile_actions_namespaceObject, event_listeners_namespaceObject, form_data_table_namespaceObject, form_data_actions_namespaceObject, preset_persistence_namespaceObject, tabs_namespaceObject, page_profile_editor_page_saved_values_namespaceObject, export_modals_namespaceObject);
+function startPageProfileEditor() {
+    bootstrap();
+}
+
+;// ./src/pages/page-profile-editor.ts
+
+startPageProfileEditor();
 
 /******/ })()
 ;

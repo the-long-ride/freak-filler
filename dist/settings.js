@@ -1,9 +1,525 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/startup.ts
+var startup_namespaceObject = {};
+__webpack_require__.r(startup_namespaceObject);
+__webpack_require__.d(startup_namespaceObject, {
+  init: () => (init),
+  loadData: () => (loadData),
+  loadSettings: () => (loadSettings),
+  updateFillingAssistantNoteVisibility: () => (updateFillingAssistantNoteVisibility),
+  updateSetting: () => (updateSetting)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/sorting.ts
+var sorting_namespaceObject = {};
+__webpack_require__.r(sorting_namespaceObject);
+__webpack_require__.d(sorting_namespaceObject, {
+  handleHeaderClick: () => (handleHeaderClick),
+  sortData: () => (sortData),
+  updateSortIndicators: () => (updateSortIndicators)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/locator-loader.ts
+var locator_loader_namespaceObject = {};
+__webpack_require__.r(locator_loader_namespaceObject);
+__webpack_require__.d(locator_loader_namespaceObject, {
+  loadLocators: () => (loadLocators)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/patterns-and-length-loader.ts
+var patterns_and_length_loader_namespaceObject = {};
+__webpack_require__.r(patterns_and_length_loader_namespaceObject);
+__webpack_require__.d(patterns_and_length_loader_namespaceObject, {
+  loadLengthConfigurations: () => (loadLengthConfigurations),
+  loadRegexPatterns: () => (loadRegexPatterns)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/pages-and-presets-loader.ts
+var pages_and_presets_loader_namespaceObject = {};
+__webpack_require__.r(pages_and_presets_loader_namespaceObject);
+__webpack_require__.d(pages_and_presets_loader_namespaceObject, {
+  handleClonePreset: () => (handleClonePreset),
+  handleDeletePage: () => (handleDeletePage),
+  handleDeletePreset: () => (handleDeletePreset),
+  handleDuplicatePage: () => (handleDuplicatePage),
+  loadPages: () => (loadPages),
+  loadPresets: () => (loadPresets)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/change-buttons.ts
+var change_buttons_namespaceObject = {};
+__webpack_require__.r(change_buttons_namespaceObject);
+__webpack_require__.d(change_buttons_namespaceObject, {
+  hideLengthConfigButtons: () => (hideLengthConfigButtons),
+  hideLocatorButtons: () => (hideLocatorButtons),
+  hidePageButtons: () => (hidePageButtons),
+  hidePresetButtons: () => (hidePresetButtons),
+  hideRegexPatternsButtons: () => (hideRegexPatternsButtons),
+  markAsChanged: () => (markAsChanged),
+  showLengthConfigButtons: () => (showLengthConfigButtons),
+  showLocatorButtons: () => (showLocatorButtons),
+  showPageButtons: () => (showPageButtons),
+  showPresetButtons: () => (showPresetButtons),
+  showRegexPatternsButtons: () => (showRegexPatternsButtons)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/save-changes.ts
+var save_changes_namespaceObject = {};
+__webpack_require__.r(save_changes_namespaceObject);
+__webpack_require__.d(save_changes_namespaceObject, {
+  handleDeleteLengthConfig: () => (handleDeleteLengthConfig),
+  handleDeleteRegexPattern: () => (handleDeleteRegexPattern),
+  saveLengthConfigurationsChanges: () => (saveLengthConfigurationsChanges),
+  saveLocatorChanges: () => (saveLocatorChanges),
+  savePageChanges: () => (savePageChanges),
+  savePresetChanges: () => (savePresetChanges),
+  saveRegexPatternsChanges: () => (saveRegexPatternsChanges)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/page-import-export.ts
+var page_import_export_namespaceObject = {};
+__webpack_require__.r(page_import_export_namespaceObject);
+__webpack_require__.d(page_import_export_namespaceObject, {
+  exportPages: () => (exportPages),
+  importPages: () => (importPages),
+  performPageExport: () => (performPageExport),
+  showPageExportSelectionModal: () => (showPageExportSelectionModal)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/preset-import-export.ts
+var preset_import_export_namespaceObject = {};
+__webpack_require__.r(preset_import_export_namespaceObject);
+__webpack_require__.d(preset_import_export_namespaceObject, {
+  exportPresets: () => (exportPresets),
+  importPresets: () => (importPresets),
+  performPresetExport: () => (performPresetExport),
+  showPresetExportSelectionModal: () => (showPresetExportSelectionModal)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/pattern-import-export.ts
+var pattern_import_export_namespaceObject = {};
+__webpack_require__.r(pattern_import_export_namespaceObject);
+__webpack_require__.d(pattern_import_export_namespaceObject, {
+  exportAllSettings: () => (exportAllSettings),
+  exportLengthConfigurations: () => (exportLengthConfigurations),
+  exportRegexPatterns: () => (exportRegexPatterns),
+  importAllSettings: () => (importAllSettings),
+  importLengthConfigurations: () => (importLengthConfigurations),
+  importRegexPatterns: () => (importRegexPatterns)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/event-listeners.ts
+var event_listeners_namespaceObject = {};
+__webpack_require__.r(event_listeners_namespaceObject);
+__webpack_require__.d(event_listeners_namespaceObject, {
+  setupEventListeners: () => (setupEventListeners)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/navigation.ts
+var navigation_namespaceObject = {};
+__webpack_require__.r(navigation_namespaceObject);
+__webpack_require__.d(navigation_namespaceObject, {
+  updateActiveNavButton: () => (updateActiveNavButton)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/save-all.ts
+var save_all_namespaceObject = {};
+__webpack_require__.r(save_all_namespaceObject);
+__webpack_require__.d(save_all_namespaceObject, {
+  saveAllChanges: () => (saveAllChanges)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/page-preset-modals.ts
+var page_preset_modals_namespaceObject = {};
+__webpack_require__.r(page_preset_modals_namespaceObject);
+__webpack_require__.d(page_preset_modals_namespaceObject, {
+  showAddPageModal: () => (showAddPageModal),
+  showAddPresetModal: () => (showAddPresetModal)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/pattern-length-modals.ts
+var pattern_length_modals_namespaceObject = {};
+__webpack_require__.r(pattern_length_modals_namespaceObject);
+__webpack_require__.d(pattern_length_modals_namespaceObject, {
+  showAddLengthConfigModal: () => (showAddLengthConfigModal),
+  showAddRegexPatternModal: () => (showAddRegexPatternModal)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/prompt-select.ts
+var prompt_select_namespaceObject = {};
+__webpack_require__.r(prompt_select_namespaceObject);
+__webpack_require__.d(prompt_select_namespaceObject, {
+  initCustomPromptsSelect: () => (initCustomPromptsSelect)
+});
+
+// NAMESPACE OBJECT: ./src/pages/settings-page/pattern-dragging.ts
+var pattern_dragging_namespaceObject = {};
+__webpack_require__.r(pattern_dragging_namespaceObject);
+__webpack_require__.d(pattern_dragging_namespaceObject, {
+  handleRegexPatternDragEnd: () => (handleRegexPatternDragEnd),
+  handleRegexPatternDragLeave: () => (handleRegexPatternDragLeave),
+  handleRegexPatternDragOver: () => (handleRegexPatternDragOver),
+  handleRegexPatternDragStart: () => (handleRegexPatternDragStart),
+  handleRegexPatternDrop: () => (handleRegexPatternDrop)
+});
+
+;// ./src/pages/settings-page/context.ts
+const state = {
+    hasUnsavedChanges: false,
+    originalData: null,
+    originalSettings: null,
+    draggedRegexPatternRow: null,
+    sortStates: {
+        regexPatterns: { column: 'name', direction: 'asc' },
+        locators: { column: 'testId', direction: 'asc' },
+        pages: { column: 'pageTitle', direction: 'asc' },
+        presets: { column: 'name', direction: 'asc' },
+        lengthConfig: { column: 'name', direction: 'asc' }
+    }
+};
+const actions = {};
+
+;// ./src/constants/appConstants.ts
+/**
+ * Application-wide constants
+ */
+// Storage keys
+const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
+    DATA: 'formFillerData',
+    SETTINGS: 'formFillerSettings',
+    MIGRATION: 'formFillerMigrationCompleted'
+}));
+// Theme constants
+const THEMES = {
+    LIGHT: 'light',
+    DARK: 'dark'
+};
+// Form field types
+const FIELD_TYPES = (/* unused pure expression or super */ null && ({
+    TEXT: 'text',
+    SEARCH: 'search',
+    CHECKBOX: 'checkbox',
+    DROPDOWN: 'dropdown',
+    DATEPICKER: 'datepicker',
+    CLICKABLE: 'clickable',
+    RADIO: 'radio',
+    RANGE: 'range',
+    NUMBER: 'number',
+    COLOR: 'color',
+    DYNAMIC_DATE: 'dynamicDate',
+    HTML_EDITOR: 'htmlEditor'
+}));
+// UI messages
+const MESSAGES = (/* unused pure expression or super */ null && ({
+    NO_PAGE_URL: 'Page URL is required',
+    NO_PRESETS: 'No presets yet',
+    NO_PAGES: 'No pages available',
+    NO_FORM_FIELDS: 'No form fields found on the page',
+    CONFIRM_DELETE: 'Are you sure you want to delete this',
+    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
+    SUCCESS_SAVE: 'Saved successfully!',
+    INVALID_DATA: 'Invalid data format'
+}));
+// Default values
+const DEFAULTS = {
+    FILL_DELAY: 0,
+    AUTO_BLUR: true,
+    MUST_BE_MATCHED: false,
+    ENABLE_SAVE_VALUE: true,
+    ENABLE_IMPORT_VALUE: true,
+    ENABLE_LIVE_ASSISTANT: false,
+    DEFAULT_SAVE_ITEM_TO: 'savedValues',
+    THEME: 'light',
+    ENABLE_LOCATOR_RETRIEVER: false,
+    ENABLE_REGEX_PATTERN: false,
+    ENABLE_RANDOM_STRING_SECTION: false,
+    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
+    RANDOM_STRING_CHARSET: 'alphanumeric-special',
+    RANDOM_STRING_LENGTH: 100
+};
+// Limits and thresholds
+const LIMITS = (/* unused pure expression or super */ null && ({
+    PARENT_SEARCH_DEPTH: 7,
+    SAME_ROW_THRESHOLD: 10, // pixels
+    DEFAULT_PAGE_SIZE: 25,
+    MAX_RETRIES: 3,
+    MIN_STRING_LENGTH: 1,
+    MAX_STRING_LENGTH: 99999,
+    QUANTIFIER_MAX_REPEAT: 10
+}));
+// Sort directions
+const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
+    ASC: 'asc',
+    DESC: 'desc'
+}));
+// CSS class names
+const CSS_CLASSES = (/* unused pure expression or super */ null && ({
+    ACTIVE: 'active',
+    CHECKED: 'checked',
+    HIDDEN: 'hidden',
+    DISABLED: 'disabled',
+    LOADING: 'loading'
+}));
+// Export/Import JSON schema
+const EXPORT_SCHEMA = 'form-filler.export.v1';
+// Character sets for random string generation
+const CHAR_SETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    DIGITS: '0123456789',
+    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+    CONTROL: '~`\'"\\/',
+    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+}));
+// Random string character set templates
+const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
+    ALPHABET: 'alphabet',
+    NUMERIC: 'numeric',
+    ALPHANUMERIC: 'alphanumeric',
+    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
+    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
+}));
+// Default regex patterns
+const DEFAULT_REGEX_PATTERNS = [
+    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
+    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
+    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
+];
+
+;// ./src/services/storage/keys.ts
+const STORAGE_KEY = 'formFillerData';
+const SETTINGS_KEY = 'formFillerSettings';
+
+;// ./src/services/storage/core.ts
+
+
+
+async function initialize() {
+    const data = await StorageService.getData();
+    if (!data) {
+        await StorageService.setData({
+            pages: [],
+            presets: [],
+            presetPageLinks: [],
+            savedValues: [],
+            regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
+            lengthConfigurations: []
+        });
+    }
+    const settings = await StorageService.getSettings();
+    if (!settings) {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme: DEFAULTS.THEME,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
+async function getData() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([STORAGE_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    const data = result[STORAGE_KEY] || null;
+                    // Migration: Convert old mustBeMatched to matchIdentify
+                    if (data && data.pages) {
+                        let needsMigration = false;
+                        data.pages.forEach((page) => {
+                            // Ensure all pages have matchIdentify
+                            if (!page.matchIdentify) {
+                                page.matchIdentify = 'prefixMatch';
+                                needsMigration = true;
+                            }
+                        });
+                        // Save migrated data
+                        if (needsMigration) {
+                            StorageService.setData(data).catch(err => console.error('Migration save failed:', err));
+                        }
+                    }
+                    resolve(data);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage access failed:', error);
+        return null;
+    }
+}
+async function setData(data) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage write failed:', error);
+    }
+}
+async function getSettings() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([SETTINGS_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    let settings = result[SETTINGS_KEY] || null;
+                    // Migrate settings to include new properties
+                    if (settings) {
+                        let needsMigration = false;
+                        const migratedSettings = { ...settings };
+                        if (settings.enableLocatorRetriever === undefined) {
+                            migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRegexPattern === undefined) {
+                            migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRandomStringSectionInPopup === undefined) {
+                            migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringCharset === undefined) {
+                            migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringLength === undefined) {
+                            migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
+                            needsMigration = true;
+                        }
+                        // Save migrated settings
+                        if (needsMigration) {
+                            StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                        }
+                        settings = migratedSettings;
+                    }
+                    resolve(settings);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings access failed:', error);
+        return null;
+    }
+}
+async function setSettings(settings) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings write failed:', error);
+    }
+}
+async function getTheme() {
+    const settings = await StorageService.getSettings();
+    return settings?.theme || 'dark';
+}
+async function setTheme(theme) {
+    const settings = await StorageService.getSettings();
+    if (settings) {
+        settings.theme = theme;
+        await StorageService.setSettings(settings);
+    }
+    else {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
 
 ;// ./src/utils/helpers.ts
-/* unused harmony import specifier */ var CHAR_SETS;
-/* unused harmony import specifier */ var LIMITS;
+/* unused harmony import specifier */ var helpers_CHAR_SETS;
+/* unused harmony import specifier */ var helpers_LIMITS;
 // Utility functions
 
 function generateGuid() {
@@ -37,21 +553,21 @@ function buildQuantityString(quantity) {
 function getCharacterSet(template) {
     switch (template) {
         case 'numeric':
-            return CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.DIGITS;
         case 'alphabet':
-            return CHAR_SETS.ALPHABET;
+            return helpers_CHAR_SETS.ALPHABET;
         case 'alphanumeric':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS;
         case 'alphanumeric-special':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS + helpers_CHAR_SETS.SPECIAL;
         case 'alphanumeric-special-control':
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS + CHAR_SETS.SPECIAL + CHAR_SETS.CONTROL;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS + helpers_CHAR_SETS.SPECIAL + helpers_CHAR_SETS.CONTROL;
         default:
-            return CHAR_SETS.ALPHABET + CHAR_SETS.DIGITS;
+            return helpers_CHAR_SETS.ALPHABET + helpers_CHAR_SETS.DIGITS;
     }
 }
 function generateRandomString(length, charset) {
-    const constrainedLength = constrainNumber(length, LIMITS.MIN_STRING_LENGTH, LIMITS.MAX_STRING_LENGTH);
+    const constrainedLength = constrainNumber(length, helpers_LIMITS.MIN_STRING_LENGTH, helpers_LIMITS.MAX_STRING_LENGTH);
     let chars;
     if (['numeric', 'alphabet', 'alphanumeric', 'alphanumeric-special', 'alphanumeric-special-control'].includes(charset)) {
         chars = getCharacterSet(charset);
@@ -115,7 +631,7 @@ function generateFromRegex(regex, length) {
                 }
                 else if (next === 'w') {
                     // Word character (alphanumeric + underscore)
-                    generatedPart = () => CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * CHAR_SETS.WORD_CHARS.length)];
+                    generatedPart = () => helpers_CHAR_SETS.WORD_CHARS[Math.floor(Math.random() * helpers_CHAR_SETS.WORD_CHARS.length)];
                 }
                 else {
                     // Other escaped characters (literal)
@@ -166,7 +682,7 @@ function generateFromRegex(regex, length) {
             }
             else if (char === '.') {
                 // Any character (using alphanumeric set)
-                generatedPart = () => CHAR_SETS.ALPHABET[Math.floor(Math.random() * CHAR_SETS.ALPHABET.length)];
+                generatedPart = () => helpers_CHAR_SETS.ALPHABET[Math.floor(Math.random() * helpers_CHAR_SETS.ALPHABET.length)];
                 i++;
             }
             else if (char === '+' || char === '*' || char === '?' || char === '{') {
@@ -203,7 +719,7 @@ function generateFromRegex(regex, length) {
                 // + (one or more) or * (zero or more)
                 const isPlus = pattern[i] === '+';
                 const min = isPlus ? 1 : 0;
-                const count = min + Math.floor(Math.random() * (LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
+                const count = min + Math.floor(Math.random() * (helpers_LIMITS.QUANTIFIER_MAX_REPEAT - min + 1));
                 // Generate the character 'count' times
                 for (let j = 0; j < count && result.length < length; j++) {
                     result += typeof generatedPart === 'function' ? generatedPart() : generatedPart;
@@ -224,592 +740,356 @@ function generateFromRegex(regex, length) {
     }
 }
 
-;// ./src/constants/appConstants.ts
-/**
- * Application-wide constants
- */
-// Storage keys
-const STORAGE_KEYS = (/* unused pure expression or super */ null && ({
-    DATA: 'formFillerData',
-    SETTINGS: 'formFillerSettings',
-    MIGRATION: 'formFillerMigrationCompleted'
-}));
-// Theme constants
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-// Form field types
-const FIELD_TYPES = (/* unused pure expression or super */ null && ({
-    TEXT: 'text',
-    SEARCH: 'search',
-    CHECKBOX: 'checkbox',
-    DROPDOWN: 'dropdown',
-    DATEPICKER: 'datepicker',
-    CLICKABLE: 'clickable',
-    RADIO: 'radio',
-    RANGE: 'range',
-    NUMBER: 'number',
-    COLOR: 'color',
-    DYNAMIC_DATE: 'dynamicDate',
-    HTML_EDITOR: 'htmlEditor'
-}));
-// UI messages
-const MESSAGES = (/* unused pure expression or super */ null && ({
-    NO_PAGE_URL: 'Page URL is required',
-    NO_PRESETS: 'No presets yet',
-    NO_PAGES: 'No pages available',
-    NO_FORM_FIELDS: 'No form fields found on the page',
-    CONFIRM_DELETE: 'Are you sure you want to delete this',
-    UNSAVED_CHANGES: 'You have unsaved changes. Do you want to discard them and',
-    SUCCESS_SAVE: 'Saved successfully!',
-    INVALID_DATA: 'Invalid data format'
-}));
-// Default values
-const DEFAULTS = {
-    FILL_DELAY: 0,
-    AUTO_BLUR: true,
-    MUST_BE_MATCHED: false,
-    ENABLE_SAVE_VALUE: true,
-    ENABLE_IMPORT_VALUE: true,
-    ENABLE_LIVE_ASSISTANT: false,
-    DEFAULT_SAVE_ITEM_TO: 'savedValues',
-    THEME: 'light',
-    ENABLE_LOCATOR_RETRIEVER: false,
-    ENABLE_REGEX_PATTERN: false,
-    ENABLE_RANDOM_STRING_SECTION: false,
-    ENABLE_RANDOM_STRING_IN_ASSISTANT: false,
-    RANDOM_STRING_CHARSET: 'alphanumeric-special',
-    RANDOM_STRING_LENGTH: 100
-};
-// Limits and thresholds
-const appConstants_LIMITS = (/* unused pure expression or super */ null && ({
-    PARENT_SEARCH_DEPTH: 7,
-    SAME_ROW_THRESHOLD: 10, // pixels
-    DEFAULT_PAGE_SIZE: 25,
-    MAX_RETRIES: 3,
-    MIN_STRING_LENGTH: 1,
-    MAX_STRING_LENGTH: 99999,
-    QUANTIFIER_MAX_REPEAT: 10
-}));
-// Sort directions
-const SORT_DIRECTION = (/* unused pure expression or super */ null && ({
-    ASC: 'asc',
-    DESC: 'desc'
-}));
-// CSS class names
-const CSS_CLASSES = (/* unused pure expression or super */ null && ({
-    ACTIVE: 'active',
-    CHECKED: 'checked',
-    HIDDEN: 'hidden',
-    DISABLED: 'disabled',
-    LOADING: 'loading'
-}));
-// Export/Import JSON schema
-const EXPORT_SCHEMA = 'form-filler.export.v1';
-// Character sets for random string generation
-const appConstants_CHAR_SETS = (/* unused pure expression or super */ null && ({
-    ALPHABET: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    DIGITS: '0123456789',
-    SPECIAL: '!@#$%^&*()_+-=[]{}|;:,.<>?',
-    CONTROL: '~`\'"\\/',
-    WORD_CHARS: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
-}));
-// Random string character set templates
-const RANDOM_STRING_CHARSETS = (/* unused pure expression or super */ null && ({
-    ALPHABET: 'alphabet',
-    NUMERIC: 'numeric',
-    ALPHANUMERIC: 'alphanumeric',
-    ALPHANUMERIC_SPECIAL: 'alphanumeric-special',
-    ALPHANUMERIC_SPECIAL_CONTROL: 'alphanumeric-special-control'
-}));
-// Default regex patterns
-const DEFAULT_REGEX_PATTERNS = [
-    { name: 'Shortest email', regex: '^[a-zA-Z0-9_%+-]@[a-zA-Z0-9.-]\\.[a-zA-Z]{2}$', order: 1 },
-    { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
-    { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
-];
+;// ./src/services/storage/pages.ts
+
+
+async function getPageByUrl(url, matchIdentify) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => {
+        if (matchIdentify === 'exactMatch') {
+            return page.url === url;
+        }
+        else {
+            return url.startsWith(page.url);
+        }
+    }) || null;
+}
+async function getPageById(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => page.id === pageId) || null;
+}
+async function getCurrentPageData(currentUrl) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    // First try exact match
+    let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
+    // Then try startsWith match
+    if (!page) {
+        page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
+    }
+    return page || null;
+}
+async function addPage(pageData) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing page IDs
+    const existingIds = data.pages.map(p => p.id);
+    const newPage = {
+        ...pageData,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.pages.push(newPage);
+    await StorageService.setData(data);
+    return newPage;
+}
+async function updatePage(id, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const pageIndex = data.pages.findIndex(p => p.id === id);
+    if (pageIndex !== -1) {
+        data.pages[pageIndex] = {
+            ...data.pages[pageIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+
+;// ./src/services/storage/presets.ts
+
+
+async function deletePreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Remove preset
+    data.presets = data.presets.filter(p => p.id !== presetId);
+    // Remove all links to this preset
+    data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
+    await StorageService.setData(data);
+}
+async function getPresetsForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get the actual presets
+    return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+}
+async function getPageIdsForPreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.presetPageLinks
+        .filter(link => link.presetId === presetId)
+        .map(link => link.pageId);
+}
+async function getUnlinkedPresets(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get presets that are NOT linked to this page
+    return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+}
+async function getPresetById(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    const preset = data.presets.find(p => p.id === presetId);
+    return preset || null;
+}
+async function addPreset(preset) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing preset IDs
+    const existingIds = data.presets.map(p => p.id);
+    const newPreset = {
+        ...preset,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.presets.push(newPreset);
+    await StorageService.setData(data);
+    return newPreset;
+}
+async function updatePreset(presetId, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const presetIndex = data.presets.findIndex(p => p.id === presetId);
+    if (presetIndex !== -1) {
+        data.presets[presetIndex] = {
+            ...data.presets[presetIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+async function linkPresetToPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Check if link already exists
+    const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
+    if (!existingLink) {
+        data.presetPageLinks.push({ presetId, pageId });
+        await StorageService.setData(data);
+    }
+}
+async function unlinkPresetFromPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
+    await StorageService.setData(data);
+}
+
+;// ./src/services/storage/saved-values.ts
+
+
+async function addSavedFormData(pageUrl, formData) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    // Generate unique ID that doesn't collide with existing saved value IDs
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newSavedValue = {
+        id: generateUniqueId(existingIds),
+        pageId: page.id,
+        label: formData.title,
+        value: String(formData.value),
+        testId: formData.testId,
+        querySelector: formData.querySelector,
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.savedValues.push(newSavedValue);
+    await StorageService.setData(data);
+}
+async function deleteSavedFormData(pageUrl, savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
+    await StorageService.setData(data);
+}
+async function getSavedFormDataForField(pageUrl, testId, querySelector) {
+    const page = await StorageService.getCurrentPageData(pageUrl);
+    if (!page)
+        return [];
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
+    return savedValuesForPage
+        .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+}
+async function getSavedValuesForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.savedValues.filter(sv => sv.pageId === pageId);
+}
+async function addSavedValue(pageId, savedValue) {
+    const data = await StorageService.getData();
+    if (!data)
+        throw new Error('No data');
+    // Generate unique ID if not provided
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newId = savedValue.id && !existingIds.includes(savedValue.id)
+        ? savedValue.id
+        : generateUniqueId(existingIds);
+    // Create the saved value
+    const newSavedValue = {
+        id: newId,
+        pageId,
+        label: savedValue.label || '',
+        value: savedValue.value || '',
+        testId: savedValue.testId || '',
+        querySelector: savedValue.querySelector || '',
+        createdAt: savedValue.createdAt || getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    // Check if saved value already exists for this page and id
+    const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
+    if (existingIndex !== -1) {
+        // Update existing saved value
+        data.savedValues[existingIndex] = newSavedValue;
+    }
+    else {
+        // Add new saved value
+        data.savedValues.push(newSavedValue);
+    }
+    await StorageService.setData(data);
+    return newSavedValue;
+}
+async function deleteSavedValue(savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
+    await StorageService.setData(data);
+}
 
 ;// ./src/services/storage.service.ts
 
-
-const STORAGE_KEY = 'formFillerData';
-const SETTINGS_KEY = 'formFillerSettings';
 class StorageService {
-    // Initialize storage with default data
     static async initialize() {
-        const data = await this.getData();
-        if (!data) {
-            await this.setData({
-                pages: [],
-                presets: [],
-                presetPageLinks: [],
-                savedValues: [],
-                regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
-                lengthConfigurations: []
-            });
-        }
-        const settings = await this.getSettings();
-        if (!settings) {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme: DEFAULTS.THEME,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return initialize();
     }
-    // Get all data
     static async getData() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([STORAGE_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        const data = result[STORAGE_KEY] || null;
-                        // Migration: Convert old mustBeMatched to matchIdentify
-                        if (data && data.pages) {
-                            let needsMigration = false;
-                            data.pages.forEach((page) => {
-                                // Ensure all pages have matchIdentify
-                                if (!page.matchIdentify) {
-                                    page.matchIdentify = 'prefixMatch';
-                                    needsMigration = true;
-                                }
-                            });
-                            // Save migrated data
-                            if (needsMigration) {
-                                this.setData(data).catch(err => console.error('Migration save failed:', err));
-                            }
-                        }
-                        resolve(data);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage access failed:', error);
-            return null;
-        }
+        return getData();
     }
-    // Set all data
     static async setData(data) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage write failed:', error);
-        }
+        return setData(data);
     }
-    // Get settings
     static async getSettings() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([SETTINGS_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        let settings = result[SETTINGS_KEY] || null;
-                        // Migrate settings to include new properties
-                        if (settings) {
-                            let needsMigration = false;
-                            const migratedSettings = { ...settings };
-                            if (settings.enableLocatorRetriever === undefined) {
-                                migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRegexPattern === undefined) {
-                                migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRandomStringSectionInPopup === undefined) {
-                                migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringCharset === undefined) {
-                                migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringLength === undefined) {
-                                migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
-                                needsMigration = true;
-                            }
-                            // Save migrated settings
-                            if (needsMigration) {
-                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
-                            }
-                            settings = migratedSettings;
-                        }
-                        resolve(settings);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings access failed:', error);
-            return null;
-        }
+        return getSettings();
     }
-    // Set settings
     static async setSettings(settings) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings write failed:', error);
-        }
+        return setSettings(settings);
     }
-    // Get current theme
     static async getTheme() {
-        const settings = await this.getSettings();
-        return settings?.theme || 'dark';
+        return getTheme();
     }
-    // Set theme
     static async setTheme(theme) {
-        const settings = await this.getSettings();
-        if (settings) {
-            settings.theme = theme;
-            await this.setSettings(settings);
-        }
-        else {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return setTheme(theme);
     }
-    // Get page data by URL
     static async getPageByUrl(url, matchIdentify) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => {
-            if (matchIdentify === 'exactMatch') {
-                return page.url === url;
-            }
-            else {
-                return url.startsWith(page.url);
-            }
-        }) || null;
+        return getPageByUrl(url, matchIdentify);
     }
-    // Get page data by ID
     static async getPageById(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => page.id === pageId) || null;
+        return getPageById(pageId);
     }
-    // Get page data matching current URL
     static async getCurrentPageData(currentUrl) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        // First try exact match
-        let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
-        // Then try startsWith match
-        if (!page) {
-            page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
-        }
-        return page || null;
+        return getCurrentPageData(currentUrl);
     }
-    // Add new page
     static async addPage(pageData) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing page IDs
-        const existingIds = data.pages.map(p => p.id);
-        const newPage = {
-            ...pageData,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.pages.push(newPage);
-        await this.setData(data);
-        return newPage;
+        return addPage(pageData);
     }
-    // Update page
-    /**
-     * Update a page by its id
-     * @param id - Page id
-     * @param updates - Partial page data
-     */
     static async updatePage(id, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const pageIndex = data.pages.findIndex(p => p.id === id);
-        if (pageIndex !== -1) {
-            data.pages[pageIndex] = {
-                ...data.pages[pageIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePage(id, updates);
     }
-    // Delete preset (removes preset and all its links)
     static async deletePreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Remove preset
-        data.presets = data.presets.filter(p => p.id !== presetId);
-        // Remove all links to this preset
-        data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
-        await this.setData(data);
+        return deletePreset(presetId);
     }
-    // Add saved form data
     static async addSavedFormData(pageUrl, formData) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        // Generate unique ID that doesn't collide with existing saved value IDs
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newSavedValue = {
-            id: generateUniqueId(existingIds),
-            pageId: page.id,
-            label: formData.title,
-            value: String(formData.value),
-            testId: formData.testId,
-            querySelector: formData.querySelector,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.savedValues.push(newSavedValue);
-        await this.setData(data);
+        return addSavedFormData(pageUrl, formData);
     }
-    // Delete saved form data
     static async deleteSavedFormData(pageUrl, savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
-        await this.setData(data);
+        return deleteSavedFormData(pageUrl, savedValueId);
     }
-    // Get saved form data matching input field  
     static async getSavedFormDataForField(pageUrl, testId, querySelector) {
-        const page = await this.getCurrentPageData(pageUrl);
-        if (!page)
-            return [];
-        const data = await this.getData();
-        if (!data)
-            return [];
-        const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
-        return savedValuesForPage
-            .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+        return getSavedFormDataForField(pageUrl, testId, querySelector);
     }
-    // Get presets for a page by page ID
     static async getPresetsForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get the actual presets
-        return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+        return getPresetsForPage(pageId);
     }
-    // Get page IDs linked to a preset
     static async getPageIdsForPreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.presetPageLinks
-            .filter(link => link.presetId === presetId)
-            .map(link => link.pageId);
+        return getPageIdsForPreset(presetId);
     }
-    // Get all presets not linked to a specific page
     static async getUnlinkedPresets(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get presets that are NOT linked to this page
-        return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+        return getUnlinkedPresets(pageId);
     }
-    // Get preset by ID
     static async getPresetById(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        const preset = data.presets.find(p => p.id === presetId);
-        return preset || null;
+        return getPresetById(presetId);
     }
-    // Add preset
     static async addPreset(preset) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing preset IDs
-        const existingIds = data.presets.map(p => p.id);
-        const newPreset = {
-            ...preset,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.presets.push(newPreset);
-        await this.setData(data);
-        return newPreset;
+        return addPreset(preset);
     }
-    // Update preset
     static async updatePreset(presetId, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const presetIndex = data.presets.findIndex(p => p.id === presetId);
-        if (presetIndex !== -1) {
-            data.presets[presetIndex] = {
-                ...data.presets[presetIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePreset(presetId, updates);
     }
-    // Link preset to page
     static async linkPresetToPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Check if link already exists
-        const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
-        if (!existingLink) {
-            data.presetPageLinks.push({ presetId, pageId });
-            await this.setData(data);
-        }
+        return linkPresetToPage(presetId, pageId);
     }
-    // Unlink preset from page
     static async unlinkPresetFromPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
-        await this.setData(data);
+        return unlinkPresetFromPage(presetId, pageId);
     }
-    // Get saved values for a page
     static async getSavedValuesForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.savedValues.filter(sv => sv.pageId === pageId);
+        return getSavedValuesForPage(pageId);
     }
-    // Add saved value
     static async addSavedValue(pageId, savedValue) {
-        const data = await this.getData();
-        if (!data)
-            throw new Error('No data');
-        // Generate unique ID if not provided
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newId = savedValue.id && !existingIds.includes(savedValue.id)
-            ? savedValue.id
-            : generateUniqueId(existingIds);
-        // Create the saved value
-        const newSavedValue = {
-            id: newId,
-            pageId,
-            label: savedValue.label || '',
-            value: savedValue.value || '',
-            testId: savedValue.testId || '',
-            querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        // Check if saved value already exists for this page and id
-        const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
-        if (existingIndex !== -1) {
-            // Update existing saved value
-            data.savedValues[existingIndex] = newSavedValue;
-        }
-        else {
-            // Add new saved value
-            data.savedValues.push(newSavedValue);
-        }
-        await this.setData(data);
-        return newSavedValue;
+        return addSavedValue(pageId, savedValue);
     }
-    // Delete saved value
     static async deleteSavedValue(savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
-        await this.setData(data);
+        return deleteSavedValue(savedValueId);
     }
 }
 
@@ -1338,125 +1618,6 @@ function showToast(message, type = 'info', duration = 5000) {
     });
     // Auto dismiss after duration
     setTimeout(removeToast, duration);
-}
-
-;// ./src/utils/export-format.ts
-
-
-const INCLUDED_KEYS = [
-    'settings',
-    'pages',
-    'presets',
-    'presetPageLinks',
-    'savedValues',
-];
-function isRecord(value) {
-    return typeof value === 'object' && value !== null;
-}
-function isString(value) {
-    return typeof value === 'string';
-}
-function isBoolean(value) {
-    return typeof value === 'boolean';
-}
-function isArray(value) {
-    return Array.isArray(value);
-}
-function createEmptyRootData() {
-    return {
-        pages: [],
-        presets: [],
-        presetPageLinks: [],
-        savedValues: [],
-        regexPatterns: [],
-        lengthConfigurations: []
-    };
-}
-function createDefaultSettings() {
-    return {
-        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-        theme: DEFAULTS.THEME,
-        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-    };
-}
-function normalizeIncluded(partial) {
-    return {
-        settings: partial?.settings ?? false,
-        pages: partial?.pages ?? false,
-        presets: partial?.presets ?? false,
-        presetPageLinks: partial?.presetPageLinks ?? false,
-        savedValues: partial?.savedValues ?? false,
-        regexPatterns: partial?.regexPatterns ?? false,
-        lengthConfigurations: partial?.lengthConfigurations ?? false
-    };
-}
-function createExportFile(params) {
-    const settings = params.settings ?? createDefaultSettings();
-    const emptyData = createEmptyRootData();
-    return {
-        schema: EXPORT_SCHEMA,
-        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
-        included: normalizeIncluded(params.included),
-        settings,
-        data: {
-            pages: params.data?.pages ?? emptyData.pages,
-            presets: params.data?.presets ?? emptyData.presets,
-            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
-            savedValues: params.data?.savedValues ?? emptyData.savedValues,
-            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
-            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
-        },
-    };
-}
-function isExtensionExportFile(value) {
-    if (!isRecord(value))
-        return false;
-    if (value.schema !== EXPORT_SCHEMA)
-        return false;
-    if (!isString(value.exportedAt))
-        return false;
-    if (!isRecord(value.included))
-        return false;
-    for (const key of INCLUDED_KEYS) {
-        if (!isBoolean(value.included[key]))
-            return false;
-    }
-    if (!isRecord(value.settings))
-        return false;
-    if (!isBoolean(value.settings.enableSaveValue))
-        return false;
-    if (!isBoolean(value.settings.enableImportValue))
-        return false;
-    if (!isBoolean(value.settings.enableLiveAssistant))
-        return false;
-    if (!isString(value.settings.theme))
-        return false;
-    if (!isRecord(value.data))
-        return false;
-    if (!isArray(value.data.pages))
-        return false;
-    if (!isArray(value.data.presets))
-        return false;
-    if (!isArray(value.data.presetPageLinks))
-        return false;
-    if (!isArray(value.data.savedValues))
-        return false;
-    return true;
-}
-function parseExtensionExportJson(text) {
-    const parsed = JSON.parse(text);
-    if (!isExtensionExportFile(parsed)) {
-        throw new Error('Invalid import file format (expected form-filler.export.v1)');
-    }
-    return parsed;
 }
 
 ;// ./src/constants/svgs.ts
@@ -2030,11 +2191,7 @@ function injectGuideData(guideId, payload) {
     }
 }
 
-;// ./src/pages/settings.ts
-/* unused harmony import specifier */ var settings_StorageService;
-/* unused harmony import specifier */ var settings_getCurrentTimestamp;
-/* unused harmony import specifier */ var settings_showToast;
-/* unused harmony import specifier */ var settings_DEFAULTS;
+;// ./src/pages/settings-page/startup.ts
 
 
 
@@ -2043,19 +2200,6 @@ function injectGuideData(guideId, payload) {
 
 
 
-
-
-let hasUnsavedChanges = false;
-let originalData = null;
-let originalSettings = null;
-let draggedRegexPatternRow = null;
-const sortStates = {
-    regexPatterns: { column: 'name', direction: 'asc' },
-    locators: { column: 'testId', direction: 'asc' },
-    pages: { column: 'pageTitle', direction: 'asc' },
-    presets: { column: 'name', direction: 'asc' },
-    lengthConfig: { column: 'name', direction: 'asc' }
-};
 // Update filling assistant note visibility based on toggle states
 function updateFillingAssistantNoteVisibility() {
     const enableSaveValue = document.getElementById('enableSaveValue')?.checked ?? false;
@@ -2071,6 +2215,95 @@ function updateFillingAssistantNoteVisibility() {
         fillingAssistantNote.style.display = allTogglesOff ? 'block' : 'none';
     }
 }
+// Helper function to update a single setting
+async function updateSetting(key, value, message = '') {
+    const settings = await StorageService.getSettings();
+    if (settings) {
+        await StorageService.setSettings({
+            ...settings,
+            [key]: value
+        });
+        if (message) {
+            showToast(message, 'success');
+        }
+    }
+}
+// Initialize
+async function init() {
+    await initTheme();
+    await initVersion();
+    initCyberButtons(); // Initialize static header buttons first
+    initIconReplacement();
+    // Initialize guide overlays (settings page)
+    initGuideOverlays();
+    await actions.loadSettings();
+    await actions.loadData();
+    actions.setupEventListeners();
+    // Initialize sort indicators
+    actions.updateSortIndicators('regexPatterns');
+    actions.updateSortIndicators('locators');
+    actions.updateSortIndicators('pages');
+    actions.updateSortIndicators('presets');
+    actions.updateSortIndicators('lengthConfig');
+}
+// Load settings
+async function loadSettings() {
+    const settings = await StorageService.getSettings();
+    state.originalSettings = JSON.parse(JSON.stringify(settings));
+    const enableLiveAssistant = document.getElementById('enableLiveAssistant');
+    const enableSaveValue = document.getElementById('enableSaveValue');
+    const enableImportValue = document.getElementById('enableImportValue');
+    const enableLocatorRetriever = document.getElementById('enableLocatorRetriever');
+    const enableRegexPattern = document.getElementById('enableRegexPattern');
+    const enableRandomStringInAssistant = document.getElementById('enableRandomStringInAssistant');
+    const enableRandomStringSectionInPopup = document.getElementById('enableRandomStringSectionInPopup');
+    const randomStringCharset = document.getElementById('randomStringCharset');
+    const randomStringLength = document.getElementById('randomStringLength');
+    const defaultSaveTarget = document.getElementById('defaultSaveTarget');
+    if (settings) {
+        enableLiveAssistant.checked = settings.enableLiveAssistant ?? false;
+        enableSaveValue.checked = settings.enableSaveValue ?? true;
+        enableImportValue.checked = settings.enableImportValue ?? true;
+        enableLocatorRetriever.checked = settings.enableLocatorRetriever ?? false;
+        enableRegexPattern.checked = settings.enableRegexPattern ?? false;
+        enableRandomStringInAssistant.checked = settings.enableRandomStringInAssistant ?? false;
+        enableRandomStringSectionInPopup.checked = settings.enableRandomStringSectionInPopup ?? DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+        randomStringCharset.value = settings.randomStringCharset ?? 'alphanumeric-special';
+        randomStringLength.value = String(settings.randomStringLength ?? DEFAULTS.RANDOM_STRING_LENGTH);
+        // Populate and set default save target select
+        if (defaultSaveTarget) {
+            // Ensure options exist
+            if (defaultSaveTarget.options.length === 0) {
+                const optSaved = document.createElement('option');
+                optSaved.value = 'savedValues';
+                optSaved.text = 'Saved Values';
+                defaultSaveTarget.add(optSaved);
+                const optPreset = document.createElement('option');
+                optPreset.value = 'preset';
+                optPreset.text = 'Preset';
+                defaultSaveTarget.add(optPreset);
+            }
+            defaultSaveTarget.value = settings.defaultSaveItemTo;
+        }
+    }
+    // Update note visibility based on loaded settings
+    actions.updateFillingAssistantNoteVisibility();
+}
+// Load all data
+async function loadData() {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    state.originalData = JSON.parse(JSON.stringify(data));
+    await actions.loadLocators();
+    await actions.loadRegexPatterns();
+    await actions.loadLengthConfigurations();
+    await actions.loadPages();
+    await actions.loadPresets();
+}
+
+;// ./src/pages/settings-page/sorting.ts
+
 // Generic sorting function
 function sortData(data, column, direction, extraData) {
     return [...data].sort((a, b) => {
@@ -2127,7 +2360,7 @@ function updateSortIndicators(tableId) {
     headers.forEach(header => {
         header.classList.remove('sort-asc', 'sort-desc');
     });
-    const sortState = sortStates[tableId];
+    const sortState = state.sortStates[tableId];
     if (sortState) {
         const activeHeader = grid.querySelector(`.sortable-header[data-sort="${sortState.column}"]`);
         if (activeHeader) {
@@ -2137,7 +2370,7 @@ function updateSortIndicators(tableId) {
 }
 // Handle header click for sorting
 function handleHeaderClick(tableId, column) {
-    const sortState = sortStates[tableId];
+    const sortState = state.sortStates[tableId];
     if (sortState.column === column) {
         // Toggle direction if same column
         sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
@@ -2147,112 +2380,32 @@ function handleHeaderClick(tableId, column) {
         sortState.column = column;
         sortState.direction = 'asc';
     }
-    updateSortIndicators(tableId);
+    actions.updateSortIndicators(tableId);
     // Reload the table with new sorting
     switch (tableId) {
         case 'regexPatterns':
-            loadRegexPatterns();
+            actions.loadRegexPatterns();
             break;
         case 'locators':
-            loadLocators();
+            actions.loadLocators();
             break;
         case 'pages':
-            loadPages();
+            actions.loadPages();
             break;
         case 'presets':
-            loadPresets();
+            actions.loadPresets();
             break;
         case 'lengthConfig':
-            loadLengthConfigurations();
+            actions.loadLengthConfigurations();
             break;
     }
 }
-// Helper function to update a single setting
-async function updateSetting(key, value, message = '') {
-    const settings = await StorageService.getSettings();
-    if (settings) {
-        await StorageService.setSettings({
-            ...settings,
-            [key]: value
-        });
-        if (message) {
-            showToast(message, 'success');
-        }
-    }
-}
-// Initialize
-async function init() {
-    await initTheme();
-    await initVersion();
-    initCyberButtons(); // Initialize static header buttons first
-    initIconReplacement();
-    // Initialize guide overlays (settings page)
-    initGuideOverlays();
-    await loadSettings();
-    await loadData();
-    setupEventListeners();
-    // Initialize sort indicators
-    updateSortIndicators('regexPatterns');
-    updateSortIndicators('locators');
-    updateSortIndicators('pages');
-    updateSortIndicators('presets');
-    updateSortIndicators('lengthConfig');
-}
-// Load settings
-async function loadSettings() {
-    const settings = await StorageService.getSettings();
-    originalSettings = JSON.parse(JSON.stringify(settings));
-    const enableLiveAssistant = document.getElementById('enableLiveAssistant');
-    const enableSaveValue = document.getElementById('enableSaveValue');
-    const enableImportValue = document.getElementById('enableImportValue');
-    const enableLocatorRetriever = document.getElementById('enableLocatorRetriever');
-    const enableRegexPattern = document.getElementById('enableRegexPattern');
-    const enableRandomStringInAssistant = document.getElementById('enableRandomStringInAssistant');
-    const enableRandomStringSectionInPopup = document.getElementById('enableRandomStringSectionInPopup');
-    const randomStringCharset = document.getElementById('randomStringCharset');
-    const randomStringLength = document.getElementById('randomStringLength');
-    const defaultSaveTarget = document.getElementById('defaultSaveTarget');
-    if (settings) {
-        enableLiveAssistant.checked = settings.enableLiveAssistant ?? false;
-        enableSaveValue.checked = settings.enableSaveValue ?? true;
-        enableImportValue.checked = settings.enableImportValue ?? true;
-        enableLocatorRetriever.checked = settings.enableLocatorRetriever ?? false;
-        enableRegexPattern.checked = settings.enableRegexPattern ?? false;
-        enableRandomStringInAssistant.checked = settings.enableRandomStringInAssistant ?? false;
-        enableRandomStringSectionInPopup.checked = settings.enableRandomStringSectionInPopup ?? DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
-        randomStringCharset.value = settings.randomStringCharset ?? 'alphanumeric-special';
-        randomStringLength.value = String(settings.randomStringLength ?? DEFAULTS.RANDOM_STRING_LENGTH);
-        // Populate and set default save target select
-        if (defaultSaveTarget) {
-            // Ensure options exist
-            if (defaultSaveTarget.options.length === 0) {
-                const optSaved = document.createElement('option');
-                optSaved.value = 'savedValues';
-                optSaved.text = 'Saved Values';
-                defaultSaveTarget.add(optSaved);
-                const optPreset = document.createElement('option');
-                optPreset.value = 'preset';
-                optPreset.text = 'Preset';
-                defaultSaveTarget.add(optPreset);
-            }
-            defaultSaveTarget.value = settings.defaultSaveItemTo;
-        }
-    }
-    // Update note visibility based on loaded settings
-    updateFillingAssistantNoteVisibility();
-}
-// Load all data
-async function loadData() {
-    const data = await StorageService.getData();
-    if (!data)
-        return;
-    originalData = JSON.parse(JSON.stringify(data));
-    await loadLocators();
-    await loadRegexPatterns();
-    await loadLengthConfigurations();
-    await loadPages();
-    await loadPresets();
-}
+
+;// ./src/pages/settings-page/locator-loader.ts
+
+
+
+
 // Load locators
 async function loadLocators() {
     const data = await StorageService.getData();
@@ -2301,7 +2454,7 @@ async function loadLocators() {
         ...locator
     }));
     // Sort the locators
-    const sortedLocators = sortData(locatorArray, sortStates.locators.column, sortStates.locators.direction);
+    const sortedLocators = actions.sortData(locatorArray, state.sortStates.locators.column, state.sortStates.locators.direction);
     // Update record count
     const countElement = document.getElementById('locatorsCount');
     if (countElement) {
@@ -2330,23 +2483,30 @@ async function loadLocators() {
     });
     // Add change listeners to show save/cancel buttons
     tbody.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', () => showLocatorButtons());
+        input.addEventListener('input', () => actions.showLocatorButtons());
     });
 }
+
+;// ./src/pages/settings-page/patterns-and-length-loader.ts
+
+
+
+
+
 // Load regex patterns
 async function loadRegexPatterns() {
     // Use in-memory originalData when available so UI shows unsaved changes.
     let data = null;
-    if (originalData) {
-        data = originalData;
+    if (state.originalData) {
+        data = state.originalData;
     }
     else {
         const stored = await StorageService.getData();
         if (!stored)
             return;
         // Work on a copy in memory so user can cancel/save later
-        originalData = JSON.parse(JSON.stringify(stored));
-        data = originalData;
+        state.originalData = JSON.parse(JSON.stringify(stored));
+        data = state.originalData;
     }
     const tbody = document.getElementById('regexPatternsTableBody');
     if (!tbody)
@@ -2391,22 +2551,22 @@ async function loadRegexPatterns() {
       </div>
     `;
         // Add drag & drop event listeners
-        row.addEventListener('dragstart', handleRegexPatternDragStart);
-        row.addEventListener('dragover', handleRegexPatternDragOver);
-        row.addEventListener('drop', handleRegexPatternDrop);
-        row.addEventListener('dragend', handleRegexPatternDragEnd);
-        row.addEventListener('dragleave', handleRegexPatternDragLeave);
+        row.addEventListener('dragstart', actions.handleRegexPatternDragStart);
+        row.addEventListener('dragover', actions.handleRegexPatternDragOver);
+        row.addEventListener('drop', actions.handleRegexPatternDrop);
+        row.addEventListener('dragend', actions.handleRegexPatternDragEnd);
+        row.addEventListener('dragleave', actions.handleRegexPatternDragLeave);
         tbody.appendChild(row);
     });
     // Initialize cyber buttons after dynamic content is rendered
     initCyberButtons();
     // Add change listeners to show save/cancel buttons
     tbody.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', () => showRegexPatternsButtons());
+        input.addEventListener('input', () => actions.showRegexPatternsButtons());
     });
     // Add action listeners
     tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
-        btn.addEventListener('click', () => handleDeleteRegexPattern(btn.dataset.index));
+        btn.addEventListener('click', () => actions.handleDeleteRegexPattern(btn.dataset.index));
     });
 }
 // Load length configurations
@@ -2418,7 +2578,7 @@ async function loadLengthConfigurations() {
     if (!tbody)
         return;
     // Sort the length configurations
-    const sortedConfigs = sortData(data.lengthConfigurations, sortStates.lengthConfig.column, sortStates.lengthConfig.direction);
+    const sortedConfigs = actions.sortData(data.lengthConfigurations, state.sortStates.lengthConfig.column, state.sortStates.lengthConfig.direction);
     // Update record count
     const countElement = document.getElementById('lengthConfigCount');
     if (countElement) {
@@ -2457,13 +2617,21 @@ async function loadLengthConfigurations() {
     initCyberButtons();
     // Add change listeners to show save/cancel buttons
     tbody.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', () => showLengthConfigButtons());
+        input.addEventListener('input', () => actions.showLengthConfigButtons());
     });
     // Add action listeners
     tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
-        btn.addEventListener('click', () => handleDeleteLengthConfig(btn.dataset.index));
+        btn.addEventListener('click', () => actions.handleDeleteLengthConfig(btn.dataset.index));
     });
 }
+
+;// ./src/pages/settings-page/pages-and-presets-loader.ts
+
+
+
+
+
+
 // Load pages
 async function loadPages() {
     const data = await StorageService.getData();
@@ -2473,7 +2641,7 @@ async function loadPages() {
     if (!tbody)
         return;
     // Sort the pages
-    const sortedPages = sortData(data.pages, sortStates.pages.column, sortStates.pages.direction);
+    const sortedPages = actions.sortData(data.pages, state.sortStates.pages.column, state.sortStates.pages.direction);
     // Update record count
     const countElement = document.getElementById('pagesCount');
     if (countElement) {
@@ -2518,7 +2686,7 @@ async function loadPages() {
     initCyberButtons();
     // Add change listeners
     tbody.querySelectorAll('input, textarea, select').forEach(input => {
-        input.addEventListener('input', () => showPageButtons());
+        input.addEventListener('input', () => actions.showPageButtons());
     });
     // Add action listeners
     tbody.querySelectorAll('[data-action="open"]').forEach(btn => {
@@ -2533,10 +2701,10 @@ async function loadPages() {
         });
     });
     tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
-        btn.addEventListener('click', () => handleDeletePage(btn.dataset.id));
+        btn.addEventListener('click', () => actions.handleDeletePage(btn.dataset.id));
     });
     tbody.querySelectorAll('[data-action="duplicate"]').forEach(btn => {
-        btn.addEventListener('click', () => handleDuplicatePage(btn.dataset.id));
+        btn.addEventListener('click', () => actions.handleDuplicatePage(btn.dataset.id));
     });
 }
 // Handle delete page
@@ -2557,7 +2725,7 @@ async function handleDeletePage(pageId) {
     // Remove saved values
     data.savedValues = data.savedValues.filter(sv => sv.pageId !== pageId);
     await StorageService.setData(data);
-    await loadPages();
+    await actions.loadPages();
     showToast('Page deleted successfully', 'success');
 }
 // Handle duplicate page
@@ -2576,7 +2744,7 @@ async function handleDuplicatePage(pageId) {
         matchIdentify: page.matchIdentify
     });
     // Don't clone preset links - new page starts empty
-    await loadPages();
+    await actions.loadPages();
     showToast('Page duplicated successfully', 'success');
 }
 // Load presets
@@ -2588,7 +2756,7 @@ async function loadPresets() {
     if (!tbody)
         return;
     // Sort the presets
-    const sortedPresets = sortData(data.presets, sortStates.presets.column, sortStates.presets.direction, data);
+    const sortedPresets = actions.sortData(data.presets, state.sortStates.presets.column, state.sortStates.presets.direction, data);
     // Update record count
     const countElement = document.getElementById('presetsCount');
     if (countElement) {
@@ -2627,7 +2795,7 @@ async function loadPresets() {
     initCyberButtons();
     // Add change listeners
     tbody.querySelectorAll('input, textarea').forEach(input => {
-        input.addEventListener('input', () => showPresetButtons());
+        input.addEventListener('input', () => actions.showPresetButtons());
     });
     // Add action listeners
     tbody.querySelectorAll('[data-action="edit"]').forEach(btn => {
@@ -2660,10 +2828,10 @@ async function loadPresets() {
         });
     });
     tbody.querySelectorAll('[data-action="delete"]').forEach(btn => {
-        btn.addEventListener('click', () => handleDeletePreset(btn.dataset.id));
+        btn.addEventListener('click', () => actions.handleDeletePreset(btn.dataset.id));
     });
     tbody.querySelectorAll('[data-action="clone"]').forEach(btn => {
-        btn.addEventListener('click', () => handleClonePreset(btn.dataset.id));
+        btn.addEventListener('click', () => actions.handleClonePreset(btn.dataset.id));
     });
 }
 // Handle delete preset
@@ -2682,7 +2850,7 @@ async function handleDeletePreset(presetId) {
     // Remove preset links
     data.presetPageLinks = data.presetPageLinks.filter(l => l.presetId !== presetId);
     await StorageService.setData(data);
-    await loadPresets();
+    await actions.loadPresets();
     showToast('Preset deleted successfully', 'success');
 }
 // Handle clone preset
@@ -2698,12 +2866,15 @@ async function handleClonePreset(presetId) {
         description: preset.description || '',
         formData: JSON.parse(JSON.stringify(preset.formData))
     });
-    await loadPresets();
+    await actions.loadPresets();
     showToast('Preset cloned successfully', 'success');
 }
+
+;// ./src/pages/settings-page/change-buttons.ts
+
 // Mark as changed
 function markAsChanged() {
-    hasUnsavedChanges = true;
+    state.hasUnsavedChanges = true;
     const footer = document.getElementById('settingsFooter');
     if (footer)
         footer.style.display = 'block';
@@ -2793,6 +2964,12 @@ function hidePresetButtons() {
     if (cancelBtn)
         cancelBtn.style.display = 'none';
 }
+
+;// ./src/pages/settings-page/save-changes.ts
+
+
+
+
 // Save locator changes
 async function saveLocatorChanges() {
     const data = await StorageService.getData();
@@ -2839,13 +3016,13 @@ async function saveLocatorChanges() {
         });
         await StorageService.setData(data);
         showToast(`Updated ${locatorUpdates.length} locator(s)`, 'success');
-        hideLocatorButtons();
+        actions.hideLocatorButtons();
     }
 }
 // Save regex patterns changes
 async function saveRegexPatternsChanges() {
     // Persist in-memory changes if present, otherwise read from storage
-    const data = originalData ?? await StorageService.getData();
+    const data = state.originalData ?? await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -2877,9 +3054,9 @@ async function saveRegexPatternsChanges() {
     await StorageService.setData(data);
     showToast('Regex patterns updated successfully', 'success');
     // Clear in-memory changes tracking after save
-    originalData = null;
-    hasUnsavedChanges = false;
-    hideRegexPatternsButtons();
+    state.originalData = null;
+    state.hasUnsavedChanges = false;
+    actions.hideRegexPatternsButtons();
 }
 // Save length configurations changes
 async function saveLengthConfigurationsChanges() {
@@ -2921,7 +3098,7 @@ async function saveLengthConfigurationsChanges() {
     }
     await StorageService.setData(data);
     showToast('Length configurations updated successfully', 'success');
-    hideLengthConfigButtons();
+    actions.hideLengthConfigButtons();
 }
 // Handle delete regex pattern
 async function handleDeleteRegexPattern(indexStr) {
@@ -2936,7 +3113,7 @@ async function handleDeleteRegexPattern(indexStr) {
     // Remove pattern
     data.regexPatterns.splice(index, 1);
     await StorageService.setData(data);
-    await loadRegexPatterns();
+    await actions.loadRegexPatterns();
     showToast('Regex pattern deleted successfully', 'success');
 }
 // Handle delete length configuration
@@ -2952,7 +3129,7 @@ async function handleDeleteLengthConfig(indexStr) {
     // Remove configuration
     data.lengthConfigurations.splice(index, 1);
     await StorageService.setData(data);
-    await loadLengthConfigurations();
+    await actions.loadLengthConfigurations();
     showToast('Length configuration deleted successfully', 'success');
 }
 // Save page changes
@@ -3015,9 +3192,9 @@ async function savePageChanges() {
         return;
     }
     await StorageService.setData(data);
-    await loadPages();
+    await actions.loadPages();
     showToast('Pages saved successfully', 'success');
-    hidePageButtons();
+    actions.hidePageButtons();
 }
 // Save preset changes
 async function savePresetChanges() {
@@ -3057,10 +3234,138 @@ async function savePresetChanges() {
         return;
     }
     await StorageService.setData(data);
-    await loadPresets();
+    await actions.loadPresets();
     showToast('Presets saved successfully', 'success');
-    hidePresetButtons();
+    actions.hidePresetButtons();
 }
+
+;// ./src/utils/export-format.ts
+
+
+const INCLUDED_KEYS = [
+    'settings',
+    'pages',
+    'presets',
+    'presetPageLinks',
+    'savedValues',
+];
+function isRecord(value) {
+    return typeof value === 'object' && value !== null;
+}
+function isString(value) {
+    return typeof value === 'string';
+}
+function isBoolean(value) {
+    return typeof value === 'boolean';
+}
+function isArray(value) {
+    return Array.isArray(value);
+}
+function createEmptyRootData() {
+    return {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+}
+function createDefaultSettings() {
+    return {
+        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+        theme: DEFAULTS.THEME,
+        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+    };
+}
+function normalizeIncluded(partial) {
+    return {
+        settings: partial?.settings ?? false,
+        pages: partial?.pages ?? false,
+        presets: partial?.presets ?? false,
+        presetPageLinks: partial?.presetPageLinks ?? false,
+        savedValues: partial?.savedValues ?? false,
+        regexPatterns: partial?.regexPatterns ?? false,
+        lengthConfigurations: partial?.lengthConfigurations ?? false
+    };
+}
+function createExportFile(params) {
+    const settings = params.settings ?? createDefaultSettings();
+    const emptyData = createEmptyRootData();
+    return {
+        schema: EXPORT_SCHEMA,
+        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
+        included: normalizeIncluded(params.included),
+        settings,
+        data: {
+            pages: params.data?.pages ?? emptyData.pages,
+            presets: params.data?.presets ?? emptyData.presets,
+            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
+            savedValues: params.data?.savedValues ?? emptyData.savedValues,
+            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
+            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
+        },
+    };
+}
+function isExtensionExportFile(value) {
+    if (!isRecord(value))
+        return false;
+    if (value.schema !== EXPORT_SCHEMA)
+        return false;
+    if (!isString(value.exportedAt))
+        return false;
+    if (!isRecord(value.included))
+        return false;
+    for (const key of INCLUDED_KEYS) {
+        if (!isBoolean(value.included[key]))
+            return false;
+    }
+    if (!isRecord(value.settings))
+        return false;
+    if (!isBoolean(value.settings.enableSaveValue))
+        return false;
+    if (!isBoolean(value.settings.enableImportValue))
+        return false;
+    if (!isBoolean(value.settings.enableLiveAssistant))
+        return false;
+    if (!isString(value.settings.theme))
+        return false;
+    if (!isRecord(value.data))
+        return false;
+    if (!isArray(value.data.pages))
+        return false;
+    if (!isArray(value.data.presets))
+        return false;
+    if (!isArray(value.data.presetPageLinks))
+        return false;
+    if (!isArray(value.data.savedValues))
+        return false;
+    return true;
+}
+function parseExtensionExportJson(text) {
+    const parsed = JSON.parse(text);
+    if (!isExtensionExportFile(parsed)) {
+        throw new Error('Invalid import file format (expected form-filler.export.v1)');
+    }
+    return parsed;
+}
+
+;// ./src/pages/settings-page/page-import-export.ts
+
+
+
+
+
+
+
 // Export pages to JSON file
 async function exportPages() {
     const data = await StorageService.getData();
@@ -3068,7 +3373,7 @@ async function exportPages() {
         showToast('No pages to export', 'info');
         return;
     }
-    await showPageExportSelectionModal(data.pages);
+    await actions.showPageExportSelectionModal(data.pages);
 }
 // Show page export selection modal
 async function showPageExportSelectionModal(allPages) {
@@ -3151,7 +3456,7 @@ async function showPageExportSelectionModal(allPages) {
         }
         const selectedPages = allPages.filter(page => selectedIds.includes(page.id));
         hideModal();
-        await performPageExport(selectedPages);
+        await actions.performPageExport(selectedPages);
     });
     // Handle cancel button
     document.getElementById('cancelPageExportBtn')?.addEventListener('click', () => {
@@ -3206,7 +3511,7 @@ async function importPages(file) {
             addedCount++;
         }
         await StorageService.setData(data);
-        await loadPages();
+        await actions.loadPages();
         let message = `Added ${addedCount} pages`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
@@ -3219,6 +3524,15 @@ async function importPages(file) {
         showToast('Failed to import pages. Please check the file format.', 'error');
     }
 }
+
+;// ./src/pages/settings-page/preset-import-export.ts
+
+
+
+
+
+
+
 // Export presets to JSON file
 async function exportPresets() {
     const data = await StorageService.getData();
@@ -3226,7 +3540,7 @@ async function exportPresets() {
         showToast('No presets to export', 'info');
         return;
     }
-    await showPresetExportSelectionModal(data.presets);
+    await actions.showPresetExportSelectionModal(data.presets);
 }
 // Show preset export selection modal
 async function showPresetExportSelectionModal(allPresets) {
@@ -3309,7 +3623,7 @@ async function showPresetExportSelectionModal(allPresets) {
         }
         const selectedPresets = allPresets.filter(preset => selectedIds.includes(preset.id));
         hideModal();
-        await performPresetExport(selectedPresets);
+        await actions.performPresetExport(selectedPresets);
     });
     // Handle cancel button
     document.getElementById('cancelPresetExportBtn')?.addEventListener('click', () => {
@@ -3364,7 +3678,7 @@ async function importPresets(file) {
             addedCount++;
         }
         await StorageService.setData(data);
-        await loadPresets();
+        await actions.loadPresets();
         let message = `Added ${addedCount} presets`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
@@ -3377,6 +3691,13 @@ async function importPresets(file) {
         showToast('Failed to import presets. Please check the file format.', 'error');
     }
 }
+
+;// ./src/pages/settings-page/pattern-import-export.ts
+
+
+
+
+
 // Export regex patterns to JSON file
 async function exportRegexPatterns() {
     const data = await StorageService.getData();
@@ -3418,7 +3739,7 @@ async function importRegexPatterns(file) {
             addedCount++;
         }
         await StorageService.setData(data);
-        await loadRegexPatterns();
+        await actions.loadRegexPatterns();
         let message = `Added ${addedCount} regex patterns`;
         if (skippedIdCount > 0)
             message += `, skipped ${skippedIdCount} with existing IDs`;
@@ -3471,7 +3792,7 @@ async function importLengthConfigurations(file) {
             addedCount++;
         }
         await StorageService.setData(data);
-        await loadLengthConfigurations();
+        await actions.loadLengthConfigurations();
         let message = `Added ${addedCount} length configurations`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
@@ -3541,54 +3862,59 @@ async function importAllSettings(file) {
         showToast('Failed to import settings. Please check the file format.', 'error');
     }
 }
+
+;// ./src/pages/settings-page/event-listeners.ts
+
+
+
 // Setup event listeners
 function setupEventListeners() {
     // Filling assistant config - apply immediately
     document.getElementById('enableLiveAssistant')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableLiveAssistant').checked;
-        await updateSetting('enableLiveAssistant', checked, 'Filling Assistant Popup immediately showing is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableLiveAssistant', checked, 'Filling Assistant Popup immediately showing is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableSaveValue')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableSaveValue').checked;
-        await updateSetting('enableSaveValue', checked, 'Save Value section in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableSaveValue', checked, 'Save Value section in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableImportValue')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableImportValue').checked;
-        await updateSetting('enableImportValue', checked, 'Import Value section in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableImportValue', checked, 'Import Value section in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableLocatorRetriever')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableLocatorRetriever').checked;
-        await updateSetting('enableLocatorRetriever', checked, 'Locator retriever in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableLocatorRetriever', checked, 'Locator retriever in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableRegexPattern')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableRegexPattern').checked;
-        await updateSetting('enableRegexPattern', checked, 'Regex pattern import in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableRegexPattern', checked, 'Regex pattern import in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableRandomStringInAssistant')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableRandomStringInAssistant').checked;
-        await updateSetting('enableRandomStringInAssistant', checked, 'Random string generator in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
-        updateFillingAssistantNoteVisibility();
+        await actions.updateSetting('enableRandomStringInAssistant', checked, 'Random string generator in Filling Assistant Popup is ' + (checked ? 'enabled' : 'disabled'));
+        actions.updateFillingAssistantNoteVisibility();
     });
     document.getElementById('enableRandomStringSectionInPopup')?.addEventListener('change', async () => {
         const checked = document.getElementById('enableRandomStringSectionInPopup').checked;
-        await updateSetting('enableRandomStringSectionInPopup', checked, 'Random string shortcut to extension popup is ' + (checked ? 'enabled' : 'disabled'));
+        await actions.updateSetting('enableRandomStringSectionInPopup', checked, 'Random string shortcut to extension popup is ' + (checked ? 'enabled' : 'disabled'));
     });
     document.getElementById('randomStringCharset')?.addEventListener('change', async () => {
         const value = document.getElementById('randomStringCharset').value;
-        await updateSetting('randomStringCharset', value, 'Default random string character set updated');
+        await actions.updateSetting('randomStringCharset', value, 'Default random string character set updated');
     });
     document.getElementById('randomStringLength')?.addEventListener('change', async () => {
         const value = parseInt(document.getElementById('randomStringLength').value) || DEFAULTS.RANDOM_STRING_LENGTH;
-        await updateSetting('randomStringLength', value, 'Default random string length updated');
+        await actions.updateSetting('randomStringLength', value, 'Default random string length updated');
     });
     document.getElementById('defaultSaveTarget')?.addEventListener('change', async () => {
         const value = document.getElementById('defaultSaveTarget').value;
-        await updateSetting('defaultSaveItemTo', value, 'Default save target updated to has been updated');
+        await actions.updateSetting('defaultSaveItemTo', value, 'Default save target updated to has been updated');
     });
     // Prompts guide: initialize prompt text and wire copy/select behavior
     const promptsSelect = document.getElementById('promptsSelect');
@@ -3603,7 +3929,7 @@ function setupEventListeners() {
         promptsTextarea.value = pagePrompt.trim();
         // Initialize custom select replacement to ensure option styling works across browsers
         try {
-            initCustomPromptsSelect(promptsSelect, promptsTextarea, pagePrompt.trim(), presetPrompt.trim());
+            actions.initCustomPromptsSelect(promptsSelect, promptsTextarea, pagePrompt.trim(), presetPrompt.trim());
         }
         catch (err) {
             // Fallback: keep native select behavior
@@ -3629,11 +3955,11 @@ function setupEventListeners() {
     }
     // Locator save/cancel buttons
     document.getElementById('saveLocatorsBtn')?.addEventListener('click', async () => {
-        await saveLocatorChanges();
+        await actions.saveLocatorChanges();
     });
     document.getElementById('cancelLocatorsBtn')?.addEventListener('click', async () => {
-        await loadLocators();
-        hideLocatorButtons();
+        await actions.loadLocators();
+        actions.hideLocatorButtons();
     });
     // Global keyboard shortcuts for modal actions: Enter -> #modalAddBtn, Esc -> #modalCancelBtn
     document.addEventListener('keydown', (e) => {
@@ -3663,58 +3989,58 @@ function setupEventListeners() {
     });
     // Pages save/cancel buttons
     document.getElementById('savePagesBtn')?.addEventListener('click', async () => {
-        await savePageChanges();
+        await actions.savePageChanges();
     });
     document.getElementById('cancelPagesBtn')?.addEventListener('click', async () => {
-        await loadPages();
-        hidePageButtons();
+        await actions.loadPages();
+        actions.hidePageButtons();
     });
     // Presets save/cancel buttons
     document.getElementById('savePresetsBtn')?.addEventListener('click', async () => {
-        await savePresetChanges();
+        await actions.savePresetChanges();
     });
     document.getElementById('cancelPresetsBtn')?.addEventListener('click', async () => {
-        await loadPresets();
-        hidePresetButtons();
+        await actions.loadPresets();
+        actions.hidePresetButtons();
     });
     // Regex patterns save/cancel buttons
     document.getElementById('saveRegexPatternsBtn')?.addEventListener('click', async () => {
-        await saveRegexPatternsChanges();
+        await actions.saveRegexPatternsChanges();
     });
     document.getElementById('cancelRegexPatternsBtn')?.addEventListener('click', async () => {
         // Discard in-memory changes and reload from storage
-        originalData = null;
-        hasUnsavedChanges = false;
-        await loadRegexPatterns();
-        hideRegexPatternsButtons();
+        state.originalData = null;
+        state.hasUnsavedChanges = false;
+        await actions.loadRegexPatterns();
+        actions.hideRegexPatternsButtons();
     });
     // Length config save/cancel buttons
     document.getElementById('saveLengthConfigBtn')?.addEventListener('click', async () => {
-        await saveLengthConfigurationsChanges();
+        await actions.saveLengthConfigurationsChanges();
     });
     document.getElementById('cancelLengthConfigBtn')?.addEventListener('click', async () => {
-        await loadLengthConfigurations();
-        hideLengthConfigButtons();
+        await actions.loadLengthConfigurations();
+        actions.hideLengthConfigButtons();
     });
     // Add regex pattern
     document.getElementById('addRegexPatternBtn')?.addEventListener('click', async () => {
-        await showAddRegexPatternModal();
+        await actions.showAddRegexPatternModal();
     });
     // Add length configuration
     document.getElementById('addLengthConfigBtn')?.addEventListener('click', async () => {
-        await showAddLengthConfigModal();
+        await actions.showAddLengthConfigModal();
     });
     // Add page
     document.getElementById('addPageBtn')?.addEventListener('click', async () => {
-        await showAddPageModal();
+        await actions.showAddPageModal();
     });
     // Add preset
     document.getElementById('addPresetBtn')?.addEventListener('click', async () => {
-        await showAddPresetModal();
+        await actions.showAddPresetModal();
     });
     // Export/Import Pages
     document.getElementById('exportPagesBtn')?.addEventListener('click', async () => {
-        await exportPages();
+        await actions.exportPages();
     });
     document.getElementById('importPagesBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importPagesFile');
@@ -3723,13 +4049,13 @@ function setupEventListeners() {
     document.getElementById('importPagesFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importPages(input.files[0]);
+            await actions.importPages(input.files[0]);
             input.value = '';
         }
     });
     // Export/Import Presets
     document.getElementById('exportPresetsBtn')?.addEventListener('click', async () => {
-        await exportPresets();
+        await actions.exportPresets();
     });
     document.getElementById('importPresetsBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importPresetsFile');
@@ -3738,13 +4064,13 @@ function setupEventListeners() {
     document.getElementById('importPresetsFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importPresets(input.files[0]);
+            await actions.importPresets(input.files[0]);
             input.value = '';
         }
     });
     // Export/Import Regex Patterns
     document.getElementById('exportRegexPatternsBtn')?.addEventListener('click', async () => {
-        await exportRegexPatterns();
+        await actions.exportRegexPatterns();
     });
     document.getElementById('importRegexPatternsBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importRegexPatternsFile');
@@ -3753,13 +4079,13 @@ function setupEventListeners() {
     document.getElementById('importRegexPatternsFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importRegexPatterns(input.files[0]);
+            await actions.importRegexPatterns(input.files[0]);
             input.value = '';
         }
     });
     // Export/Import Length Configurations
     document.getElementById('exportLengthConfigBtn')?.addEventListener('click', async () => {
-        await exportLengthConfigurations();
+        await actions.exportLengthConfigurations();
     });
     document.getElementById('importLengthConfigBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importLengthConfigFile');
@@ -3768,13 +4094,13 @@ function setupEventListeners() {
     document.getElementById('importLengthConfigFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importLengthConfigurations(input.files[0]);
+            await actions.importLengthConfigurations(input.files[0]);
             input.value = '';
         }
     });
     // Export/Import All Settings
     document.getElementById('exportAllBtn')?.addEventListener('click', async () => {
-        await exportAllSettings();
+        await actions.exportAllSettings();
     });
     document.getElementById('importAllBtn')?.addEventListener('click', () => {
         const fileInput = document.getElementById('importAllFile');
@@ -3783,7 +4109,7 @@ function setupEventListeners() {
     document.getElementById('importAllFile')?.addEventListener('change', async (e) => {
         const input = e.target;
         if (input.files && input.files[0]) {
-            await importAllSettings(input.files[0]);
+            await actions.importAllSettings(input.files[0]);
             input.value = '';
         }
     });
@@ -3807,7 +4133,7 @@ function setupEventListeners() {
         });
     });
     // Update filling assistant note visibility
-    updateFillingAssistantNoteVisibility();
+    actions.updateFillingAssistantNoteVisibility();
     // Sortable header event listeners
     document.querySelectorAll('.sortable-header').forEach(header => {
         header.addEventListener('click', (e) => {
@@ -3815,10 +4141,12 @@ function setupEventListeners() {
             const column = element.dataset.sort;
             const grid = element.closest('.data-grid');
             const tableId = grid.id.replace('Grid', '');
-            handleHeaderClick(tableId, column);
+            actions.handleHeaderClick(tableId, column);
         });
     });
 }
+
+;// ./src/pages/settings-page/navigation.ts
 // Sync navigation with scroll position
 function updateActiveNavButton() {
     const navButtons = document.querySelectorAll('.nav-btn');
@@ -3841,14 +4169,16 @@ function updateActiveNavButton() {
         }
     });
 }
-;
-// Update active navigation on scroll
-window.addEventListener('scroll', updateActiveNavButton);
-// Update active navigation on page load
-updateActiveNavButton();
+
+;// ./src/pages/settings-page/save-all.ts
+
+
+
+
+
 // Save all changes
 async function saveAllChanges() {
-    const data = await settings_StorageService.getData();
+    const data = await StorageService.getData();
     if (!data)
         return;
     let errors = [];
@@ -3901,7 +4231,7 @@ async function saveAllChanges() {
                 page.description = description;
                 page.owner = owner;
                 page.matchIdentify = matchIdentify;
-                page.updatedAt = settings_getCurrentTimestamp();
+                page.updatedAt = getCurrentTimestamp();
             }
         });
     }
@@ -3928,12 +4258,12 @@ async function saveAllChanges() {
                 // Update preset
                 preset.name = name;
                 preset.description = description;
-                preset.updatedAt = settings_getCurrentTimestamp();
+                preset.updatedAt = getCurrentTimestamp();
             }
         });
     }
     if (errors.length > 0) {
-        settings_showToast(errors.join('\n'), 'error');
+        showToast(errors.join('\n'), 'error');
         return;
     }
     // Apply locator updates to all presets and saved values
@@ -3946,7 +4276,7 @@ async function saveAllChanges() {
                     if (field.testId === oldTestId && field.querySelector === oldSelector) {
                         field.testId = update.newTestId;
                         field.querySelector = update.newSelector;
-                        field.updatedAt = settings_getCurrentTimestamp();
+                        field.updatedAt = getCurrentTimestamp();
                     }
                 });
             });
@@ -3955,23 +4285,23 @@ async function saveAllChanges() {
                 if (sv.testId === oldTestId && sv.querySelector === oldSelector) {
                     sv.testId = update.newTestId;
                     sv.querySelector = update.newSelector;
-                    sv.updatedAt = settings_getCurrentTimestamp();
+                    sv.updatedAt = getCurrentTimestamp();
                 }
             });
         });
     }
     // Save data
-    await settings_StorageService.setData(data);
+    await StorageService.setData(data);
     // Save settings
     const enableLiveAssistant = document.getElementById('enableLiveAssistant').checked;
     const enableSaveValue = document.getElementById('enableSaveValue').checked;
     const enableImportValue = document.getElementById('enableImportValue').checked;
     const enableLocatorRetriever = document.getElementById('enableLocatorRetriever').checked;
     const enableRegexPattern = document.getElementById('enableRegexPattern').checked;
-    const currentSettings = await settings_StorageService.getSettings();
+    const currentSettings = await StorageService.getSettings();
     if (!currentSettings)
         return;
-    await settings_StorageService.setSettings({
+    await StorageService.setSettings({
         ...currentSettings,
         enableLiveAssistant,
         enableSaveValue,
@@ -3981,14 +4311,21 @@ async function saveAllChanges() {
         defaultSaveItemTo: currentSettings.defaultSaveItemTo ?? 'savedValues',
         enableRandomStringSectionInPopup: currentSettings.enableRandomStringSectionInPopup ?? true,
         randomStringCharset: currentSettings.randomStringCharset ?? 'alphanumeric',
-        randomStringLength: currentSettings.randomStringLength ?? settings_DEFAULTS.RANDOM_STRING_LENGTH
+        randomStringLength: currentSettings.randomStringLength ?? DEFAULTS.RANDOM_STRING_LENGTH
     });
-    hasUnsavedChanges = false;
+    state.hasUnsavedChanges = false;
     const footer = document.getElementById('settingsFooter');
     if (footer)
         footer.style.display = 'none';
-    settings_showToast('All changes saved successfully!', 'success');
+    showToast('All changes saved successfully!', 'success');
 }
+
+;// ./src/pages/settings-page/page-preset-modals.ts
+
+
+
+
+
 // Show Add Page Modal
 async function showAddPageModal() {
     const modalOverlay = document.getElementById('modalOverlay');
@@ -4063,7 +4400,7 @@ async function showAddPageModal() {
                 updatedAt: getCurrentTimestamp()
             };
             await StorageService.addPage(newPage);
-            await loadPages();
+            await actions.loadPages();
             cleanup();
             showToast('Page added successfully!', 'success');
         }
@@ -4139,7 +4476,7 @@ async function showAddPresetModal() {
                 updatedAt: getCurrentTimestamp()
             };
             await StorageService.addPreset(newPreset);
-            await loadPresets();
+            await actions.loadPresets();
             cleanup();
             showToast('Preset added successfully! You can now edit it to add form fields.', 'success');
         }
@@ -4165,6 +4502,12 @@ async function showAddPresetModal() {
         document.getElementById('newPresetName')?.focus();
     }, 100);
 }
+
+;// ./src/pages/settings-page/pattern-length-modals.ts
+
+
+
+
 // Show Add Regex Pattern Modal
 async function showAddRegexPatternModal() {
     const modalOverlay = document.getElementById('modalOverlay');
@@ -4219,7 +4562,7 @@ async function showAddRegexPatternModal() {
                 order: data.regexPatterns.length + 1
             });
             await StorageService.setData(data);
-            await loadRegexPatterns();
+            await actions.loadRegexPatterns();
             cleanup();
             showToast('Regex pattern added successfully!', 'success');
         }
@@ -4309,7 +4652,7 @@ async function showAddLengthConfigModal() {
                 return;
             data.lengthConfigurations.push({ name, description, locator, maxLength });
             await StorageService.setData(data);
-            await loadLengthConfigurations();
+            await actions.loadLengthConfigurations();
             cleanup();
             showToast('Length configuration added successfully!', 'success');
         }
@@ -4335,8 +4678,8 @@ async function showAddLengthConfigModal() {
         document.getElementById('newLengthConfigName')?.focus();
     }, 100);
 }
-// Initialize
-init();
+
+;// ./src/pages/settings-page/prompt-select.ts
 /**
  * Create a custom-styled select to replace native promptsSelect for consistent styling.
  * Keeps the original select element in sync (but hidden) so form logic remains compatible.
@@ -4427,6 +4770,11 @@ function initCustomPromptsSelect(nativeSelect, textarea, pagePrompt, presetPromp
     // Initialize textarea based on current value
     updateTextarea(nativeSelect.value);
 }
+
+;// ./src/pages/settings-page/pattern-dragging.ts
+
+
+
 // Regex Pattern Drag & Drop Handlers
 function handleRegexPatternDragStart(e) {
     // Prevent drag if user is focused on an input element
@@ -4435,13 +4783,13 @@ function handleRegexPatternDragStart(e) {
         e.preventDefault();
         return;
     }
-    draggedRegexPatternRow = e.currentTarget;
-    draggedRegexPatternRow.classList.add('dragging');
+    state.draggedRegexPatternRow = e.currentTarget;
+    state.draggedRegexPatternRow.classList.add('dragging');
     if (e.dataTransfer) {
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', draggedRegexPatternRow.innerHTML);
+        e.dataTransfer.setData('text/html', state.draggedRegexPatternRow.innerHTML);
     }
-    console.log('Drag started:', draggedRegexPatternRow.dataset.patternName);
+    console.log('Drag started:', state.draggedRegexPatternRow.dataset.patternName);
 }
 function handleRegexPatternDragOver(e) {
     e.preventDefault();
@@ -4454,7 +4802,7 @@ function handleRegexPatternDragOver(e) {
         row.classList.remove('drag-over');
     });
     // Add drag-over class to current target if it's not the dragged row
-    if (draggedRegexPatternRow && target !== draggedRegexPatternRow) {
+    if (state.draggedRegexPatternRow && target !== state.draggedRegexPatternRow) {
         target.classList.add('drag-over');
         console.log('Dragging over:', target.dataset.patternName);
     }
@@ -4463,12 +4811,12 @@ async function handleRegexPatternDrop(e) {
     e.preventDefault();
     const target = e.currentTarget;
     target.classList.remove('drag-over');
-    if (!draggedRegexPatternRow || target === draggedRegexPatternRow) {
+    if (!state.draggedRegexPatternRow || target === state.draggedRegexPatternRow) {
         console.log('Drop ignored - same row or no dragged row');
         return;
     }
     // Get pattern names from data attributes
-    const draggedName = draggedRegexPatternRow.dataset.patternName;
+    const draggedName = state.draggedRegexPatternRow.dataset.patternName;
     const targetName = target.dataset.patternName;
     console.log('Drop event - dragged:', draggedName, 'target:', targetName);
     if (!draggedName || !targetName) {
@@ -4477,33 +4825,33 @@ async function handleRegexPatternDrop(e) {
     }
     // Perform reorder in-memory (originalData). Create in-memory copy if needed.
     try {
-        if (!originalData) {
+        if (!state.originalData) {
             const stored = await StorageService.getData();
             if (!stored) {
                 console.error('No data found for reorder');
                 return;
             }
-            originalData = JSON.parse(JSON.stringify(stored));
+            state.originalData = JSON.parse(JSON.stringify(stored));
         }
-        const draggedIndex = originalData.regexPatterns.findIndex((p) => p.name === draggedName);
-        const targetIndex = originalData.regexPatterns.findIndex((p) => p.name === targetName);
+        const draggedIndex = state.originalData.regexPatterns.findIndex((p) => p.name === draggedName);
+        const targetIndex = state.originalData.regexPatterns.findIndex((p) => p.name === targetName);
         console.log('Reordering - draggedIndex:', draggedIndex, 'targetIndex:', targetIndex);
         if (draggedIndex === -1 || targetIndex === -1) {
             console.warn('Could not find patterns to reorder:', { draggedIndex, targetIndex });
             return;
         }
         // Reorder array in memory
-        const [removed] = originalData.regexPatterns.splice(draggedIndex, 1);
-        originalData.regexPatterns.splice(targetIndex, 0, removed);
+        const [removed] = state.originalData.regexPatterns.splice(draggedIndex, 1);
+        state.originalData.regexPatterns.splice(targetIndex, 0, removed);
         // Update order values
-        originalData.regexPatterns.forEach((pattern, index) => {
+        state.originalData.regexPatterns.forEach((pattern, index) => {
             pattern.order = index + 1;
         });
-        console.log('New order (in-memory):', originalData.regexPatterns.map((p) => ({ name: p.name, order: p.order })));
+        console.log('New order (in-memory):', state.originalData.regexPatterns.map((p) => ({ name: p.name, order: p.order })));
         // Mark as unsaved and reload UI from in-memory data
-        hasUnsavedChanges = true;
-        await loadRegexPatterns();
-        showRegexPatternsButtons();
+        state.hasUnsavedChanges = true;
+        await actions.loadRegexPatterns();
+        actions.showRegexPatternsButtons();
         console.log('Reorder complete (in-memory)');
     }
     catch (error) {
@@ -4516,12 +4864,52 @@ function handleRegexPatternDragEnd(e) {
     target.classList.remove('dragging');
     document.querySelectorAll('#regexPatternsTableBody .drag-over').forEach(el => el.classList.remove('drag-over'));
     console.log('Drag ended');
-    draggedRegexPatternRow = null;
+    state.draggedRegexPatternRow = null;
 }
 function handleRegexPatternDragLeave(e) {
     const target = e.currentTarget;
     target.classList.remove('drag-over');
 }
+
+;// ./src/pages/settings-page/bootstrap.ts
+
+function bootstrap() {
+    // Update active navigation on scroll
+    window.addEventListener('scroll', actions.updateActiveNavButton);
+    // Update active navigation on page load
+    actions.updateActiveNavButton();
+    // Initialize
+    actions.init();
+}
+
+;// ./src/pages/settings-page/index.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Object.assign(actions, startup_namespaceObject, sorting_namespaceObject, locator_loader_namespaceObject, patterns_and_length_loader_namespaceObject, pages_and_presets_loader_namespaceObject, change_buttons_namespaceObject, save_changes_namespaceObject, page_import_export_namespaceObject, preset_import_export_namespaceObject, pattern_import_export_namespaceObject, event_listeners_namespaceObject, navigation_namespaceObject, save_all_namespaceObject, page_preset_modals_namespaceObject, pattern_length_modals_namespaceObject, prompt_select_namespaceObject, pattern_dragging_namespaceObject);
+function startSettingsPage() {
+    bootstrap();
+}
+
+;// ./src/pages/settings.ts
+
+startSettingsPage();
 
 /******/ })()
 ;

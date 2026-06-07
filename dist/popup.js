@@ -1,5 +1,120 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/startup.ts
+var startup_namespaceObject = {};
+__webpack_require__.r(startup_namespaceObject);
+__webpack_require__.d(startup_namespaceObject, {
+  formatDate: () => (startup_formatDate),
+  init: () => (init),
+  loadSettings: () => (loadSettings),
+  showConfirmation: () => (showConfirmation),
+  showNotification: () => (showNotification),
+  updateDependentToggles: () => (updateDependentToggles)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/page-data.ts
+var page_data_namespaceObject = {};
+__webpack_require__.r(page_data_namespaceObject);
+__webpack_require__.d(page_data_namespaceObject, {
+  loadPageData: () => (loadPageData),
+  setupNoPageActions: () => (setupNoPageActions),
+  setupPageActionButtons: () => (setupPageActionButtons),
+  updatePageInfoDisplay: () => (updatePageInfoDisplay)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/page-modals.ts
+var page_modals_namespaceObject = {};
+__webpack_require__.r(page_modals_namespaceObject);
+__webpack_require__.d(page_modals_namespaceObject, {
+  handleImportFile: () => (handleImportFile),
+  showClonePageModal: () => (showClonePageModal),
+  showCreatePageModal: () => (showCreatePageModal),
+  showPageManagement: () => (showPageManagement)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/preset-table.ts
+var preset_table_namespaceObject = {};
+__webpack_require__.r(preset_table_namespaceObject);
+__webpack_require__.d(preset_table_namespaceObject, {
+  applyPreset: () => (applyPreset),
+  handleDeletePreset: () => (handleDeletePreset),
+  loadPresets: () => (loadPresets),
+  renderPresetTable: () => (renderPresetTable),
+  sortPresets: () => (sortPresets),
+  updateSortIndicators: () => (updateSortIndicators)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/scan-and-link.ts
+var scan_and_link_namespaceObject = {};
+__webpack_require__.r(scan_and_link_namespaceObject);
+__webpack_require__.d(scan_and_link_namespaceObject, {
+  openPresetEditor: () => (openPresetEditor),
+  scanFormData: () => (scanFormData),
+  showLinkPresetModal: () => (showLinkPresetModal),
+  showScannedFieldsModal: () => (showScannedFieldsModal)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/preset-import-export.ts
+var preset_import_export_namespaceObject = {};
+__webpack_require__.r(preset_import_export_namespaceObject);
+__webpack_require__.d(preset_import_export_namespaceObject, {
+  exportPresetsData: () => (exportPresetsData),
+  importPresetsData: () => (importPresetsData),
+  showExportPresetsModal: () => (showExportPresetsModal)
+});
+
+// NAMESPACE OBJECT: ./src/popup/popup-page/random-tools.ts
+var random_tools_namespaceObject = {};
+__webpack_require__.r(random_tools_namespaceObject);
+__webpack_require__.d(random_tools_namespaceObject, {
+  initRandomStringSection: () => (initRandomStringSection),
+  showRandomStringModal: () => (showRandomStringModal),
+  showStringCounterModal: () => (showStringCounterModal)
+});
+
+;// ./src/popup/popup-page/context.ts
+const state = {
+    currentPageData: null,
+    currentUrl: '',
+    currentTabTitle: '',
+    sortColumn: 'rank',
+    sortDirection: 'asc'
+};
+const actions = {};
 
 ;// ./src/constants/appConstants.ts
 /**
@@ -106,6 +221,203 @@ const DEFAULT_REGEX_PATTERNS = [
     { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
     { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
 ];
+
+;// ./src/services/storage/keys.ts
+const STORAGE_KEY = 'formFillerData';
+const SETTINGS_KEY = 'formFillerSettings';
+
+;// ./src/services/storage/core.ts
+
+
+
+async function initialize() {
+    const data = await StorageService.getData();
+    if (!data) {
+        await StorageService.setData({
+            pages: [],
+            presets: [],
+            presetPageLinks: [],
+            savedValues: [],
+            regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
+            lengthConfigurations: []
+        });
+    }
+    const settings = await StorageService.getSettings();
+    if (!settings) {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme: DEFAULTS.THEME,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
+async function getData() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([STORAGE_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    const data = result[STORAGE_KEY] || null;
+                    // Migration: Convert old mustBeMatched to matchIdentify
+                    if (data && data.pages) {
+                        let needsMigration = false;
+                        data.pages.forEach((page) => {
+                            // Ensure all pages have matchIdentify
+                            if (!page.matchIdentify) {
+                                page.matchIdentify = 'prefixMatch';
+                                needsMigration = true;
+                            }
+                        });
+                        // Save migrated data
+                        if (needsMigration) {
+                            StorageService.setData(data).catch(err => console.error('Migration save failed:', err));
+                        }
+                    }
+                    resolve(data);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage access failed:', error);
+        return null;
+    }
+}
+async function setData(data) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage write failed:', error);
+    }
+}
+async function getSettings() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([SETTINGS_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    let settings = result[SETTINGS_KEY] || null;
+                    // Migrate settings to include new properties
+                    if (settings) {
+                        let needsMigration = false;
+                        const migratedSettings = { ...settings };
+                        if (settings.enableLocatorRetriever === undefined) {
+                            migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRegexPattern === undefined) {
+                            migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRandomStringSectionInPopup === undefined) {
+                            migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringCharset === undefined) {
+                            migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringLength === undefined) {
+                            migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
+                            needsMigration = true;
+                        }
+                        // Save migrated settings
+                        if (needsMigration) {
+                            StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                        }
+                        settings = migratedSettings;
+                    }
+                    resolve(settings);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings access failed:', error);
+        return null;
+    }
+}
+async function setSettings(settings) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings write failed:', error);
+    }
+}
+async function getTheme() {
+    const settings = await StorageService.getSettings();
+    return settings?.theme || 'dark';
+}
+async function setTheme(theme) {
+    const settings = await StorageService.getSettings();
+    if (settings) {
+        settings.theme = theme;
+        await StorageService.setSettings(settings);
+    }
+    else {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
 
 ;// ./src/utils/helpers.ts
 /* unused harmony import specifier */ var helpers_CHAR_SETS;
@@ -330,486 +642,356 @@ function generateFromRegex(regex, length) {
     }
 }
 
+;// ./src/services/storage/pages.ts
+
+
+async function getPageByUrl(url, matchIdentify) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => {
+        if (matchIdentify === 'exactMatch') {
+            return page.url === url;
+        }
+        else {
+            return url.startsWith(page.url);
+        }
+    }) || null;
+}
+async function getPageById(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => page.id === pageId) || null;
+}
+async function getCurrentPageData(currentUrl) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    // First try exact match
+    let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
+    // Then try startsWith match
+    if (!page) {
+        page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
+    }
+    return page || null;
+}
+async function addPage(pageData) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing page IDs
+    const existingIds = data.pages.map(p => p.id);
+    const newPage = {
+        ...pageData,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.pages.push(newPage);
+    await StorageService.setData(data);
+    return newPage;
+}
+async function updatePage(id, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const pageIndex = data.pages.findIndex(p => p.id === id);
+    if (pageIndex !== -1) {
+        data.pages[pageIndex] = {
+            ...data.pages[pageIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+
+;// ./src/services/storage/presets.ts
+
+
+async function deletePreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Remove preset
+    data.presets = data.presets.filter(p => p.id !== presetId);
+    // Remove all links to this preset
+    data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
+    await StorageService.setData(data);
+}
+async function getPresetsForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get the actual presets
+    return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+}
+async function getPageIdsForPreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.presetPageLinks
+        .filter(link => link.presetId === presetId)
+        .map(link => link.pageId);
+}
+async function getUnlinkedPresets(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get presets that are NOT linked to this page
+    return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+}
+async function getPresetById(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    const preset = data.presets.find(p => p.id === presetId);
+    return preset || null;
+}
+async function addPreset(preset) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing preset IDs
+    const existingIds = data.presets.map(p => p.id);
+    const newPreset = {
+        ...preset,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.presets.push(newPreset);
+    await StorageService.setData(data);
+    return newPreset;
+}
+async function updatePreset(presetId, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const presetIndex = data.presets.findIndex(p => p.id === presetId);
+    if (presetIndex !== -1) {
+        data.presets[presetIndex] = {
+            ...data.presets[presetIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+async function linkPresetToPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Check if link already exists
+    const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
+    if (!existingLink) {
+        data.presetPageLinks.push({ presetId, pageId });
+        await StorageService.setData(data);
+    }
+}
+async function unlinkPresetFromPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
+    await StorageService.setData(data);
+}
+
+;// ./src/services/storage/saved-values.ts
+
+
+async function addSavedFormData(pageUrl, formData) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    // Generate unique ID that doesn't collide with existing saved value IDs
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newSavedValue = {
+        id: generateUniqueId(existingIds),
+        pageId: page.id,
+        label: formData.title,
+        value: String(formData.value),
+        testId: formData.testId,
+        querySelector: formData.querySelector,
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.savedValues.push(newSavedValue);
+    await StorageService.setData(data);
+}
+async function deleteSavedFormData(pageUrl, savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
+    await StorageService.setData(data);
+}
+async function getSavedFormDataForField(pageUrl, testId, querySelector) {
+    const page = await StorageService.getCurrentPageData(pageUrl);
+    if (!page)
+        return [];
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
+    return savedValuesForPage
+        .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+}
+async function getSavedValuesForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.savedValues.filter(sv => sv.pageId === pageId);
+}
+async function addSavedValue(pageId, savedValue) {
+    const data = await StorageService.getData();
+    if (!data)
+        throw new Error('No data');
+    // Generate unique ID if not provided
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newId = savedValue.id && !existingIds.includes(savedValue.id)
+        ? savedValue.id
+        : generateUniqueId(existingIds);
+    // Create the saved value
+    const newSavedValue = {
+        id: newId,
+        pageId,
+        label: savedValue.label || '',
+        value: savedValue.value || '',
+        testId: savedValue.testId || '',
+        querySelector: savedValue.querySelector || '',
+        createdAt: savedValue.createdAt || getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    // Check if saved value already exists for this page and id
+    const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
+    if (existingIndex !== -1) {
+        // Update existing saved value
+        data.savedValues[existingIndex] = newSavedValue;
+    }
+    else {
+        // Add new saved value
+        data.savedValues.push(newSavedValue);
+    }
+    await StorageService.setData(data);
+    return newSavedValue;
+}
+async function deleteSavedValue(savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
+    await StorageService.setData(data);
+}
+
 ;// ./src/services/storage.service.ts
 
-
-const STORAGE_KEY = 'formFillerData';
-const SETTINGS_KEY = 'formFillerSettings';
 class StorageService {
-    // Initialize storage with default data
     static async initialize() {
-        const data = await this.getData();
-        if (!data) {
-            await this.setData({
-                pages: [],
-                presets: [],
-                presetPageLinks: [],
-                savedValues: [],
-                regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
-                lengthConfigurations: []
-            });
-        }
-        const settings = await this.getSettings();
-        if (!settings) {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme: DEFAULTS.THEME,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return initialize();
     }
-    // Get all data
     static async getData() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([STORAGE_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        const data = result[STORAGE_KEY] || null;
-                        // Migration: Convert old mustBeMatched to matchIdentify
-                        if (data && data.pages) {
-                            let needsMigration = false;
-                            data.pages.forEach((page) => {
-                                // Ensure all pages have matchIdentify
-                                if (!page.matchIdentify) {
-                                    page.matchIdentify = 'prefixMatch';
-                                    needsMigration = true;
-                                }
-                            });
-                            // Save migrated data
-                            if (needsMigration) {
-                                this.setData(data).catch(err => console.error('Migration save failed:', err));
-                            }
-                        }
-                        resolve(data);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage access failed:', error);
-            return null;
-        }
+        return getData();
     }
-    // Set all data
     static async setData(data) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage write failed:', error);
-        }
+        return setData(data);
     }
-    // Get settings
     static async getSettings() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([SETTINGS_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        let settings = result[SETTINGS_KEY] || null;
-                        // Migrate settings to include new properties
-                        if (settings) {
-                            let needsMigration = false;
-                            const migratedSettings = { ...settings };
-                            if (settings.enableLocatorRetriever === undefined) {
-                                migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRegexPattern === undefined) {
-                                migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRandomStringSectionInPopup === undefined) {
-                                migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringCharset === undefined) {
-                                migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringLength === undefined) {
-                                migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
-                                needsMigration = true;
-                            }
-                            // Save migrated settings
-                            if (needsMigration) {
-                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
-                            }
-                            settings = migratedSettings;
-                        }
-                        resolve(settings);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings access failed:', error);
-            return null;
-        }
+        return getSettings();
     }
-    // Set settings
     static async setSettings(settings) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings write failed:', error);
-        }
+        return setSettings(settings);
     }
-    // Get current theme
     static async getTheme() {
-        const settings = await this.getSettings();
-        return settings?.theme || 'dark';
+        return getTheme();
     }
-    // Set theme
     static async setTheme(theme) {
-        const settings = await this.getSettings();
-        if (settings) {
-            settings.theme = theme;
-            await this.setSettings(settings);
-        }
-        else {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return setTheme(theme);
     }
-    // Get page data by URL
     static async getPageByUrl(url, matchIdentify) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => {
-            if (matchIdentify === 'exactMatch') {
-                return page.url === url;
-            }
-            else {
-                return url.startsWith(page.url);
-            }
-        }) || null;
+        return getPageByUrl(url, matchIdentify);
     }
-    // Get page data by ID
     static async getPageById(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => page.id === pageId) || null;
+        return getPageById(pageId);
     }
-    // Get page data matching current URL
     static async getCurrentPageData(currentUrl) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        // First try exact match
-        let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
-        // Then try startsWith match
-        if (!page) {
-            page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
-        }
-        return page || null;
+        return getCurrentPageData(currentUrl);
     }
-    // Add new page
     static async addPage(pageData) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing page IDs
-        const existingIds = data.pages.map(p => p.id);
-        const newPage = {
-            ...pageData,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.pages.push(newPage);
-        await this.setData(data);
-        return newPage;
+        return addPage(pageData);
     }
-    // Update page
-    /**
-     * Update a page by its id
-     * @param id - Page id
-     * @param updates - Partial page data
-     */
     static async updatePage(id, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const pageIndex = data.pages.findIndex(p => p.id === id);
-        if (pageIndex !== -1) {
-            data.pages[pageIndex] = {
-                ...data.pages[pageIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePage(id, updates);
     }
-    // Delete preset (removes preset and all its links)
     static async deletePreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Remove preset
-        data.presets = data.presets.filter(p => p.id !== presetId);
-        // Remove all links to this preset
-        data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
-        await this.setData(data);
+        return deletePreset(presetId);
     }
-    // Add saved form data
     static async addSavedFormData(pageUrl, formData) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        // Generate unique ID that doesn't collide with existing saved value IDs
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newSavedValue = {
-            id: generateUniqueId(existingIds),
-            pageId: page.id,
-            label: formData.title,
-            value: String(formData.value),
-            testId: formData.testId,
-            querySelector: formData.querySelector,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.savedValues.push(newSavedValue);
-        await this.setData(data);
+        return addSavedFormData(pageUrl, formData);
     }
-    // Delete saved form data
     static async deleteSavedFormData(pageUrl, savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
-        await this.setData(data);
+        return deleteSavedFormData(pageUrl, savedValueId);
     }
-    // Get saved form data matching input field  
     static async getSavedFormDataForField(pageUrl, testId, querySelector) {
-        const page = await this.getCurrentPageData(pageUrl);
-        if (!page)
-            return [];
-        const data = await this.getData();
-        if (!data)
-            return [];
-        const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
-        return savedValuesForPage
-            .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+        return getSavedFormDataForField(pageUrl, testId, querySelector);
     }
-    // Get presets for a page by page ID
     static async getPresetsForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get the actual presets
-        return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+        return getPresetsForPage(pageId);
     }
-    // Get page IDs linked to a preset
     static async getPageIdsForPreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.presetPageLinks
-            .filter(link => link.presetId === presetId)
-            .map(link => link.pageId);
+        return getPageIdsForPreset(presetId);
     }
-    // Get all presets not linked to a specific page
     static async getUnlinkedPresets(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get presets that are NOT linked to this page
-        return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+        return getUnlinkedPresets(pageId);
     }
-    // Get preset by ID
     static async getPresetById(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        const preset = data.presets.find(p => p.id === presetId);
-        return preset || null;
+        return getPresetById(presetId);
     }
-    // Add preset
     static async addPreset(preset) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing preset IDs
-        const existingIds = data.presets.map(p => p.id);
-        const newPreset = {
-            ...preset,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.presets.push(newPreset);
-        await this.setData(data);
-        return newPreset;
+        return addPreset(preset);
     }
-    // Update preset
     static async updatePreset(presetId, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const presetIndex = data.presets.findIndex(p => p.id === presetId);
-        if (presetIndex !== -1) {
-            data.presets[presetIndex] = {
-                ...data.presets[presetIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePreset(presetId, updates);
     }
-    // Link preset to page
     static async linkPresetToPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Check if link already exists
-        const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
-        if (!existingLink) {
-            data.presetPageLinks.push({ presetId, pageId });
-            await this.setData(data);
-        }
+        return linkPresetToPage(presetId, pageId);
     }
-    // Unlink preset from page
     static async unlinkPresetFromPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
-        await this.setData(data);
+        return unlinkPresetFromPage(presetId, pageId);
     }
-    // Get saved values for a page
     static async getSavedValuesForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.savedValues.filter(sv => sv.pageId === pageId);
+        return getSavedValuesForPage(pageId);
     }
-    // Add saved value
     static async addSavedValue(pageId, savedValue) {
-        const data = await this.getData();
-        if (!data)
-            throw new Error('No data');
-        // Generate unique ID if not provided
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newId = savedValue.id && !existingIds.includes(savedValue.id)
-            ? savedValue.id
-            : generateUniqueId(existingIds);
-        // Create the saved value
-        const newSavedValue = {
-            id: newId,
-            pageId,
-            label: savedValue.label || '',
-            value: savedValue.value || '',
-            testId: savedValue.testId || '',
-            querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        // Check if saved value already exists for this page and id
-        const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
-        if (existingIndex !== -1) {
-            // Update existing saved value
-            data.savedValues[existingIndex] = newSavedValue;
-        }
-        else {
-            // Add new saved value
-            data.savedValues.push(newSavedValue);
-        }
-        await this.setData(data);
-        return newSavedValue;
+        return addSavedValue(pageId, savedValue);
     }
-    // Delete saved value
     static async deleteSavedValue(savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
-        await this.setData(data);
+        return deleteSavedValue(savedValueId);
     }
 }
 
@@ -987,125 +1169,6 @@ async function retryAsync(operation, maxRetries = 3, delay = 100) {
  */
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-;// ./src/utils/export-format.ts
-
-
-const INCLUDED_KEYS = [
-    'settings',
-    'pages',
-    'presets',
-    'presetPageLinks',
-    'savedValues',
-];
-function isRecord(value) {
-    return typeof value === 'object' && value !== null;
-}
-function isString(value) {
-    return typeof value === 'string';
-}
-function isBoolean(value) {
-    return typeof value === 'boolean';
-}
-function isArray(value) {
-    return Array.isArray(value);
-}
-function createEmptyRootData() {
-    return {
-        pages: [],
-        presets: [],
-        presetPageLinks: [],
-        savedValues: [],
-        regexPatterns: [],
-        lengthConfigurations: []
-    };
-}
-function createDefaultSettings() {
-    return {
-        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-        theme: DEFAULTS.THEME,
-        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-    };
-}
-function normalizeIncluded(partial) {
-    return {
-        settings: partial?.settings ?? false,
-        pages: partial?.pages ?? false,
-        presets: partial?.presets ?? false,
-        presetPageLinks: partial?.presetPageLinks ?? false,
-        savedValues: partial?.savedValues ?? false,
-        regexPatterns: partial?.regexPatterns ?? false,
-        lengthConfigurations: partial?.lengthConfigurations ?? false
-    };
-}
-function createExportFile(params) {
-    const settings = params.settings ?? createDefaultSettings();
-    const emptyData = createEmptyRootData();
-    return {
-        schema: EXPORT_SCHEMA,
-        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
-        included: normalizeIncluded(params.included),
-        settings,
-        data: {
-            pages: params.data?.pages ?? emptyData.pages,
-            presets: params.data?.presets ?? emptyData.presets,
-            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
-            savedValues: params.data?.savedValues ?? emptyData.savedValues,
-            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
-            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
-        },
-    };
-}
-function isExtensionExportFile(value) {
-    if (!isRecord(value))
-        return false;
-    if (value.schema !== EXPORT_SCHEMA)
-        return false;
-    if (!isString(value.exportedAt))
-        return false;
-    if (!isRecord(value.included))
-        return false;
-    for (const key of INCLUDED_KEYS) {
-        if (!isBoolean(value.included[key]))
-            return false;
-    }
-    if (!isRecord(value.settings))
-        return false;
-    if (!isBoolean(value.settings.enableSaveValue))
-        return false;
-    if (!isBoolean(value.settings.enableImportValue))
-        return false;
-    if (!isBoolean(value.settings.enableLiveAssistant))
-        return false;
-    if (!isString(value.settings.theme))
-        return false;
-    if (!isRecord(value.data))
-        return false;
-    if (!isArray(value.data.pages))
-        return false;
-    if (!isArray(value.data.presets))
-        return false;
-    if (!isArray(value.data.presetPageLinks))
-        return false;
-    if (!isArray(value.data.savedValues))
-        return false;
-    return true;
-}
-function parseExtensionExportJson(text) {
-    const parsed = JSON.parse(text);
-    if (!isExtensionExportFile(parsed)) {
-        throw new Error('Invalid import file format (expected form-filler.export.v1)');
-    }
-    return parsed;
 }
 
 ;// ./src/constants/svgs.ts
@@ -2030,11 +2093,7 @@ function injectGuideData(guideId, payload) {
     }
 }
 
-;// ./src/popup/popup.ts
-/* unused harmony import specifier */ var popup_StorageService;
-/* unused harmony import specifier */ var popup_generateRandomString;
-/* unused harmony import specifier */ var popup_downloadFile;
-/* unused harmony import specifier */ var popup_createExportFile;
+;// ./src/popup/popup-page/startup.ts
 
 
 
@@ -2042,12 +2101,6 @@ function injectGuideData(guideId, payload) {
 
 
 
-
-let currentPageData = null;
-let currentUrl = '';
-let currentTabTitle = '';
-let sortColumn = 'rank';
-let sortDirection = 'asc';
 // Initialize popup
 async function init() {
     try {
@@ -2064,17 +2117,17 @@ async function init() {
         // Get current tab URL and title
         const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
         if (tabs[0]?.url) {
-            currentUrl = tabs[0].url;
-            currentTabTitle = tabs[0].title || '';
+            state.currentUrl = tabs[0].url;
+            state.currentTabTitle = tabs[0].title || '';
         }
         // Load page data
-        await loadPageData();
+        await actions.loadPageData();
         // Load settings to check if random string section should be shown
         const settings = await StorageService.getSettings();
         const randomStringSection = document.getElementById('randomStringSection');
         if (randomStringSection && settings?.enableRandomStringSectionInPopup) {
             randomStringSection.style.display = 'block';
-            initRandomStringSection(settings);
+            actions.initRandomStringSection(settings);
         }
         // Setup settings button
         document.getElementById('settingsBtn')?.addEventListener('click', () => {
@@ -2082,7 +2135,7 @@ async function init() {
         });
         // Setup string counter button
         document.getElementById('stringCounterBtn')?.addEventListener('click', () => {
-            showStringCounterModal();
+            actions.showStringCounterModal();
         });
         // Header actions: show ability text in .app-version on hover/focus
         const headerActions = document.querySelector('.header-actions');
@@ -2137,7 +2190,7 @@ async function init() {
     }
 }
 // Format date to: Jan 01, 25 HH:mm:ss
-function popup_formatDate(dateString) {
+function startup_formatDate(dateString) {
     const date = new Date(dateString);
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = months[date.getMonth()];
@@ -2208,7 +2261,7 @@ function showConfirmation(message, onConfirm, onCancel) {
 }
 // Load settings
 async function loadSettings() {
-    const settings = await popup_StorageService.getSettings();
+    const settings = await StorageService.getSettings();
     const enableSaveValueCheckbox = document.getElementById('enableSaveValue');
     const enableImportValueCheckbox = document.getElementById('enableImportValue');
     const enableLiveAssistantCheckbox = document.getElementById('enableLiveAssistant');
@@ -2222,13 +2275,13 @@ async function loadSettings() {
         enableLiveAssistantCheckbox.checked = settings.enableLiveAssistant;
     }
     // Update dependent toggles state
-    updateDependentToggles();
+    actions.updateDependentToggles();
     if (enableSaveValueCheckbox) {
         enableSaveValueCheckbox.addEventListener('change', async () => {
-            const currentSettings = await popup_StorageService.getSettings();
+            const currentSettings = await StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await popup_StorageService.setSettings({
+            await StorageService.setSettings({
                 ...currentSettings,
                 enableSaveValue: enableSaveValueCheckbox.checked
             });
@@ -2236,10 +2289,10 @@ async function loadSettings() {
     }
     if (enableImportValueCheckbox) {
         enableImportValueCheckbox.addEventListener('change', async () => {
-            const currentSettings = await popup_StorageService.getSettings();
+            const currentSettings = await StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await popup_StorageService.setSettings({
+            await StorageService.setSettings({
                 ...currentSettings,
                 enableImportValue: enableImportValueCheckbox.checked
             });
@@ -2247,14 +2300,14 @@ async function loadSettings() {
     }
     if (enableLiveAssistantCheckbox) {
         enableLiveAssistantCheckbox.addEventListener('change', async () => {
-            const currentSettings = await popup_StorageService.getSettings();
+            const currentSettings = await StorageService.getSettings();
             if (!currentSettings)
                 return;
-            await popup_StorageService.setSettings({
+            await StorageService.setSettings({
                 ...currentSettings,
                 enableLiveAssistant: enableLiveAssistantCheckbox.checked
             });
-            updateDependentToggles();
+            actions.updateDependentToggles();
         });
     }
 }
@@ -2274,20 +2327,145 @@ function updateDependentToggles() {
         enableImportValueCheckbox.parentElement?.classList.toggle('disabled', !isLiveAssistantEnabled);
     }
 }
+
+;// ./src/utils/export-format.ts
+
+
+const INCLUDED_KEYS = [
+    'settings',
+    'pages',
+    'presets',
+    'presetPageLinks',
+    'savedValues',
+];
+function isRecord(value) {
+    return typeof value === 'object' && value !== null;
+}
+function isString(value) {
+    return typeof value === 'string';
+}
+function isBoolean(value) {
+    return typeof value === 'boolean';
+}
+function isArray(value) {
+    return Array.isArray(value);
+}
+function createEmptyRootData() {
+    return {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+}
+function createDefaultSettings() {
+    return {
+        enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+        enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+        enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+        defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+        theme: DEFAULTS.THEME,
+        enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+        enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+        enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+        enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+        randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+        randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+    };
+}
+function normalizeIncluded(partial) {
+    return {
+        settings: partial?.settings ?? false,
+        pages: partial?.pages ?? false,
+        presets: partial?.presets ?? false,
+        presetPageLinks: partial?.presetPageLinks ?? false,
+        savedValues: partial?.savedValues ?? false,
+        regexPatterns: partial?.regexPatterns ?? false,
+        lengthConfigurations: partial?.lengthConfigurations ?? false
+    };
+}
+function createExportFile(params) {
+    const settings = params.settings ?? createDefaultSettings();
+    const emptyData = createEmptyRootData();
+    return {
+        schema: EXPORT_SCHEMA,
+        exportedAt: params.exportedAt ?? getCurrentTimestamp(),
+        included: normalizeIncluded(params.included),
+        settings,
+        data: {
+            pages: params.data?.pages ?? emptyData.pages,
+            presets: params.data?.presets ?? emptyData.presets,
+            presetPageLinks: params.data?.presetPageLinks ?? emptyData.presetPageLinks,
+            savedValues: params.data?.savedValues ?? emptyData.savedValues,
+            regexPatterns: params.data?.regexPatterns ?? emptyData.regexPatterns,
+            lengthConfigurations: params.data?.lengthConfigurations ?? emptyData.lengthConfigurations
+        },
+    };
+}
+function isExtensionExportFile(value) {
+    if (!isRecord(value))
+        return false;
+    if (value.schema !== EXPORT_SCHEMA)
+        return false;
+    if (!isString(value.exportedAt))
+        return false;
+    if (!isRecord(value.included))
+        return false;
+    for (const key of INCLUDED_KEYS) {
+        if (!isBoolean(value.included[key]))
+            return false;
+    }
+    if (!isRecord(value.settings))
+        return false;
+    if (!isBoolean(value.settings.enableSaveValue))
+        return false;
+    if (!isBoolean(value.settings.enableImportValue))
+        return false;
+    if (!isBoolean(value.settings.enableLiveAssistant))
+        return false;
+    if (!isString(value.settings.theme))
+        return false;
+    if (!isRecord(value.data))
+        return false;
+    if (!isArray(value.data.pages))
+        return false;
+    if (!isArray(value.data.presets))
+        return false;
+    if (!isArray(value.data.presetPageLinks))
+        return false;
+    if (!isArray(value.data.savedValues))
+        return false;
+    return true;
+}
+function parseExtensionExportJson(text) {
+    const parsed = JSON.parse(text);
+    if (!isExtensionExportFile(parsed)) {
+        throw new Error('Invalid import file format (expected form-filler.export.v1)');
+    }
+    return parsed;
+}
+
+;// ./src/popup/popup-page/page-data.ts
+
+
+
+
 // Load page data
 async function loadPageData() {
-    currentPageData = await StorageService.getCurrentPageData(currentUrl);
+    state.currentPageData = await StorageService.getCurrentPageData(state.currentUrl);
     const pageSection = document.getElementById('pageSection');
     const noPageContent = document.getElementById('noPageContent');
     const hasPageContent = document.getElementById('hasPageContent');
     const mainContent = document.getElementById('mainContent');
-    if (!currentPageData) {
+    if (!state.currentPageData) {
         pageSection.querySelector('.section-title')?.setAttribute('style', 'display: none;');
         noPageContent.style.display = 'block';
         hasPageContent.style.display = 'none';
         mainContent.innerHTML = '';
         mainContent.style.display = 'none';
-        setupNoPageActions();
+        actions.setupNoPageActions();
     }
     else {
         pageSection.querySelector('.section-title')?.setAttribute('style', 'display: block;');
@@ -2295,20 +2473,20 @@ async function loadPageData() {
         hasPageContent.style.display = 'block';
         mainContent.style.display = 'block';
         // Update page info display
-        updatePageInfoDisplay();
+        actions.updatePageInfoDisplay();
         // Show page management (presets)
-        showPageManagement(mainContent);
+        actions.showPageManagement(mainContent);
     }
 }
 // Setup actions for when no page data exists
 function setupNoPageActions() {
     // Create New Profile button
     document.getElementById('createNewPageBtn')?.addEventListener('click', () => {
-        showCreatePageModal();
+        actions.showCreatePageModal();
     });
     // Clone from Existing button
     document.getElementById('cloneFromExistingBtn')?.addEventListener('click', () => {
-        showClonePageModal();
+        actions.showClonePageModal();
     });
     // Import Page Profile button
     document.getElementById('importPageProfileBtn')?.addEventListener('click', () => {
@@ -2317,8 +2495,81 @@ function setupNoPageActions() {
     });
     // Setup import file handler
     const importInput = document.getElementById('importPageFile');
-    importInput.addEventListener('change', handleImportFile);
+    importInput.addEventListener('change', actions.handleImportFile);
 }
+// Update page info display
+function updatePageInfoDisplay() {
+    if (!state.currentPageData)
+        return;
+    const pageTitleEl = document.getElementById('pageTitle');
+    const pageUrlEl = document.getElementById('pageUrl');
+    const urlIdentifyEl = document.getElementById('urlIdentify');
+    const pageDescEl = document.getElementById('pageDescription');
+    if (pageTitleEl)
+        pageTitleEl.textContent = state.currentPageData.pageTitle;
+    if (pageUrlEl)
+        pageUrlEl.textContent = state.currentPageData.url;
+    if (urlIdentifyEl)
+        urlIdentifyEl.textContent = state.currentPageData.matchIdentify === 'exactMatch' ? 'exact match' : 'prefix match';
+    if (pageDescEl)
+        pageDescEl.textContent = state.currentPageData.description || '-';
+    // Setup page action buttons
+    actions.setupPageActionButtons();
+}
+// Setup page action buttons
+function setupPageActionButtons() {
+    document.getElementById('editPageBtn')?.addEventListener('click', () => {
+        if (!state.currentPageData)
+            return;
+        // Open page-profile-editor directly
+        window.open(`page-profile-editor.html?pageId=${encodeURIComponent(state.currentPageData.id)}`, '_blank');
+    });
+    // Scan form data functionality is now in preset section as scanFormDataBtnPreset
+    document.getElementById('exportPageBtn')?.addEventListener('click', async () => {
+        if (!state.currentPageData)
+            return;
+        const data = await StorageService.getData();
+        if (!data)
+            return;
+        // Get presets for this page
+        const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
+        // Get saved values for this page
+        const savedValues = data.savedValues.filter(sv => sv.pageId === state.currentPageData.id);
+        const presetIds = new Set(presets.map(p => p.id));
+        const presetPageLinks = data.presetPageLinks.filter(l => l.pageId === state.currentPageData.id && presetIds.has(l.presetId));
+        const exportFile = createExportFile({
+            included: {
+                pages: true,
+                presets: true,
+                presetPageLinks: true,
+                savedValues: true,
+            },
+            data: {
+                pages: [state.currentPageData],
+                presets,
+                presetPageLinks,
+                savedValues,
+            },
+        });
+        downloadFile(JSON.stringify(exportFile, null, 2), `form-filler-${state.currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`);
+        try {
+            const fileName = `form-filler-${state.currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`;
+            actions.showNotification(`Exported page data to ${fileName}`);
+        }
+        catch (error) {
+            console.error('Failed to show export notification:', error);
+        }
+    });
+}
+
+;// ./src/popup/popup-page/page-modals.ts
+
+
+
+
+
+
+
 // Handle import file
 async function handleImportFile(event) {
     const input = event.target;
@@ -2338,12 +2589,12 @@ async function handleImportFile(event) {
             let presetsSkipped = 0;
             let savedValuesSkipped = 0;
             if (!importedData.included.pages || importedData.data.pages.length === 0) {
-                showNotification('Failed to import: pages section not included in file.');
+                actions.showNotification('Failed to import: pages section not included in file.');
                 return;
             }
             const pageData = importedData.data.pages[0];
             // Check if page already exists (by currentUrl + matchIdentify)
-            const existingPage = data.pages.find(p => p.url === currentUrl && p.matchIdentify === (pageData.matchIdentify ?? 'prefixMatch'));
+            const existingPage = data.pages.find(p => p.url === state.currentUrl && p.matchIdentify === (pageData.matchIdentify ?? 'prefixMatch'));
             let targetPageId;
             if (existingPage) {
                 duplicates.push(`Page: ${pageData.pageTitle}`);
@@ -2354,7 +2605,7 @@ async function handleImportFile(event) {
                 // Import the page data
                 const newPage = await StorageService.addPage({
                     pageTitle: pageData.pageTitle || 'Imported Page',
-                    url: currentUrl,
+                    url: state.currentUrl,
                     description: pageData.description || '',
                     owner: pageData.owner || '',
                     matchIdentify: pageData.matchIdentify ?? 'prefixMatch'
@@ -2416,13 +2667,13 @@ async function handleImportFile(event) {
                     message += `<br>... and ${duplicates.length - 10} more`;
                 }
             }
-            showNotification(message, async () => {
-                await loadPageData();
+            actions.showNotification(message, async () => {
+                await actions.loadPageData();
             });
         }
         catch (error) {
             console.error('Import error:', error);
-            showNotification('Failed to import page profile. Please check the file format.');
+            actions.showNotification('Failed to import page profile. Please check the file format.');
         }
     };
     reader.readAsText(file);
@@ -2433,11 +2684,11 @@ function showCreatePageModal() {
     const bodyContent = `
     <div class="form-group">
       <label for="newPageTitle">Page Title *</label>
-      <input type="text" id="newPageTitle" value="${currentTabTitle}" required />
+      <input type="text" id="newPageTitle" value="${state.currentTabTitle}" required />
     </div>
     <div class="form-group">
       <label for="newPageUrl">URL *</label>
-      <input type="text" id="newPageUrl" value="${currentUrl}" required />
+      <input type="text" id="newPageUrl" value="${state.currentUrl}" required />
     </div>
     <div class="form-group">
       <label for="newMatchIdentify">URL Match Type</label>
@@ -2473,7 +2724,7 @@ function showCreatePageModal() {
         const pageOwner = document.getElementById('newPageOwner').value;
         const matchIdentify = document.getElementById('newMatchIdentify').value;
         if (!pageTitle || !pageUrl) {
-            showNotification('Page title and URL are required');
+            actions.showNotification('Page title and URL are required');
             return;
         }
         await StorageService.addPage({
@@ -2484,7 +2735,7 @@ function showCreatePageModal() {
             matchIdentify
         });
         hideModal();
-        await loadPageData();
+        await actions.loadPageData();
     });
     document.getElementById('cancelNewPageBtn')?.addEventListener('click', () => {
         hideModal();
@@ -2495,7 +2746,7 @@ async function showClonePageModal() {
     const data = await StorageService.getData();
     const pages = data?.pages || [];
     if (pages.length === 0) {
-        showNotification('No existing pages to clone from. Please create a new page first.');
+        actions.showNotification('No existing pages to clone from. Please create a new page first.');
         return;
     }
     const bodyContent = `
@@ -2508,11 +2759,11 @@ async function showClonePageModal() {
     </div>
     <div class="form-group">
       <label for="clonePageTitle">New Page Title *</label>
-      <input type="text" id="clonePageTitle" placeholder="Enter a name for this page" value="${currentTabTitle}" required />
+      <input type="text" id="clonePageTitle" placeholder="Enter a name for this page" value="${state.currentTabTitle}" required />
     </div>
     <div class="form-group">
       <label for="clonePageUrl">URL *</label>
-      <input type="text" id="clonePageUrl" value="${currentUrl}" required />
+      <input type="text" id="clonePageUrl" value="${state.currentUrl}" required />
     </div>
     <div class="form-group">
       <label for="cloneMatchIdentify">URL Match Type</label>
@@ -2549,16 +2800,16 @@ async function showClonePageModal() {
         const newOwner = document.getElementById('clonePageOwner').value;
         const matchIdentify = document.getElementById('cloneMatchIdentify').value;
         if (!sourcePageId) {
-            showNotification('Please select a source page');
+            actions.showNotification('Please select a source page');
             return;
         }
         if (!newTitle || !newUrl) {
-            showNotification('Page title and URL are required');
+            actions.showNotification('Page title and URL are required');
             return;
         }
         const sourcePage = pages.find(p => p.id === sourcePageId);
         if (!sourcePage) {
-            showNotification('Source page not found');
+            actions.showNotification('Source page not found');
             return;
         }
         // Create new page with new settings
@@ -2583,85 +2834,21 @@ async function showClonePageModal() {
             }
         }
         hideModal();
-        showNotification('Page profile cloned successfully!', async () => {
-            await loadPageData();
+        actions.showNotification('Page profile cloned successfully!', async () => {
+            await actions.loadPageData();
         });
     });
     document.getElementById('cancelCloneBtn')?.addEventListener('click', () => {
         hideModal();
     });
 }
-// Update page info display
-function updatePageInfoDisplay() {
-    if (!currentPageData)
-        return;
-    const pageTitleEl = document.getElementById('pageTitle');
-    const pageUrlEl = document.getElementById('pageUrl');
-    const urlIdentifyEl = document.getElementById('urlIdentify');
-    const pageDescEl = document.getElementById('pageDescription');
-    if (pageTitleEl)
-        pageTitleEl.textContent = currentPageData.pageTitle;
-    if (pageUrlEl)
-        pageUrlEl.textContent = currentPageData.url;
-    if (urlIdentifyEl)
-        urlIdentifyEl.textContent = currentPageData.matchIdentify === 'exactMatch' ? 'exact match' : 'prefix match';
-    if (pageDescEl)
-        pageDescEl.textContent = currentPageData.description || '-';
-    // Setup page action buttons
-    setupPageActionButtons();
-}
-// Setup page action buttons
-function setupPageActionButtons() {
-    document.getElementById('editPageBtn')?.addEventListener('click', () => {
-        if (!currentPageData)
-            return;
-        // Open page-profile-editor directly
-        window.open(`page-profile-editor.html?pageId=${encodeURIComponent(currentPageData.id)}`, '_blank');
-    });
-    // Scan form data functionality is now in preset section as scanFormDataBtnPreset
-    document.getElementById('exportPageBtn')?.addEventListener('click', async () => {
-        if (!currentPageData)
-            return;
-        const data = await StorageService.getData();
-        if (!data)
-            return;
-        // Get presets for this page
-        const presets = await StorageService.getPresetsForPage(currentPageData.id);
-        // Get saved values for this page
-        const savedValues = data.savedValues.filter(sv => sv.pageId === currentPageData.id);
-        const presetIds = new Set(presets.map(p => p.id));
-        const presetPageLinks = data.presetPageLinks.filter(l => l.pageId === currentPageData.id && presetIds.has(l.presetId));
-        const exportFile = createExportFile({
-            included: {
-                pages: true,
-                presets: true,
-                presetPageLinks: true,
-                savedValues: true,
-            },
-            data: {
-                pages: [currentPageData],
-                presets,
-                presetPageLinks,
-                savedValues,
-            },
-        });
-        downloadFile(JSON.stringify(exportFile, null, 2), `form-filler-${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`);
-        try {
-            const fileName = `form-filler-${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_')}.json`;
-            showNotification(`Exported page data to ${fileName}`);
-        }
-        catch (error) {
-            console.error('Failed to show export notification:', error);
-        }
-    });
-}
 // Show page management
 async function showPageManagement(container) {
     // Check if there are unlinked presets available
-    const unlinkedPresets = await StorageService.getUnlinkedPresets(currentPageData?.id || '');
+    const unlinkedPresets = await StorageService.getUnlinkedPresets(state.currentPageData?.id || '');
     const hasUnlinkedPresets = unlinkedPresets.length > 0;
     container.innerHTML = `
-    ${currentPageData ? `
+    ${state.currentPageData ? `
     <div class="presets-section">
     <div class="section-header">
         <h3>
@@ -2715,16 +2902,16 @@ async function showPageManagement(container) {
     initGuideOverlays();
     // Initialize cyber buttons after content is rendered
     initCyberButtons();
-    if (currentPageData) {
-        loadPresets();
+    if (state.currentPageData) {
+        actions.loadPresets();
         document.getElementById('createPresetBtn')?.addEventListener('click', () => {
-            openPresetEditor();
+            actions.openPresetEditor();
         });
         document.getElementById('linkPresetBtn')?.addEventListener('click', () => {
-            showLinkPresetModal();
+            actions.showLinkPresetModal();
         });
         document.getElementById('exportPresetsBtn')?.addEventListener('click', async () => {
-            await showExportPresetsModal();
+            await actions.showExportPresetsModal();
         });
         document.getElementById('importPresetsBtn')?.addEventListener('click', () => {
             const fileInput = document.getElementById('importPresetsFile');
@@ -2733,38 +2920,42 @@ async function showPageManagement(container) {
         document.getElementById('importPresetsFile')?.addEventListener('change', async (e) => {
             const input = e.target;
             if (input.files && input.files[0]) {
-                await importPresetsData(input.files[0]);
+                await actions.importPresetsData(input.files[0]);
                 input.value = ''; // Reset input
             }
         });
         // Scan form data button in preset section
         document.getElementById('scanFormDataBtnPreset')?.addEventListener('click', async () => {
-            await scanFormData();
+            await actions.scanFormData();
         });
         // Add sort listeners
         document.querySelectorAll('.sortable').forEach(header => {
             header.addEventListener('click', (e) => {
                 const column = e.target.getAttribute('data-sort');
                 if (column) {
-                    sortPresets(column);
+                    actions.sortPresets(column);
                 }
             });
         });
     }
 }
+
+;// ./src/popup/popup-page/preset-table.ts
+
+
 // Sort presets
 async function sortPresets(column) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     // Get presets for this page
-    const presets = await StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
     // Toggle direction if same column, otherwise default to ascending
-    if (sortColumn === column) {
-        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    if (state.sortColumn === column) {
+        state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
     }
     else {
-        sortColumn = column;
-        sortDirection = 'asc';
+        state.sortColumn = column;
+        state.sortDirection = 'asc';
     }
     // Sort presets
     const sortedPresets = [...presets];
@@ -2791,38 +2982,38 @@ async function sortPresets(column) {
                 break;
         }
         if (compareA < compareB)
-            return sortDirection === 'asc' ? -1 : 1;
+            return state.sortDirection === 'asc' ? -1 : 1;
         if (compareA > compareB)
-            return sortDirection === 'asc' ? 1 : -1;
+            return state.sortDirection === 'asc' ? 1 : -1;
         return 0;
     });
     // Update display
-    renderPresetTable(sortedPresets);
-    updateSortIndicators();
+    actions.renderPresetTable(sortedPresets);
+    actions.updateSortIndicators();
 }
 // Update sort indicators
 function updateSortIndicators() {
     document.querySelectorAll('.sortable').forEach(header => {
         const column = header.getAttribute('data-sort');
         header.classList.remove('sort-asc', 'sort-desc');
-        if (column === sortColumn) {
-            header.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+        if (column === state.sortColumn) {
+            header.classList.add(state.sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
         }
     });
 }
 // Load presets into table
 async function loadPresets() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     const tbody = document.getElementById('presetsBody');
     tbody.innerHTML = '';
     // Get presets for this page
-    const presets = await StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
     if (presets.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="no-data">No presets found. Create your first preset!</td></tr>';
         return;
     }
-    renderPresetTable(presets);
+    actions.renderPresetTable(presets);
 }
 // Render preset table
 function renderPresetTable(presets) {
@@ -2854,7 +3045,7 @@ function renderPresetTable(presets) {
         appendCell(row, String(index + 1));
         appendCell(row, preset.name);
         appendCell(row, preset.description || '');
-        appendCell(row, popup_formatDate(preset.updatedAt));
+        appendCell(row, actions.formatDate(preset.updatedAt));
         const actionsCell = document.createElement('td');
         actionsCell.className = 'actions';
         appendActionButton(actionsCell, {
@@ -2886,44 +3077,44 @@ function renderPresetTable(presets) {
             if (!presetId)
                 return;
             if (action === 'edit') {
-                openPresetEditor(presetId);
+                actions.openPresetEditor(presetId);
             }
             else if (action === 'delete') {
-                await handleDeletePreset(presetId);
+                await actions.handleDeletePreset(presetId);
             }
             else {
                 // Apply action (default)
-                await applyPreset(presetId);
+                await actions.applyPreset(presetId);
             }
         });
     });
 }
 // Handle delete/unlink preset
 async function handleDeletePreset(presetId) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     // Check how many pages this preset is linked to
     const linkedPageIds = await StorageService.getPageIdsForPreset(presetId);
     if (linkedPageIds.length === 1) {
         // Preset is only linked to current page - confirm permanent deletion
-        showConfirmation('This preset is only linked to this page. Delete it permanently?', async () => {
+        actions.showConfirmation('This preset is only linked to this page. Delete it permanently?', async () => {
             await StorageService.deletePreset(presetId);
-            await loadPageData();
+            await actions.loadPageData();
         });
     }
     else {
         // Preset is linked to multiple pages - confirm unlinking
-        showConfirmation(`This preset is linked to ${linkedPageIds.length} pages. Unlink it from this page only?`, async () => {
-            if (!currentPageData)
+        actions.showConfirmation(`This preset is linked to ${linkedPageIds.length} pages. Unlink it from this page only?`, async () => {
+            if (!state.currentPageData)
                 return;
-            await StorageService.unlinkPresetFromPage(presetId, currentPageData.id);
-            await loadPageData();
+            await StorageService.unlinkPresetFromPage(presetId, state.currentPageData.id);
+            await actions.loadPageData();
         });
     }
 }
 // Apply preset to current page
 async function applyPreset(presetId) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     const preset = await StorageService.getPresetById(presetId);
     if (!preset)
@@ -2931,7 +3122,7 @@ async function applyPreset(presetId) {
     try {
         const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tabs[0]?.id) {
-            showNotification('Could not find active tab');
+            actions.showNotification('Could not find active tab');
             return;
         }
         const tabId = tabs[0].id;
@@ -2968,24 +3159,30 @@ async function applyPreset(presetId) {
     }
     catch (error) {
         console.error('Error applying preset:', error);
-        showNotification('Failed to apply preset. Make sure you are on a valid web page (not chrome:// or extension pages). Or try refreshing the page.');
+        actions.showNotification('Failed to apply preset. Make sure you are on a valid web page (not chrome:// or extension pages). Or try refreshing the page.');
     }
 }
+
+;// ./src/popup/popup-page/scan-and-link.ts
+
+
+
+
 // Scan form data on current page
 async function scanFormData() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     try {
         const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
         const tab = tabs[0];
         const tabId = tab?.id;
         if (!tabId || !tab.url) {
-            showNotification('Could not find active tab');
+            actions.showNotification('Could not find active tab');
             return;
         }
         // Check if tab is a valid web page
         if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://')) {
-            showNotification('Cannot scan form fields on browser internal pages');
+            actions.showNotification('Cannot scan form fields on browser internal pages');
             return;
         }
         let response;
@@ -3008,21 +3205,21 @@ async function scanFormData() {
             }
             catch (injectError) {
                 console.error('Failed to inject content script:', injectError);
-                showNotification('Failed to scan form fields. Please refresh the page and try again.');
+                actions.showNotification('Failed to scan form fields. Please refresh the page and try again.');
                 return;
             }
         }
         if (response && response.fields && response.fields.length > 0) {
             // Show confirmation modal with scanned fields
-            showScannedFieldsModal(response.fields);
+            actions.showScannedFieldsModal(response.fields);
         }
         else {
-            showNotification('No form fields found on this page');
+            actions.showNotification('No form fields found on this page');
         }
     }
     catch (error) {
         console.error('Error scanning form fields:', error);
-        showNotification('Failed to scan form fields. Make sure you are on a valid web page.');
+        actions.showNotification('Failed to scan form fields. Make sure you are on a valid web page.');
     }
 }
 // Show scanned fields modal
@@ -3058,7 +3255,7 @@ function showScannedFieldsModal(fields) {
         const presetName = document.getElementById('presetName').value.trim();
         const presetDescription = document.getElementById('presetDescription').value.trim();
         if (!presetName) {
-            showNotification('Preset name is required');
+            actions.showNotification('Preset name is required');
             return;
         }
         // Create form data from all scanned fields
@@ -3082,12 +3279,12 @@ function showScannedFieldsModal(fields) {
             formData
         });
         // Link preset to current page
-        if (currentPageData) {
-            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+        if (state.currentPageData) {
+            await StorageService.linkPresetToPage(newPreset.id, state.currentPageData.id);
         }
         hideModal();
-        showNotification(`Preset "${presetName}" created with ${fields.length} field(s)!`, async () => {
-            await loadPageData();
+        actions.showNotification(`Preset "${presetName}" created with ${fields.length} field(s)!`, async () => {
+            await actions.loadPageData();
         });
     });
     document.getElementById('cancelScannedFieldsBtn')?.addEventListener('click', () => {
@@ -3097,7 +3294,7 @@ function showScannedFieldsModal(fields) {
 // Open preset editor
 function openPresetEditor(presetId) {
     const basePath = 'html/page-profile-editor.html';
-    const pageIdParam = `pageId=${encodeURIComponent(currentPageData.id)}`;
+    const pageIdParam = `pageId=${encodeURIComponent(state.currentPageData.id)}`;
     const url = presetId
         ? `${basePath}?${pageIdParam}&presetId=${encodeURIComponent(presetId)}`
         : `${basePath}?${pageIdParam}`;
@@ -3105,7 +3302,7 @@ function openPresetEditor(presetId) {
 }
 // Show link preset modal
 async function showLinkPresetModal() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     const data = await StorageService.getData();
     if (!data)
@@ -3114,12 +3311,12 @@ async function showLinkPresetModal() {
     const allPresets = data.presets;
     // Get current page's linked presets
     const currentPresetIds = data.presetPageLinks
-        .filter(link => link.pageId === currentPageData.id)
+        .filter(link => link.pageId === state.currentPageData.id)
         .map(link => link.presetId);
     // Filter out already linked presets
     const availablePresets = allPresets.filter(p => !currentPresetIds.includes(p.id));
     if (availablePresets.length === 0) {
-        showNotification('No available presets to link. All presets are already linked to this page.');
+        actions.showNotification('No available presets to link. All presets are already linked to this page.');
         return;
     }
     const bodyContent = `
@@ -3174,47 +3371,54 @@ async function showLinkPresetModal() {
                 selectedPresetIds.push(cb.value);
             });
             if (selectedPresetIds.length === 0) {
-                showNotification('Please select at least one preset to link.');
+                actions.showNotification('Please select at least one preset to link.');
                 return;
             }
             // Link all selected presets
             for (const presetId of selectedPresetIds) {
-                await StorageService.linkPresetToPage(presetId, currentPageData.id);
+                await StorageService.linkPresetToPage(presetId, state.currentPageData.id);
             }
             hideModal();
             const message = selectedPresetIds.length === 1
                 ? 'Preset linked successfully!'
                 : `${selectedPresetIds.length} presets linked successfully!`;
-            showNotification(message, async () => {
-                await loadPageData();
+            actions.showNotification(message, async () => {
+                await actions.loadPageData();
             });
         });
     }, 0);
 }
+
+;// ./src/popup/popup-page/preset-import-export.ts
+
+
+
+
+
 // Export presets data
 async function exportPresetsData() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const presets = await popup_StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
     if (presets.length === 0) {
-        showNotification('No presets to export.');
+        actions.showNotification('No presets to export.');
         return;
     }
-    const exportFile = popup_createExportFile({
+    const exportFile = createExportFile({
         included: { presets: true },
         data: { presets },
         exportedAt: new Date().toISOString(),
     });
-    popup_downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
-    showNotification(`Exported ${presets.length} preset(s) successfully!`);
+    downloadFile(JSON.stringify(exportFile, null, 2), `${state.currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
+    actions.showNotification(`Exported ${presets.length} preset(s) successfully!`);
 }
 // Show export presets modal with selection
 async function showExportPresetsModal() {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
-    const presets = await StorageService.getPresetsForPage(currentPageData.id);
+    const presets = await StorageService.getPresetsForPage(state.currentPageData.id);
     if (presets.length === 0) {
-        showNotification('No presets to export.');
+        actions.showNotification('No presets to export.');
         return;
     }
     const checkboxes = presets.map(preset => `
@@ -3265,7 +3469,7 @@ async function showExportPresetsModal() {
             selectedIds.push(cb.value);
         });
         if (selectedIds.length === 0) {
-            showNotification('Please select at least one preset to export.');
+            actions.showNotification('Please select at least one preset to export.');
             return;
         }
         const selectedPresets = presets.filter(p => selectedIds.includes(p.id));
@@ -3274,9 +3478,9 @@ async function showExportPresetsModal() {
             data: { presets: selectedPresets },
             exportedAt: new Date().toISOString(),
         });
-        downloadFile(JSON.stringify(exportFile, null, 2), `${currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
+        downloadFile(JSON.stringify(exportFile, null, 2), `${state.currentPageData.pageTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_presets.json`);
         hideModal();
-        showNotification(`Exported ${selectedPresets.length} preset(s) successfully!`);
+        actions.showNotification(`Exported ${selectedPresets.length} preset(s) successfully!`);
     });
     document.getElementById('cancelExportBtn')?.addEventListener('click', () => {
         hideModal();
@@ -3284,13 +3488,13 @@ async function showExportPresetsModal() {
 }
 // Import presets data
 async function importPresetsData(file) {
-    if (!currentPageData)
+    if (!state.currentPageData)
         return;
     try {
         const text = await file.text();
         const importedData = parseExtensionExportJson(text);
         if (!importedData.included.presets || !Array.isArray(importedData.data.presets)) {
-            showNotification('Invalid import file: presets section not included');
+            actions.showNotification('Invalid import file: presets section not included');
             return;
         }
         const data = await StorageService.getData();
@@ -3317,7 +3521,7 @@ async function importPresetsData(file) {
                 description: preset.description || '',
                 formData: preset.formData || []
             });
-            await StorageService.linkPresetToPage(newPreset.id, currentPageData.id);
+            await StorageService.linkPresetToPage(newPreset.id, state.currentPageData.id);
             addedCount++;
         }
         let message = `Added ${addedCount} preset${addedCount === 1 ? '' : 's'}`;
@@ -3325,15 +3529,21 @@ async function importPresetsData(file) {
             message += `, skipped ${skippedIdCount} with existing IDs`;
         if (skippedDuplicateCount > 0)
             message += `, skipped ${skippedDuplicateCount} duplicates`;
-        showNotification(message, async () => {
-            await loadPageData();
+        actions.showNotification(message, async () => {
+            await actions.loadPageData();
         });
     }
     catch (error) {
         console.error('Import error:', error);
-        showNotification('Failed to import presets. Please check the file format.');
+        actions.showNotification('Failed to import presets. Please check the file format.');
     }
 }
+
+;// ./src/popup/popup-page/random-tools.ts
+
+
+
+
 // String Counter Modal
 function showStringCounterModal() {
     const modalBody = `
@@ -3426,7 +3636,7 @@ async function showRandomStringModal() {
             return;
         }
         // Load current settings
-        const settings = await popup_StorageService.getSettings();
+        const settings = await StorageService.getSettings();
         const charsetSelect = document.getElementById('charsetSelect');
         const lengthInput = document.getElementById('lengthInput');
         const generatedString = document.getElementById('generatedString');
@@ -3444,7 +3654,7 @@ async function showRandomStringModal() {
             try {
                 const length = parseInt(lengthInput.value) || 50;
                 const charset = charsetSelect.value;
-                const randomStr = popup_generateRandomString(length, charset);
+                const randomStr = generateRandomString(length, charset);
                 generatedString.value = randomStr;
             }
             catch (err) {
@@ -3456,15 +3666,15 @@ async function showRandomStringModal() {
             try {
                 const text = generatedString.value;
                 if (!text) {
-                    showNotification('No string to copy. Please generate a string first.');
+                    actions.showNotification('No string to copy. Please generate a string first.');
                     return;
                 }
                 await navigator.clipboard.writeText(text);
-                showNotification('String copied to clipboard!');
+                actions.showNotification('String copied to clipboard!');
             }
             catch (error) {
                 console.error('Failed to copy:', error);
-                showNotification('Failed to copy to clipboard');
+                actions.showNotification('Failed to copy to clipboard');
             }
         };
         // Close function
@@ -3499,10 +3709,6 @@ async function showRandomStringModal() {
         console.error('Failed to show random string modal:', error);
     }
 }
-// Initialize the popup when the DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-});
 // Initialize random string section
 function initRandomStringSection(settings) {
     const charsetSelect = document.getElementById('popupCharsetSelect');
@@ -3523,14 +3729,42 @@ function initRandomStringSection(settings) {
             const charset = charsetSelect.value;
             const randomStr = generateRandomString(length, charset);
             await navigator.clipboard.writeText(randomStr);
-            showNotification('Random string copied to clipboard!');
+            actions.showNotification('Random string copied to clipboard!');
         }
         catch (error) {
             console.error('Failed to generate/copy string:', error);
-            showNotification('Failed to generate and copy random string');
+            actions.showNotification('Failed to generate and copy random string');
         }
     });
 }
+
+;// ./src/popup/popup-page/bootstrap.ts
+
+function bootstrap() {
+    // Initialize the popup when the DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        actions.init();
+    });
+}
+
+;// ./src/popup/popup-page/index.ts
+
+
+
+
+
+
+
+
+
+Object.assign(actions, startup_namespaceObject, page_data_namespaceObject, page_modals_namespaceObject, preset_table_namespaceObject, scan_and_link_namespaceObject, preset_import_export_namespaceObject, random_tools_namespaceObject);
+function startPopupPage() {
+    bootstrap();
+}
+
+;// ./src/popup/popup.ts
+
+startPopupPage();
 
 /******/ })()
 ;

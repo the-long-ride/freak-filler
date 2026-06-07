@@ -11,11 +11,6 @@ export declare class StorageService {
     static getPageById(pageId: string): Promise<PageData | null>;
     static getCurrentPageData(currentUrl: string): Promise<PageData | null>;
     static addPage(pageData: Omit<PageData, 'id' | 'createdAt' | 'updatedAt'>): Promise<PageData>;
-    /**
-     * Update a page by its id
-     * @param id - Page id
-     * @param updates - Partial page data
-     */
     static updatePage(id: string, updates: Partial<PageData>): Promise<void>;
     static deletePreset(presetId: string): Promise<void>;
     static addSavedFormData(pageUrl: string, formData: Omit<FormFieldData, 'id' | 'createdAt' | 'updatedAt'>): Promise<void>;

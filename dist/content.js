@@ -1,5 +1,107 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+
+// NAMESPACE OBJECT: ./src/content/content-script/startup-listeners.ts
+var startup_listeners_namespaceObject = {};
+__webpack_require__.r(startup_listeners_namespaceObject);
+__webpack_require__.d(startup_listeners_namespaceObject, {
+  attachInputListeners: () => (attachInputListeners),
+  handleContextMenu: () => (handleContextMenu),
+  handleInputClick: () => (handleInputClick),
+  handleInputFocus: () => (handleInputFocus),
+  handleInputFocusOut: () => (handleInputFocusOut),
+  init: () => (init),
+  isExtensionContextValid: () => (isExtensionContextValid)
+});
+
+// NAMESPACE OBJECT: ./src/content/content-script/assistant-popup.ts
+var assistant_popup_namespaceObject = {};
+__webpack_require__.r(assistant_popup_namespaceObject);
+__webpack_require__.d(assistant_popup_namespaceObject, {
+  createPopup: () => (createPopup),
+  removePopup: () => (removePopup),
+  showFillingAssistantPopup: () => (showFillingAssistantPopup)
+});
+
+// NAMESPACE OBJECT: ./src/content/content-script/field-scan.ts
+var field_scan_namespaceObject = {};
+__webpack_require__.r(field_scan_namespaceObject);
+__webpack_require__.d(field_scan_namespaceObject, {
+  decodeHtmlEntities: () => (decodeHtmlEntities),
+  isPlaceholderValue: () => (isPlaceholderValue),
+  scanFormFields: () => (scanFormFields)
+});
+
+// NAMESPACE OBJECT: ./src/content/content-script/field-fill.ts
+var field_fill_namespaceObject = {};
+__webpack_require__.r(field_fill_namespaceObject);
+__webpack_require__.d(field_fill_namespaceObject, {
+  applyCheckboxField: () => (applyCheckboxField),
+  applyFieldToPage: () => (applyFieldToPage),
+  applyRadioField: () => (applyRadioField),
+  applypresetToPage: () => (applypresetToPage),
+  blurAfterFill: () => (blurAfterFill),
+  findFieldElement: () => (findFieldElement),
+  formatDateWithOffsets: () => (formatDateWithOffsets),
+  getDynamicDateValue: () => (getDynamicDateValue),
+  getFieldValueForFill: () => (getFieldValueForFill),
+  simulateClick: () => (simulateClick),
+  waitFor: () => (waitFor)
+});
+
+// NAMESPACE OBJECT: ./src/content/content-script/assistant-sections.ts
+var assistant_sections_namespaceObject = {};
+__webpack_require__.r(assistant_sections_namespaceObject);
+__webpack_require__.d(assistant_sections_namespaceObject, {
+  setupLocatorRetrieverSection: () => (setupLocatorRetrieverSection),
+  setupRandomStringSection: () => (setupRandomStringSection),
+  setupRegexPatternSection: () => (setupRegexPatternSection)
+});
+
+;// ./src/content/content-script/context.ts
+const state = {
+    autoFillPopup: null,
+    currentInputElement: null,
+    currentSettings: null,
+    isMouseOverPopup: false,
+    contextInvalidated: false,
+    lastContextMenuTarget: null,
+    lastContextMenuTargetType: null
+};
+const actions = {};
 
 ;// ./src/constants/appConstants.ts
 /**
@@ -106,6 +208,203 @@ const DEFAULT_REGEX_PATTERNS = [
     { name: 'Standard email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{6}@[a-zA-Z0-9.-]{4}\\.[a-zA-Z]{3}$', order: 2 },
     { name: 'Longest email', regex: '^[a-zA-Z0-9_%+-][a-zA-Z0-9._%+-]{245}@[a-zA-Z0-9.-]{5}\\.[a-zA-Z]{3}$', order: 3 }
 ];
+
+;// ./src/services/storage/keys.ts
+const STORAGE_KEY = 'formFillerData';
+const SETTINGS_KEY = 'formFillerSettings';
+
+;// ./src/services/storage/core.ts
+
+
+
+async function initialize() {
+    const data = await StorageService.getData();
+    if (!data) {
+        await StorageService.setData({
+            pages: [],
+            presets: [],
+            presetPageLinks: [],
+            savedValues: [],
+            regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
+            lengthConfigurations: []
+        });
+    }
+    const settings = await StorageService.getSettings();
+    if (!settings) {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme: DEFAULTS.THEME,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
+async function getData() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([STORAGE_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    const data = result[STORAGE_KEY] || null;
+                    // Migration: Convert old mustBeMatched to matchIdentify
+                    if (data && data.pages) {
+                        let needsMigration = false;
+                        data.pages.forEach((page) => {
+                            // Ensure all pages have matchIdentify
+                            if (!page.matchIdentify) {
+                                page.matchIdentify = 'prefixMatch';
+                                needsMigration = true;
+                            }
+                        });
+                        // Save migrated data
+                        if (needsMigration) {
+                            StorageService.setData(data).catch(err => console.error('Migration save failed:', err));
+                        }
+                    }
+                    resolve(data);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage access failed:', error);
+        return null;
+    }
+}
+async function setData(data) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Storage write failed:', error);
+    }
+}
+async function getSettings() {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return null;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.get([SETTINGS_KEY], (result) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    let settings = result[SETTINGS_KEY] || null;
+                    // Migrate settings to include new properties
+                    if (settings) {
+                        let needsMigration = false;
+                        const migratedSettings = { ...settings };
+                        if (settings.enableLocatorRetriever === undefined) {
+                            migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRegexPattern === undefined) {
+                            migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
+                            needsMigration = true;
+                        }
+                        if (settings.enableRandomStringSectionInPopup === undefined) {
+                            migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringCharset === undefined) {
+                            migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
+                            needsMigration = true;
+                        }
+                        if (settings.randomStringLength === undefined) {
+                            migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
+                            needsMigration = true;
+                        }
+                        // Save migrated settings
+                        if (needsMigration) {
+                            StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
+                        }
+                        settings = migratedSettings;
+                    }
+                    resolve(settings);
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings access failed:', error);
+        return null;
+    }
+}
+async function setSettings(settings) {
+    try {
+        if (!chrome.runtime?.id) {
+            console.warn('Extension context invalidated');
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.warn('Settings write failed:', error);
+    }
+}
+async function getTheme() {
+    const settings = await StorageService.getSettings();
+    return settings?.theme || 'dark';
+}
+async function setTheme(theme) {
+    const settings = await StorageService.getSettings();
+    if (settings) {
+        settings.theme = theme;
+        await StorageService.setSettings(settings);
+    }
+    else {
+        await StorageService.setSettings({
+            enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
+            enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
+            enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
+            defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
+            theme,
+            enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
+            enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
+            enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
+            enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
+            randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
+            randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
+        });
+    }
+}
 
 ;// ./src/utils/helpers.ts
 // Utility functions
@@ -328,487 +627,749 @@ function generateFromRegex(regex, length) {
     }
 }
 
+;// ./src/services/storage/pages.ts
+
+
+async function getPageByUrl(url, matchIdentify) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => {
+        if (matchIdentify === 'exactMatch') {
+            return page.url === url;
+        }
+        else {
+            return url.startsWith(page.url);
+        }
+    }) || null;
+}
+async function getPageById(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    return data.pages.find(page => page.id === pageId) || null;
+}
+async function getCurrentPageData(currentUrl) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    // First try exact match
+    let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
+    // Then try startsWith match
+    if (!page) {
+        page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
+    }
+    return page || null;
+}
+async function addPage(pageData) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing page IDs
+    const existingIds = data.pages.map(p => p.id);
+    const newPage = {
+        ...pageData,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.pages.push(newPage);
+    await StorageService.setData(data);
+    return newPage;
+}
+async function updatePage(id, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const pageIndex = data.pages.findIndex(p => p.id === id);
+    if (pageIndex !== -1) {
+        data.pages[pageIndex] = {
+            ...data.pages[pageIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+
+;// ./src/services/storage/presets.ts
+
+
+async function deletePreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Remove preset
+    data.presets = data.presets.filter(p => p.id !== presetId);
+    // Remove all links to this preset
+    data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
+    await StorageService.setData(data);
+}
+async function getPresetsForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get the actual presets
+    return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+}
+async function getPageIdsForPreset(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.presetPageLinks
+        .filter(link => link.presetId === presetId)
+        .map(link => link.pageId);
+}
+async function getUnlinkedPresets(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    // Get preset IDs linked to this page
+    const linkedPresetIds = data.presetPageLinks
+        .filter(link => link.pageId === pageId)
+        .map(link => link.presetId);
+    // Get presets that are NOT linked to this page
+    return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+}
+async function getPresetById(presetId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return null;
+    const preset = data.presets.find(p => p.id === presetId);
+    return preset || null;
+}
+async function addPreset(preset) {
+    const data = await StorageService.getData() || {
+        pages: [],
+        presets: [],
+        presetPageLinks: [],
+        savedValues: [],
+        regexPatterns: [],
+        lengthConfigurations: []
+    };
+    // Generate unique ID that doesn't collide with existing preset IDs
+    const existingIds = data.presets.map(p => p.id);
+    const newPreset = {
+        ...preset,
+        id: generateUniqueId(existingIds),
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.presets.push(newPreset);
+    await StorageService.setData(data);
+    return newPreset;
+}
+async function updatePreset(presetId, updates) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const presetIndex = data.presets.findIndex(p => p.id === presetId);
+    if (presetIndex !== -1) {
+        data.presets[presetIndex] = {
+            ...data.presets[presetIndex],
+            ...updates,
+            updatedAt: getCurrentTimestamp()
+        };
+        await StorageService.setData(data);
+    }
+}
+async function linkPresetToPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    // Check if link already exists
+    const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
+    if (!existingLink) {
+        data.presetPageLinks.push({ presetId, pageId });
+        await StorageService.setData(data);
+    }
+}
+async function unlinkPresetFromPage(presetId, pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
+    await StorageService.setData(data);
+}
+
+;// ./src/services/storage/saved-values.ts
+
+
+async function addSavedFormData(pageUrl, formData) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    // Generate unique ID that doesn't collide with existing saved value IDs
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newSavedValue = {
+        id: generateUniqueId(existingIds),
+        pageId: page.id,
+        label: formData.title,
+        value: String(formData.value),
+        testId: formData.testId,
+        querySelector: formData.querySelector,
+        createdAt: getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    data.savedValues.push(newSavedValue);
+    await StorageService.setData(data);
+}
+async function deleteSavedFormData(pageUrl, savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    const page = data.pages.find(p => p.url === pageUrl);
+    if (!page)
+        return;
+    data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
+    await StorageService.setData(data);
+}
+async function getSavedFormDataForField(pageUrl, testId, querySelector) {
+    const page = await StorageService.getCurrentPageData(pageUrl);
+    if (!page)
+        return [];
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
+    return savedValuesForPage
+        .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+}
+async function getSavedValuesForPage(pageId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return [];
+    return data.savedValues.filter(sv => sv.pageId === pageId);
+}
+async function addSavedValue(pageId, savedValue) {
+    const data = await StorageService.getData();
+    if (!data)
+        throw new Error('No data');
+    // Generate unique ID if not provided
+    const existingIds = data.savedValues.map(sv => sv.id);
+    const newId = savedValue.id && !existingIds.includes(savedValue.id)
+        ? savedValue.id
+        : generateUniqueId(existingIds);
+    // Create the saved value
+    const newSavedValue = {
+        id: newId,
+        pageId,
+        label: savedValue.label || '',
+        value: savedValue.value || '',
+        testId: savedValue.testId || '',
+        querySelector: savedValue.querySelector || '',
+        createdAt: savedValue.createdAt || getCurrentTimestamp(),
+        updatedAt: getCurrentTimestamp()
+    };
+    // Check if saved value already exists for this page and id
+    const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
+    if (existingIndex !== -1) {
+        // Update existing saved value
+        data.savedValues[existingIndex] = newSavedValue;
+    }
+    else {
+        // Add new saved value
+        data.savedValues.push(newSavedValue);
+    }
+    await StorageService.setData(data);
+    return newSavedValue;
+}
+async function deleteSavedValue(savedValueId) {
+    const data = await StorageService.getData();
+    if (!data)
+        return;
+    data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
+    await StorageService.setData(data);
+}
+
 ;// ./src/services/storage.service.ts
 
-
-const STORAGE_KEY = 'formFillerData';
-const SETTINGS_KEY = 'formFillerSettings';
 class StorageService {
-    // Initialize storage with default data
     static async initialize() {
-        const data = await this.getData();
-        if (!data) {
-            await this.setData({
-                pages: [],
-                presets: [],
-                presetPageLinks: [],
-                savedValues: [],
-                regexPatterns: DEFAULT_REGEX_PATTERNS.map(pattern => ({ ...pattern })),
-                lengthConfigurations: []
-            });
-        }
-        const settings = await this.getSettings();
-        if (!settings) {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme: DEFAULTS.THEME,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return initialize();
     }
-    // Get all data
     static async getData() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([STORAGE_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        const data = result[STORAGE_KEY] || null;
-                        // Migration: Convert old mustBeMatched to matchIdentify
-                        if (data && data.pages) {
-                            let needsMigration = false;
-                            data.pages.forEach((page) => {
-                                // Ensure all pages have matchIdentify
-                                if (!page.matchIdentify) {
-                                    page.matchIdentify = 'prefixMatch';
-                                    needsMigration = true;
-                                }
-                            });
-                            // Save migrated data
-                            if (needsMigration) {
-                                this.setData(data).catch(err => console.error('Migration save failed:', err));
-                            }
-                        }
-                        resolve(data);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage access failed:', error);
-            return null;
-        }
+        return getData();
     }
-    // Set all data
     static async setData(data) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [STORAGE_KEY]: data }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Storage write failed:', error);
-        }
+        return setData(data);
     }
-    // Get settings
     static async getSettings() {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return null;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.get([SETTINGS_KEY], (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        let settings = result[SETTINGS_KEY] || null;
-                        // Migrate settings to include new properties
-                        if (settings) {
-                            let needsMigration = false;
-                            const migratedSettings = { ...settings };
-                            if (settings.enableLocatorRetriever === undefined) {
-                                migratedSettings.enableLocatorRetriever = DEFAULTS.ENABLE_LOCATOR_RETRIEVER;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRegexPattern === undefined) {
-                                migratedSettings.enableRegexPattern = DEFAULTS.ENABLE_REGEX_PATTERN;
-                                needsMigration = true;
-                            }
-                            if (settings.enableRandomStringSectionInPopup === undefined) {
-                                migratedSettings.enableRandomStringSectionInPopup = DEFAULTS.ENABLE_RANDOM_STRING_SECTION;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringCharset === undefined) {
-                                migratedSettings.randomStringCharset = DEFAULTS.RANDOM_STRING_CHARSET;
-                                needsMigration = true;
-                            }
-                            if (settings.randomStringLength === undefined) {
-                                migratedSettings.randomStringLength = DEFAULTS.RANDOM_STRING_LENGTH;
-                                needsMigration = true;
-                            }
-                            // Save migrated settings
-                            if (needsMigration) {
-                                StorageService.setSettings(migratedSettings).catch(err => console.error('Settings migration save failed:', err));
-                            }
-                            settings = migratedSettings;
-                        }
-                        resolve(settings);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings access failed:', error);
-            return null;
-        }
+        return getSettings();
     }
-    // Set settings
     static async setSettings(settings) {
-        try {
-            if (!chrome.runtime?.id) {
-                console.warn('Extension context invalidated');
-                return;
-            }
-            return new Promise((resolve, reject) => {
-                chrome.storage.local.set({ [SETTINGS_KEY]: settings }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.warn('Settings write failed:', error);
-        }
+        return setSettings(settings);
     }
-    // Get current theme
     static async getTheme() {
-        const settings = await this.getSettings();
-        return settings?.theme || 'dark';
+        return getTheme();
     }
-    // Set theme
     static async setTheme(theme) {
-        const settings = await this.getSettings();
-        if (settings) {
-            settings.theme = theme;
-            await this.setSettings(settings);
-        }
-        else {
-            await this.setSettings({
-                enableSaveValue: DEFAULTS.ENABLE_SAVE_VALUE,
-                enableImportValue: DEFAULTS.ENABLE_IMPORT_VALUE,
-                enableLiveAssistant: DEFAULTS.ENABLE_LIVE_ASSISTANT,
-                defaultSaveItemTo: DEFAULTS.DEFAULT_SAVE_ITEM_TO,
-                theme,
-                enableLocatorRetriever: DEFAULTS.ENABLE_LOCATOR_RETRIEVER,
-                enableRegexPattern: DEFAULTS.ENABLE_REGEX_PATTERN,
-                enableRandomStringSectionInPopup: DEFAULTS.ENABLE_RANDOM_STRING_SECTION,
-                enableRandomStringInAssistant: DEFAULTS.ENABLE_RANDOM_STRING_IN_ASSISTANT,
-                randomStringCharset: DEFAULTS.RANDOM_STRING_CHARSET,
-                randomStringLength: DEFAULTS.RANDOM_STRING_LENGTH
-            });
-        }
+        return setTheme(theme);
     }
-    // Get page data by URL
     static async getPageByUrl(url, matchIdentify) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => {
-            if (matchIdentify === 'exactMatch') {
-                return page.url === url;
-            }
-            else {
-                return url.startsWith(page.url);
-            }
-        }) || null;
+        return getPageByUrl(url, matchIdentify);
     }
-    // Get page data by ID
     static async getPageById(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        return data.pages.find(page => page.id === pageId) || null;
+        return getPageById(pageId);
     }
-    // Get page data matching current URL
     static async getCurrentPageData(currentUrl) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        // First try exact match
-        let page = data.pages.find(p => p.matchIdentify === 'exactMatch' && p.url === currentUrl);
-        // Then try startsWith match
-        if (!page) {
-            page = data.pages.find(p => p.matchIdentify === 'prefixMatch' && currentUrl.startsWith(p.url));
-        }
-        return page || null;
+        return getCurrentPageData(currentUrl);
     }
-    // Add new page
     static async addPage(pageData) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing page IDs
-        const existingIds = data.pages.map(p => p.id);
-        const newPage = {
-            ...pageData,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.pages.push(newPage);
-        await this.setData(data);
-        return newPage;
+        return addPage(pageData);
     }
-    // Update page
-    /**
-     * Update a page by its id
-     * @param id - Page id
-     * @param updates - Partial page data
-     */
     static async updatePage(id, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const pageIndex = data.pages.findIndex(p => p.id === id);
-        if (pageIndex !== -1) {
-            data.pages[pageIndex] = {
-                ...data.pages[pageIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePage(id, updates);
     }
-    // Delete preset (removes preset and all its links)
     static async deletePreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Remove preset
-        data.presets = data.presets.filter(p => p.id !== presetId);
-        // Remove all links to this preset
-        data.presetPageLinks = data.presetPageLinks.filter(link => link.presetId !== presetId);
-        await this.setData(data);
+        return deletePreset(presetId);
     }
-    // Add saved form data
     static async addSavedFormData(pageUrl, formData) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        // Generate unique ID that doesn't collide with existing saved value IDs
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newSavedValue = {
-            id: generateUniqueId(existingIds),
-            pageId: page.id,
-            label: formData.title,
-            value: String(formData.value),
-            testId: formData.testId,
-            querySelector: formData.querySelector,
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.savedValues.push(newSavedValue);
-        await this.setData(data);
+        return addSavedFormData(pageUrl, formData);
     }
-    // Delete saved form data
     static async deleteSavedFormData(pageUrl, savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const page = data.pages.find(p => p.url === pageUrl);
-        if (!page)
-            return;
-        data.savedValues = data.savedValues.filter(sv => !(sv.pageId === page.id && sv.id === savedValueId));
-        await this.setData(data);
+        return deleteSavedFormData(pageUrl, savedValueId);
     }
-    // Get saved form data matching input field  
     static async getSavedFormDataForField(pageUrl, testId, querySelector) {
-        const page = await this.getCurrentPageData(pageUrl);
-        if (!page)
-            return [];
-        const data = await this.getData();
-        if (!data)
-            return [];
-        const savedValuesForPage = data.savedValues.filter(sv => sv.pageId === page.id);
-        return savedValuesForPage
-            .filter(sv => sv.testId === testId || sv.querySelector === querySelector);
+        return getSavedFormDataForField(pageUrl, testId, querySelector);
     }
-    // Get presets for a page by page ID
     static async getPresetsForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get the actual presets
-        return data.presets.filter(preset => linkedPresetIds.includes(preset.id));
+        return getPresetsForPage(pageId);
     }
-    // Get page IDs linked to a preset
     static async getPageIdsForPreset(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.presetPageLinks
-            .filter(link => link.presetId === presetId)
-            .map(link => link.pageId);
+        return getPageIdsForPreset(presetId);
     }
-    // Get all presets not linked to a specific page
     static async getUnlinkedPresets(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        // Get preset IDs linked to this page
-        const linkedPresetIds = data.presetPageLinks
-            .filter(link => link.pageId === pageId)
-            .map(link => link.presetId);
-        // Get presets that are NOT linked to this page
-        return data.presets.filter(preset => !linkedPresetIds.includes(preset.id));
+        return getUnlinkedPresets(pageId);
     }
-    // Get preset by ID
     static async getPresetById(presetId) {
-        const data = await this.getData();
-        if (!data)
-            return null;
-        const preset = data.presets.find(p => p.id === presetId);
-        return preset || null;
+        return getPresetById(presetId);
     }
-    // Add preset
     static async addPreset(preset) {
-        const data = await this.getData() || {
-            pages: [],
-            presets: [],
-            presetPageLinks: [],
-            savedValues: [],
-            regexPatterns: [],
-            lengthConfigurations: []
-        };
-        // Generate unique ID that doesn't collide with existing preset IDs
-        const existingIds = data.presets.map(p => p.id);
-        const newPreset = {
-            ...preset,
-            id: generateUniqueId(existingIds),
-            createdAt: getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        data.presets.push(newPreset);
-        await this.setData(data);
-        return newPreset;
+        return addPreset(preset);
     }
-    // Update preset
     static async updatePreset(presetId, updates) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        const presetIndex = data.presets.findIndex(p => p.id === presetId);
-        if (presetIndex !== -1) {
-            data.presets[presetIndex] = {
-                ...data.presets[presetIndex],
-                ...updates,
-                updatedAt: getCurrentTimestamp()
-            };
-            await this.setData(data);
-        }
+        return updatePreset(presetId, updates);
     }
-    // Link preset to page
     static async linkPresetToPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        // Check if link already exists
-        const existingLink = data.presetPageLinks.find(link => link.presetId === presetId && link.pageId === pageId);
-        if (!existingLink) {
-            data.presetPageLinks.push({ presetId, pageId });
-            await this.setData(data);
-        }
+        return linkPresetToPage(presetId, pageId);
     }
-    // Unlink preset from page
     static async unlinkPresetFromPage(presetId, pageId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.presetPageLinks = data.presetPageLinks.filter(link => !(link.presetId === presetId && link.pageId === pageId));
-        await this.setData(data);
+        return unlinkPresetFromPage(presetId, pageId);
     }
-    // Get saved values for a page
     static async getSavedValuesForPage(pageId) {
-        const data = await this.getData();
-        if (!data)
-            return [];
-        return data.savedValues.filter(sv => sv.pageId === pageId);
+        return getSavedValuesForPage(pageId);
     }
-    // Add saved value
     static async addSavedValue(pageId, savedValue) {
-        const data = await this.getData();
-        if (!data)
-            throw new Error('No data');
-        // Generate unique ID if not provided
-        const existingIds = data.savedValues.map(sv => sv.id);
-        const newId = savedValue.id && !existingIds.includes(savedValue.id)
-            ? savedValue.id
-            : generateUniqueId(existingIds);
-        // Create the saved value
-        const newSavedValue = {
-            id: newId,
-            pageId,
-            label: savedValue.label || '',
-            value: savedValue.value || '',
-            testId: savedValue.testId || '',
-            querySelector: savedValue.querySelector || '',
-            createdAt: savedValue.createdAt || getCurrentTimestamp(),
-            updatedAt: getCurrentTimestamp()
-        };
-        // Check if saved value already exists for this page and id
-        const existingIndex = data.savedValues.findIndex(sv => sv.pageId === pageId && sv.id === newSavedValue.id);
-        if (existingIndex !== -1) {
-            // Update existing saved value
-            data.savedValues[existingIndex] = newSavedValue;
-        }
-        else {
-            // Add new saved value
-            data.savedValues.push(newSavedValue);
-        }
-        await this.setData(data);
-        return newSavedValue;
+        return addSavedValue(pageId, savedValue);
     }
-    // Delete saved value
     static async deleteSavedValue(savedValueId) {
-        const data = await this.getData();
-        if (!data)
-            return;
-        data.savedValues = data.savedValues.filter(sv => sv.id !== savedValueId);
-        await this.setData(data);
+        return deleteSavedValue(savedValueId);
     }
+}
+
+;// ./src/content/element-helpers/types-and-selectors.ts
+const ASSISTANT_INPUT_TYPES = new Set([
+    'text',
+    'date',
+    'datetime-local',
+    'email',
+    'tel',
+    'number',
+    'search',
+    'url',
+    'range',
+    'color',
+    'password'
+]);
+const TEXT_ACTION_INPUT_TYPES = new Set([
+    'text',
+    'search',
+    'url',
+    'tel',
+    'email',
+    'password',
+    'number'
+]);
+const INLINE_HTML_EDITOR_SELECTOR = [
+    '[contenteditable="true"]',
+    '[contenteditable="plaintext-only"]',
+    '[contenteditable=""]',
+    '[role="textbox"][contenteditable]',
+    '.alloy-editor[contenteditable]',
+    '.ce-block__content[contenteditable]',
+    '.ce-paragraph[contenteditable]',
+    '.ck-editor__editable[contenteditable]',
+    '.ck-editor__editable_inline[contenteditable]',
+    '.cke_editable[contenteditable]',
+    '.ck-content[contenteditable]',
+    '.codex-editor [contenteditable]',
+    '.editor-input[contenteditable]',
+    '.fr-element[contenteditable]',
+    '.jodit-wysiwyg[contenteditable]',
+    '.medium-editor-element[contenteditable]',
+    '.mce-content-body[contenteditable]',
+    '.mce-edit-focus[contenteditable]',
+    '.note-editable[contenteditable]',
+    '.pell-content[contenteditable]',
+    '.public-DraftEditor-content[contenteditable]',
+    '.ql-editor[contenteditable]',
+    '.redactor-in[contenteditable]',
+    '.se-wrapper-wysiwyg[contenteditable]',
+    '.scribe-editor[contenteditable]',
+    '.st-editor__editable[contenteditable]',
+    '.ProseMirror[contenteditable]',
+    '.tiptap[contenteditable]',
+    '.toastui-editor-contents[contenteditable]',
+    '.trumbowyg-editor[contenteditable]',
+    '.wym_iframe body[contenteditable]',
+    '[data-contents="true"][contenteditable]',
+    '[data-lexical-editor="true"]',
+    '[data-medium-editor-element="true"]',
+    '[data-slate-editor="true"]',
+    '[data-testid*="editor" i][contenteditable]',
+    '[class*="wysiwyg" i][contenteditable]',
+    '[class*="rich-text" i][contenteditable]',
+    '[class*="rte" i][contenteditable]',
+    'trix-editor',
+    'wysiwyg-editor'
+].join(', ');
+const HTML_EDITOR_IFRAME_SELECTOR = [
+    '.cke_wysiwyg_frame',
+    '.fr-iframe',
+    '.jodit-wysiwyg_iframe',
+    '.mce-edit-area iframe',
+    '.redactor-box iframe',
+    '.tox-edit-area iframe',
+    '.tox-edit-area__iframe',
+    '.wysihtml5-sandbox',
+    'iframe[id$="_ifr"]',
+    'iframe[name*="editor" i]',
+    'iframe[title*="editor" i]',
+    'iframe[title*="rich text" i]',
+    'iframe[title*="wysiwyg" i]',
+    'iframe[aria-label*="editor" i]',
+    'iframe[aria-label*="rich text" i]'
+].join(', ');
+const HTML_EDITOR_SELECTOR = [
+    INLINE_HTML_EDITOR_SELECTOR,
+    HTML_EDITOR_IFRAME_SELECTOR
+].join(', ');
+
+;// ./src/content/element-helpers/editability.ts
+
+function getElementName(element) {
+    return element.name || '';
+}
+function getElementType(element) {
+    if (element instanceof HTMLInputElement) {
+        return (element.type || 'text').toLowerCase();
+    }
+    return element.tagName.toLowerCase();
+}
+function getFrameDocument(iframe) {
+    try {
+        return iframe.contentDocument || iframe.contentWindow?.document || null;
+    }
+    catch {
+        return null;
+    }
+}
+function getLinkedSourceElement(iframe) {
+    const sourceId = iframe.id.endsWith('_ifr') ? iframe.id.slice(0, -4) : '';
+    const source = sourceId ? document.getElementById(sourceId) : null;
+    return isNativeEditableElement(source) ? source : null;
+}
+function getIframeEditorBody(iframe) {
+    const frameDocument = getFrameDocument(iframe);
+    if (!frameDocument?.body) {
+        return null;
+    }
+    const body = frameDocument.body;
+    const editable = body.matches(INLINE_HTML_EDITOR_SELECTOR)
+        ? body
+        : body.querySelector(INLINE_HTML_EDITOR_SELECTOR);
+    return editable || body;
+}
+function isEditorIframeElement(element) {
+    if (!(element instanceof HTMLIFrameElement)) {
+        return false;
+    }
+    if (!element.matches(HTML_EDITOR_IFRAME_SELECTOR)) {
+        return false;
+    }
+    return !!getIframeEditorBody(element);
+}
+function getReadableName(value) {
+    return value
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/[_-]/g, ' ')
+        .replace(/\b\w/g, letter => letter.toUpperCase())
+        .trim();
+}
+function hasEditableContent(element) {
+    const contentEditable = element.getAttribute('contenteditable')?.toLowerCase();
+    return (contentEditable === 'true' ||
+        contentEditable === 'plaintext-only' ||
+        contentEditable === '' ||
+        element.hasAttribute('data-lexical-editor') ||
+        element.hasAttribute('data-slate-editor') ||
+        element.hasAttribute('data-medium-editor-element') ||
+        (element.getAttribute('role') === 'textbox' && element.isContentEditable) ||
+        element.tagName === 'TRIX-EDITOR');
+}
+function isNativeEditableElement(element) {
+    return !!element && (element instanceof HTMLInputElement ||
+        element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLSelectElement);
+}
+function isHtmlEditorElement(element) {
+    return isEditorIframeElement(element) || (element instanceof HTMLElement && hasEditableContent(element));
+}
+function isNestedHtmlEditorElement(element) {
+    const parentEditor = element.parentElement?.closest(HTML_EDITOR_SELECTOR);
+    return !!parentEditor && isHtmlEditorElement(parentEditor);
+}
+function isAssistantElement(element) {
+    if (element instanceof HTMLInputElement) {
+        return ASSISTANT_INPUT_TYPES.has((element.type || 'text').toLowerCase());
+    }
+    return (element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLSelectElement ||
+        isEditorIframeElement(element) ||
+        isHtmlEditorElement(element));
+}
+function getAssistantElementFromTarget(target) {
+    if (!(target instanceof Element)) {
+        return null;
+    }
+    const element = target.closest(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
+    return isAssistantElement(element) ? element : null;
+}
+function allowsTextActions(element) {
+    if (element instanceof HTMLTextAreaElement || isHtmlEditorElement(element)) {
+        return true;
+    }
+    return element instanceof HTMLInputElement && TEXT_ACTION_INPUT_TYPES.has((element.type || 'text').toLowerCase());
+}
+
+;// ./src/content/element-helpers/editable-values.ts
+
+function dispatchValueEvents(element) {
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+}
+function getEditableValue(element) {
+    if (isEditorIframeElement(element)) {
+        return getIframeEditorBody(element)?.innerHTML || '';
+    }
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        return element.value;
+    }
+    const valueElement = element;
+    if (typeof valueElement.value === 'string') {
+        return valueElement.value;
+    }
+    return element.innerHTML || element.textContent || '';
+}
+function setEditableValue(element, value) {
+    if (isEditorIframeElement(element)) {
+        const editorBody = getIframeEditorBody(element);
+        if (editorBody) {
+            editorBody.innerHTML = value;
+            dispatchValueEvents(editorBody);
+        }
+        const source = getLinkedSourceElement(element);
+        if (source) {
+            source.value = value;
+            dispatchValueEvents(source);
+        }
+        dispatchValueEvents(element);
+        return;
+    }
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+        element.value = value;
+        dispatchValueEvents(element);
+        return;
+    }
+    const valueElement = element;
+    if (typeof valueElement.value === 'string') {
+        valueElement.value = value;
+    }
+    else if (element.getAttribute('contenteditable')?.toLowerCase() === 'plaintext-only') {
+        element.textContent = value;
+    }
+    else {
+        element.innerHTML = value;
+    }
+    dispatchValueEvents(element);
+}
+function getFieldTypeForElement(element) {
+    if (isHtmlEditorElement(element)) {
+        return 'htmlEditor';
+    }
+    if (element instanceof HTMLSelectElement) {
+        return 'dropdown';
+    }
+    if (element instanceof HTMLTextAreaElement) {
+        return 'text';
+    }
+    if (element instanceof HTMLInputElement) {
+        switch ((element.type || 'text').toLowerCase()) {
+            case 'search':
+                return 'search';
+            case 'checkbox':
+                return 'checkbox';
+            case 'radio':
+                return 'radio';
+            case 'range':
+                return 'range';
+            case 'number':
+                return 'number';
+            case 'color':
+                return 'color';
+            case 'date':
+            case 'datetime-local':
+                return 'datepicker';
+            default:
+                return 'text';
+        }
+    }
+    return 'text';
+}
+
+;// ./src/content/element-helpers/locators.ts
+
+
+function getElementLocators(element) {
+    const testId = element.getAttribute('data-testid') || element.id || '';
+    let querySelector = '';
+    if (element.id) {
+        querySelector = `#${element.id}`;
+    }
+    else if (!element.getAttribute('data-testid')) {
+        let parent = element.parentElement;
+        let foundId = '';
+        let foundTestId = '';
+        let levelsUp = 0;
+        const pathElements = [];
+        for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
+            pathElements.push(parent);
+            if (!foundId && parent.id) {
+                foundId = parent.id;
+                levelsUp = i + 1;
+            }
+            if (!foundTestId && parent.getAttribute('data-testid')) {
+                foundTestId = parent.getAttribute('data-testid') || '';
+                levelsUp = i + 1;
+                break;
+            }
+            parent = parent.parentElement;
+        }
+        if (foundId || foundTestId) {
+            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
+            const pathParts = [parentSelector];
+            for (let i = levelsUp - 2; i >= 0; i--) {
+                pathParts.push(pathElements[i].tagName.toLowerCase());
+            }
+            const tagName = element.tagName.toLowerCase();
+            let elementSelector = tagName;
+            const inputType = element.getAttribute('type');
+            const inputName = getElementName(element);
+            if (inputType) {
+                elementSelector += `[type='${inputType}']`;
+            }
+            if (inputName) {
+                elementSelector += `[name='${inputName}']`;
+            }
+            pathParts.push(elementSelector);
+            querySelector = pathParts.join(' > ');
+        }
+    }
+    return { testId, querySelector };
+}
+function getTestId(element) {
+    return getElementLocators(element).testId;
+}
+function getSelector(element) {
+    return getElementLocators(element).querySelector;
+}
+function getElementSelector(element) {
+    if (!element)
+        return '';
+    const el = element;
+    if (el.id)
+        return `${el.tagName.toLowerCase()}#${el.id}`;
+    const testId = el.getAttribute('data-testid');
+    if (testId)
+        return `${el.tagName.toLowerCase()}[data-testid='${testId}']`;
+    let parent = el.parentElement;
+    let foundId = '';
+    let foundTestId = '';
+    let levelsUp = 0;
+    const pathElements = [];
+    for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
+        pathElements.push(parent);
+        if (!foundId && parent.id) {
+            foundId = parent.id;
+            levelsUp = i + 1;
+        }
+        if (!foundTestId && parent.getAttribute('data-testid')) {
+            foundTestId = parent.getAttribute('data-testid') || '';
+            levelsUp = i + 1;
+        }
+        parent = parent.parentElement;
+    }
+    if (foundId || foundTestId) {
+        const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
+        const pathParts = [parentSelector];
+        for (let i = levelsUp - 2; i >= 0; i--) {
+            pathParts.push(pathElements[i].tagName.toLowerCase());
+        }
+        const tagName = el.tagName.toLowerCase();
+        let elementSelector = tagName;
+        const inputType = el.getAttribute('type');
+        const inputName = getElementName(el);
+        const classes = Array.from(el.classList).filter(Boolean);
+        if (inputType)
+            elementSelector += `[type='${inputType}']`;
+        if (inputName)
+            elementSelector += `[name='${inputName}']`;
+        if (classes.length > 0)
+            elementSelector += `.${classes[0]}`;
+        pathParts.push(elementSelector);
+        return pathParts.join(' > ');
+    }
+    let selector = el.tagName.toLowerCase();
+    const classes = Array.from(el.classList).filter(Boolean);
+    const nameAttr = getElementName(el);
+    if (nameAttr) {
+        selector += `[name='${nameAttr}']`;
+        return selector;
+    }
+    if (classes.length > 0) {
+        selector += `.${classes[0]}`;
+        return selector;
+    }
+    const parentEl = el.parentElement;
+    if (parentEl) {
+        const children = Array.from(parentEl.children);
+        const index = children.indexOf(el) + 1;
+        selector = `${parentEl.tagName.toLowerCase()} > ${el.tagName.toLowerCase()}:nth-child(${index})`;
+    }
+    return selector;
 }
 
 ;// ./src/utils/common.ts
@@ -989,390 +1550,13 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-;// ./src/content/element-helpers.ts
+;// ./src/content/element-helpers/labels-and-scan.ts
 
 
 
-const ASSISTANT_INPUT_TYPES = new Set([
-    'text',
-    'date',
-    'datetime-local',
-    'email',
-    'tel',
-    'number',
-    'search',
-    'url',
-    'range',
-    'color',
-    'password'
-]);
-const TEXT_ACTION_INPUT_TYPES = new Set([
-    'text',
-    'search',
-    'url',
-    'tel',
-    'email',
-    'password',
-    'number'
-]);
-const INLINE_HTML_EDITOR_SELECTOR = [
-    '[contenteditable="true"]',
-    '[contenteditable="plaintext-only"]',
-    '[contenteditable=""]',
-    '[role="textbox"][contenteditable]',
-    '.alloy-editor[contenteditable]',
-    '.ce-block__content[contenteditable]',
-    '.ce-paragraph[contenteditable]',
-    '.ck-editor__editable[contenteditable]',
-    '.ck-editor__editable_inline[contenteditable]',
-    '.cke_editable[contenteditable]',
-    '.ck-content[contenteditable]',
-    '.codex-editor [contenteditable]',
-    '.editor-input[contenteditable]',
-    '.fr-element[contenteditable]',
-    '.jodit-wysiwyg[contenteditable]',
-    '.medium-editor-element[contenteditable]',
-    '.mce-content-body[contenteditable]',
-    '.mce-edit-focus[contenteditable]',
-    '.note-editable[contenteditable]',
-    '.pell-content[contenteditable]',
-    '.public-DraftEditor-content[contenteditable]',
-    '.ql-editor[contenteditable]',
-    '.redactor-in[contenteditable]',
-    '.se-wrapper-wysiwyg[contenteditable]',
-    '.scribe-editor[contenteditable]',
-    '.st-editor__editable[contenteditable]',
-    '.ProseMirror[contenteditable]',
-    '.tiptap[contenteditable]',
-    '.toastui-editor-contents[contenteditable]',
-    '.trumbowyg-editor[contenteditable]',
-    '.wym_iframe body[contenteditable]',
-    '[data-contents="true"][contenteditable]',
-    '[data-lexical-editor="true"]',
-    '[data-medium-editor-element="true"]',
-    '[data-slate-editor="true"]',
-    '[data-testid*="editor" i][contenteditable]',
-    '[class*="wysiwyg" i][contenteditable]',
-    '[class*="rich-text" i][contenteditable]',
-    '[class*="rte" i][contenteditable]',
-    'trix-editor',
-    'wysiwyg-editor'
-].join(', ');
-const HTML_EDITOR_IFRAME_SELECTOR = [
-    '.cke_wysiwyg_frame',
-    '.fr-iframe',
-    '.jodit-wysiwyg_iframe',
-    '.mce-edit-area iframe',
-    '.redactor-box iframe',
-    '.tox-edit-area iframe',
-    '.tox-edit-area__iframe',
-    '.wysihtml5-sandbox',
-    'iframe[id$="_ifr"]',
-    'iframe[name*="editor" i]',
-    'iframe[title*="editor" i]',
-    'iframe[title*="rich text" i]',
-    'iframe[title*="wysiwyg" i]',
-    'iframe[aria-label*="editor" i]',
-    'iframe[aria-label*="rich text" i]'
-].join(', ');
-const HTML_EDITOR_SELECTOR = [
-    INLINE_HTML_EDITOR_SELECTOR,
-    HTML_EDITOR_IFRAME_SELECTOR
-].join(', ');
-function getElementName(element) {
-    return element.name || '';
-}
-function getElementType(element) {
-    if (element instanceof HTMLInputElement) {
-        return (element.type || 'text').toLowerCase();
-    }
-    return element.tagName.toLowerCase();
-}
-function getFrameDocument(iframe) {
-    try {
-        return iframe.contentDocument || iframe.contentWindow?.document || null;
-    }
-    catch {
-        return null;
-    }
-}
-function getLinkedSourceElement(iframe) {
-    const sourceId = iframe.id.endsWith('_ifr') ? iframe.id.slice(0, -4) : '';
-    const source = sourceId ? document.getElementById(sourceId) : null;
-    return isNativeEditableElement(source) ? source : null;
-}
-function getIframeEditorBody(iframe) {
-    const frameDocument = getFrameDocument(iframe);
-    if (!frameDocument?.body) {
-        return null;
-    }
-    const body = frameDocument.body;
-    const editable = body.matches(INLINE_HTML_EDITOR_SELECTOR)
-        ? body
-        : body.querySelector(INLINE_HTML_EDITOR_SELECTOR);
-    return editable || body;
-}
-function isEditorIframeElement(element) {
-    if (!(element instanceof HTMLIFrameElement)) {
-        return false;
-    }
-    if (!element.matches(HTML_EDITOR_IFRAME_SELECTOR)) {
-        return false;
-    }
-    return !!getIframeEditorBody(element);
-}
-function getReadableName(value) {
-    return value
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/[_-]/g, ' ')
-        .replace(/\b\w/g, letter => letter.toUpperCase())
-        .trim();
-}
-function hasEditableContent(element) {
-    const contentEditable = element.getAttribute('contenteditable')?.toLowerCase();
-    return (contentEditable === 'true' ||
-        contentEditable === 'plaintext-only' ||
-        contentEditable === '' ||
-        element.hasAttribute('data-lexical-editor') ||
-        element.hasAttribute('data-slate-editor') ||
-        element.hasAttribute('data-medium-editor-element') ||
-        (element.getAttribute('role') === 'textbox' && element.isContentEditable) ||
-        element.tagName === 'TRIX-EDITOR');
-}
-function isNativeEditableElement(element) {
-    return !!element && (element instanceof HTMLInputElement ||
-        element instanceof HTMLTextAreaElement ||
-        element instanceof HTMLSelectElement);
-}
-function isHtmlEditorElement(element) {
-    return isEditorIframeElement(element) || (element instanceof HTMLElement && hasEditableContent(element));
-}
-function isNestedHtmlEditorElement(element) {
-    const parentEditor = element.parentElement?.closest(HTML_EDITOR_SELECTOR);
-    return !!parentEditor && isHtmlEditorElement(parentEditor);
-}
-function isAssistantElement(element) {
-    if (element instanceof HTMLInputElement) {
-        return ASSISTANT_INPUT_TYPES.has((element.type || 'text').toLowerCase());
-    }
-    return (element instanceof HTMLTextAreaElement ||
-        element instanceof HTMLSelectElement ||
-        isEditorIframeElement(element) ||
-        isHtmlEditorElement(element));
-}
-function getAssistantElementFromTarget(target) {
-    if (!(target instanceof Element)) {
-        return null;
-    }
-    const element = target.closest(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
-    return isAssistantElement(element) ? element : null;
-}
-function allowsTextActions(element) {
-    if (element instanceof HTMLTextAreaElement || isHtmlEditorElement(element)) {
-        return true;
-    }
-    return element instanceof HTMLInputElement && TEXT_ACTION_INPUT_TYPES.has((element.type || 'text').toLowerCase());
-}
-function dispatchValueEvents(element) {
-    element.dispatchEvent(new Event('input', { bubbles: true }));
-    element.dispatchEvent(new Event('change', { bubbles: true }));
-}
-function getEditableValue(element) {
-    if (isEditorIframeElement(element)) {
-        return getIframeEditorBody(element)?.innerHTML || '';
-    }
-    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
-        return element.value;
-    }
-    const valueElement = element;
-    if (typeof valueElement.value === 'string') {
-        return valueElement.value;
-    }
-    return element.innerHTML || element.textContent || '';
-}
-function setEditableValue(element, value) {
-    if (isEditorIframeElement(element)) {
-        const editorBody = getIframeEditorBody(element);
-        if (editorBody) {
-            editorBody.innerHTML = value;
-            dispatchValueEvents(editorBody);
-        }
-        const source = getLinkedSourceElement(element);
-        if (source) {
-            source.value = value;
-            dispatchValueEvents(source);
-        }
-        dispatchValueEvents(element);
-        return;
-    }
-    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
-        element.value = value;
-        dispatchValueEvents(element);
-        return;
-    }
-    const valueElement = element;
-    if (typeof valueElement.value === 'string') {
-        valueElement.value = value;
-    }
-    else if (element.getAttribute('contenteditable')?.toLowerCase() === 'plaintext-only') {
-        element.textContent = value;
-    }
-    else {
-        element.innerHTML = value;
-    }
-    dispatchValueEvents(element);
-}
-function getFieldTypeForElement(element) {
-    if (isHtmlEditorElement(element)) {
-        return 'htmlEditor';
-    }
-    if (element instanceof HTMLSelectElement) {
-        return 'dropdown';
-    }
-    if (element instanceof HTMLTextAreaElement) {
-        return 'text';
-    }
-    if (element instanceof HTMLInputElement) {
-        switch ((element.type || 'text').toLowerCase()) {
-            case 'search':
-                return 'search';
-            case 'checkbox':
-                return 'checkbox';
-            case 'radio':
-                return 'radio';
-            case 'range':
-                return 'range';
-            case 'number':
-                return 'number';
-            case 'color':
-                return 'color';
-            case 'date':
-            case 'datetime-local':
-                return 'datepicker';
-            default:
-                return 'text';
-        }
-    }
-    return 'text';
-}
-function getElementLocators(element) {
-    const testId = element.getAttribute('data-testid') || element.id || '';
-    let querySelector = '';
-    if (element.id) {
-        querySelector = `#${element.id}`;
-    }
-    else if (!element.getAttribute('data-testid')) {
-        let parent = element.parentElement;
-        let foundId = '';
-        let foundTestId = '';
-        let levelsUp = 0;
-        const pathElements = [];
-        for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
-            pathElements.push(parent);
-            if (!foundId && parent.id) {
-                foundId = parent.id;
-                levelsUp = i + 1;
-            }
-            if (!foundTestId && parent.getAttribute('data-testid')) {
-                foundTestId = parent.getAttribute('data-testid') || '';
-                levelsUp = i + 1;
-                break;
-            }
-            parent = parent.parentElement;
-        }
-        if (foundId || foundTestId) {
-            const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-            const pathParts = [parentSelector];
-            for (let i = levelsUp - 2; i >= 0; i--) {
-                pathParts.push(pathElements[i].tagName.toLowerCase());
-            }
-            const tagName = element.tagName.toLowerCase();
-            let elementSelector = tagName;
-            const inputType = element.getAttribute('type');
-            const inputName = getElementName(element);
-            if (inputType) {
-                elementSelector += `[type='${inputType}']`;
-            }
-            if (inputName) {
-                elementSelector += `[name='${inputName}']`;
-            }
-            pathParts.push(elementSelector);
-            querySelector = pathParts.join(' > ');
-        }
-    }
-    return { testId, querySelector };
-}
-function getTestId(element) {
-    return getElementLocators(element).testId;
-}
-function getSelector(element) {
-    return getElementLocators(element).querySelector;
-}
-function getElementSelector(element) {
-    if (!element)
-        return '';
-    const el = element;
-    if (el.id)
-        return `${el.tagName.toLowerCase()}#${el.id}`;
-    const testId = el.getAttribute('data-testid');
-    if (testId)
-        return `${el.tagName.toLowerCase()}[data-testid='${testId}']`;
-    let parent = el.parentElement;
-    let foundId = '';
-    let foundTestId = '';
-    let levelsUp = 0;
-    const pathElements = [];
-    for (let i = 0; i < LIMITS.PARENT_SEARCH_DEPTH && parent; i++) {
-        pathElements.push(parent);
-        if (!foundId && parent.id) {
-            foundId = parent.id;
-            levelsUp = i + 1;
-        }
-        if (!foundTestId && parent.getAttribute('data-testid')) {
-            foundTestId = parent.getAttribute('data-testid') || '';
-            levelsUp = i + 1;
-        }
-        parent = parent.parentElement;
-    }
-    if (foundId || foundTestId) {
-        const parentSelector = foundId ? `#${foundId}` : `[data-testid='${foundTestId}']`;
-        const pathParts = [parentSelector];
-        for (let i = levelsUp - 2; i >= 0; i--) {
-            pathParts.push(pathElements[i].tagName.toLowerCase());
-        }
-        const tagName = el.tagName.toLowerCase();
-        let elementSelector = tagName;
-        const inputType = el.getAttribute('type');
-        const inputName = getElementName(el);
-        const classes = Array.from(el.classList).filter(Boolean);
-        if (inputType)
-            elementSelector += `[type='${inputType}']`;
-        if (inputName)
-            elementSelector += `[name='${inputName}']`;
-        if (classes.length > 0)
-            elementSelector += `.${classes[0]}`;
-        pathParts.push(elementSelector);
-        return pathParts.join(' > ');
-    }
-    let selector = el.tagName.toLowerCase();
-    const classes = Array.from(el.classList).filter(Boolean);
-    const nameAttr = getElementName(el);
-    if (nameAttr) {
-        selector += `[name='${nameAttr}']`;
-        return selector;
-    }
-    if (classes.length > 0) {
-        selector += `.${classes[0]}`;
-        return selector;
-    }
-    const parentEl = el.parentElement;
-    if (parentEl) {
-        const children = Array.from(parentEl.children);
-        const index = children.indexOf(el) + 1;
-        selector = `${parentEl.tagName.toLowerCase()} > ${el.tagName.toLowerCase()}:nth-child(${index})`;
-    }
-    return selector;
-}
+
+
+
 function getElementLabel(element) {
     if (isEditorIframeElement(element)) {
         const source = getLinkedSourceElement(element);
@@ -1479,6 +1663,214 @@ function createScannedField(element, type, value, order) {
 function populateIdentifiers(element, testIdInput, selectorInput) {
     testIdInput.value = getTestId(element);
     selectorInput.value = getSelector(element);
+}
+
+;// ./src/content/element-helpers.ts
+
+
+
+
+
+
+;// ./src/content/content-script/startup-listeners.ts
+
+
+
+// Check if extension context is valid
+function isExtensionContextValid() {
+    if (state.contextInvalidated)
+        return false;
+    try {
+        if (!chrome.runtime?.id) {
+            state.contextInvalidated = true;
+            return false;
+        }
+        return true;
+    }
+    catch {
+        state.contextInvalidated = true;
+        return false;
+    }
+}
+// Initialize
+async function init() {
+    try {
+        if (!actions.isExtensionContextValid()) {
+            console.warn('Freak Filler: Extension context invalid at init');
+            return;
+        }
+        state.currentSettings = await StorageService.getSettings();
+        // Always attach listeners - the popup shows based on settings
+        actions.attachInputListeners();
+    }
+    catch (error) {
+        console.warn('Freak Filler: Failed to initialize, extension may have been reloaded');
+        state.contextInvalidated = true;
+        return;
+    }
+    // Listen for settings changes
+    chrome.storage.onChanged.addListener((changes) => {
+        if (changes.formFillerSettings) {
+            state.currentSettings = changes.formFillerSettings.newValue;
+        }
+    });
+}
+// Attach listeners to input fields
+function attachInputListeners() {
+    document.addEventListener('focusin', actions.handleInputFocus, true);
+    document.addEventListener('focusout', actions.handleInputFocusOut, true);
+    document.addEventListener('click', actions.handleInputClick, true);
+    document.addEventListener('contextmenu', actions.handleContextMenu, true);
+}
+// Handle input click (for live assistant mode)
+async function handleInputClick(event) {
+    // Early exit if context is invalid
+    if (!actions.isExtensionContextValid()) {
+        return;
+    }
+    // Only handle if live assistant is enabled
+    if (!state.currentSettings?.enableLiveAssistant) {
+        return;
+    }
+    // Check if any feature is enabled
+    if (!state.currentSettings?.enableSaveValue &&
+        !state.currentSettings?.enableImportValue &&
+        !state.currentSettings?.enableRandomStringInAssistant &&
+        !state.currentSettings?.enableLocatorRetriever &&
+        !state.currentSettings?.enableRegexPattern) {
+        return;
+    }
+    const target = event.target;
+    // Prevent showing popup if the clicked element is inside our own popup
+    if (target.closest('.form-filler-popup')) {
+        return;
+    }
+    const editableElement = getAssistantElementFromTarget(target);
+    if (editableElement) {
+        state.currentInputElement = editableElement;
+        try {
+            await actions.showFillingAssistantPopup(state.currentInputElement);
+        }
+        catch (error) {
+            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+            state.contextInvalidated = true;
+            actions.removePopup();
+        }
+    }
+}
+// Handle input focus
+async function handleInputFocus(event) {
+    // Early exit if context is invalid
+    if (!actions.isExtensionContextValid()) {
+        return;
+    }
+    // If live assistant is ENABLED, handle in click event instead
+    // If live assistant is DISABLED, don't show assistant at all (context menu only)
+    if (state.currentSettings?.enableLiveAssistant !== undefined) {
+        return;
+    }
+    // Check if any feature is enabled
+    if (!state.currentSettings?.enableSaveValue && !state.currentSettings?.enableImportValue) {
+        return;
+    }
+    const target = event.target;
+    // Prevent showing popup if the focused element is inside our own popup
+    if (target.closest('.form-filler-popup')) {
+        return;
+    }
+    const editableElement = getAssistantElementFromTarget(target);
+    if (editableElement) {
+        state.currentInputElement = editableElement;
+        try {
+            await actions.showFillingAssistantPopup(state.currentInputElement);
+        }
+        catch (error) {
+            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
+            state.contextInvalidated = true;
+            actions.removePopup();
+        }
+    }
+}
+// Handle context menu to track target element
+function handleContextMenu(event) {
+    const mouseEvent = event;
+    const initial = document.elementFromPoint(mouseEvent.clientX, mouseEvent.clientY) || event.target;
+    state.lastContextMenuTarget = null;
+    state.lastContextMenuTargetType = null;
+    // First priority: editable controls, including contenteditable HTML editors.
+    const editable = getAssistantElementFromTarget(initial);
+    if (editable) {
+        state.lastContextMenuTarget = editable;
+        state.lastContextMenuTargetType = 'editable';
+    }
+    else {
+        // Second priority: data-testid on the exact element or its ancestors
+        const dataTestEl = initial.closest('[data-testid]');
+        if (dataTestEl) {
+            state.lastContextMenuTarget = dataTestEl;
+            state.lastContextMenuTargetType = 'data-testid';
+        }
+        else if (initial.id) {
+            // Third priority: use nearest ancestor with id
+            const idEl = initial.closest('[id]');
+            state.lastContextMenuTarget = idEl || initial;
+            state.lastContextMenuTargetType = 'id';
+        }
+        else {
+            // Label-associated controls
+            const label = initial.closest('label');
+            if (label) {
+                const forId = label.getAttribute('for');
+                if (forId) {
+                    const associated = document.getElementById(forId);
+                    if (associated) {
+                        state.lastContextMenuTarget = associated;
+                        state.lastContextMenuTargetType = 'label-associated';
+                    }
+                }
+                else {
+                    const inner = label.querySelector(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
+                    if (inner) {
+                        state.lastContextMenuTarget = inner;
+                        state.lastContextMenuTargetType = 'label-associated';
+                    }
+                }
+            }
+            // Clickable or media elements
+            if (!state.lastContextMenuTarget) {
+                const clickEl = initial.closest('button, a, img');
+                if (clickEl) {
+                    state.lastContextMenuTarget = clickEl;
+                    state.lastContextMenuTargetType = clickEl.tagName.toLowerCase();
+                }
+            }
+            // Fallback to the initial element
+            if (!state.lastContextMenuTarget) {
+                state.lastContextMenuTarget = initial;
+                state.lastContextMenuTargetType = initial.tagName.toLowerCase();
+            }
+        }
+    }
+    // Log helpful debug info
+    const best = state.lastContextMenuTarget;
+    const testId = best?.getAttribute('data-testid');
+    const id = best?.id;
+    const name = (best?.name) || null;
+    console.log('Context menu target selected:', { tag: best?.tagName, contextType: state.lastContextMenuTargetType, testId, id, name });
+}
+// Handle input focus out
+function handleInputFocusOut(event) {
+    // Delay removal to allow clicking popup buttons
+    const activeElement = document.activeElement;
+    const relatedTarget = event.relatedTarget;
+    // Don't remove if mouse is over popup or if clicking inside popup
+    if (state.isMouseOverPopup)
+        return;
+    if (state.autoFillPopup && state.autoFillPopup.contains(activeElement))
+        return;
+    if (state.autoFillPopup && relatedTarget && state.autoFillPopup.contains(relatedTarget))
+        return;
+    actions.removePopup();
 }
 
 ;// ./src/utils/notification.ts
@@ -1837,276 +2229,136 @@ async function setupSaveSection(popup, inputElement, pageData) {
     });
 }
 
-;// ./src/content/content.ts
+;// ./src/content/content-script/assistant-popup.ts
 
 
 
 
 
 
-
-
-let autoFillPopup = null;
-let content_currentInputElement = null;
-let currentSettings = null;
-let isMouseOverPopup = false;
-let contextInvalidated = false;
-let lastContextMenuTarget = null;
-let lastContextMenuTargetType = null;
-// Check if extension context is valid
-function isExtensionContextValid() {
-    if (contextInvalidated)
-        return false;
-    try {
-        if (!chrome.runtime?.id) {
-            contextInvalidated = true;
-            return false;
+const POPUP_VIEWPORT_MARGIN = 8;
+const POPUP_INPUT_GAP = 5;
+function mountPopup(popup, preferDocumentElement = false) {
+    const roots = preferDocumentElement
+        ? [document.documentElement, document.body]
+        : [document.body, document.documentElement];
+    for (const root of roots) {
+        if (!root) {
+            continue;
         }
-        return true;
+        try {
+            root.appendChild(popup);
+            if (popup.isConnected) {
+                return true;
+            }
+        }
+        catch (error) {
+            console.warn('Failed to mount Filling Assistant popup:', error);
+        }
     }
-    catch {
-        contextInvalidated = true;
-        return false;
-    }
+    return popup.isConnected;
 }
-// Initialize
-async function init() {
-    try {
-        if (!isExtensionContextValid()) {
-            console.warn('Freak Filler: Extension context invalid at init');
+function preparePopupForMount(popup) {
+    popup.style.setProperty('position', 'absolute', 'important');
+    popup.style.setProperty('z-index', '2147483647', 'important');
+    popup.style.setProperty('display', 'block', 'important');
+    popup.style.setProperty('visibility', 'hidden', 'important');
+}
+function positionPopup(inputElement, popup) {
+    const rect = inputElement.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const popupWidth = popupRect.width || 320;
+    const popupHeight = popupRect.height || 160;
+    const viewportRight = window.scrollX + window.innerWidth;
+    const viewportBottom = window.scrollY + window.innerHeight;
+    const minLeft = window.scrollX + POPUP_VIEWPORT_MARGIN;
+    const minTop = window.scrollY + POPUP_VIEWPORT_MARGIN;
+    const maxLeft = Math.max(minLeft, viewportRight - popupWidth - POPUP_VIEWPORT_MARGIN);
+    const maxTop = Math.max(minTop, viewportBottom - popupHeight - POPUP_VIEWPORT_MARGIN);
+    let left = rect.left + window.scrollX;
+    if (left > maxLeft) {
+        left = maxLeft;
+    }
+    if (left < minLeft) {
+        left = minLeft;
+    }
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    let top = rect.bottom + window.scrollY + POPUP_INPUT_GAP;
+    if (spaceBelow < popupHeight + POPUP_INPUT_GAP && spaceAbove > popupHeight + POPUP_INPUT_GAP) {
+        top = rect.top + window.scrollY - popupHeight - POPUP_INPUT_GAP;
+    }
+    if (top > maxTop) {
+        top = maxTop;
+    }
+    if (top < minTop) {
+        top = minTop;
+    }
+    popup.style.setProperty('top', `${top}px`, 'important');
+    popup.style.setProperty('left', `${left}px`, 'important');
+    popup.style.setProperty('visibility', 'visible', 'important');
+}
+function keepPopupMounted(inputElement, popup) {
+    requestAnimationFrame(() => {
+        if (state.autoFillPopup !== popup || popup.isConnected) {
             return;
         }
-        currentSettings = await StorageService.getSettings();
-        // Always attach listeners - the popup shows based on settings
-        attachInputListeners();
-    }
-    catch (error) {
-        console.warn('Freak Filler: Failed to initialize, extension may have been reloaded');
-        contextInvalidated = true;
-        return;
-    }
-    // Listen for settings changes
-    chrome.storage.onChanged.addListener((changes) => {
-        if (changes.formFillerSettings) {
-            currentSettings = changes.formFillerSettings.newValue;
+        if (mountPopup(popup, true)) {
+            positionPopup(inputElement, popup);
         }
     });
 }
-// Attach listeners to input fields
-function attachInputListeners() {
-    document.addEventListener('focusin', handleInputFocus);
-    document.addEventListener('focusout', handleInputFocusOut);
-    document.addEventListener('click', handleInputClick);
-    document.addEventListener('contextmenu', handleContextMenu);
-}
-// Handle input click (for live assistant mode)
-async function handleInputClick(event) {
-    // Early exit if context is invalid
-    if (!isExtensionContextValid()) {
-        return;
-    }
-    // Only handle if live assistant is enabled
-    if (!currentSettings?.enableLiveAssistant) {
-        return;
-    }
-    // Check if any feature is enabled
-    if (!currentSettings?.enableSaveValue &&
-        !currentSettings?.enableImportValue &&
-        !currentSettings?.enableRandomStringInAssistant &&
-        !currentSettings?.enableLocatorRetriever &&
-        !currentSettings?.enableRegexPattern) {
-        return;
-    }
-    const target = event.target;
-    // Prevent showing popup if the clicked element is inside our own popup
-    if (target.closest('.form-filler-popup')) {
-        return;
-    }
-    const editableElement = getAssistantElementFromTarget(target);
-    if (editableElement) {
-        content_currentInputElement = editableElement;
-        try {
-            await showFillingAssistantPopup(content_currentInputElement);
-        }
-        catch (error) {
-            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-            contextInvalidated = true;
-            removePopup();
-        }
-    }
-}
-// Handle input focus
-async function handleInputFocus(event) {
-    // Early exit if context is invalid
-    if (!isExtensionContextValid()) {
-        return;
-    }
-    // If live assistant is ENABLED, handle in click event instead
-    // If live assistant is DISABLED, don't show assistant at all (context menu only)
-    if (currentSettings?.enableLiveAssistant !== undefined) {
-        return;
-    }
-    // Check if any feature is enabled
-    if (!currentSettings?.enableSaveValue && !currentSettings?.enableImportValue) {
-        return;
-    }
-    const target = event.target;
-    // Prevent showing popup if the focused element is inside our own popup
-    if (target.closest('.form-filler-popup')) {
-        return;
-    }
-    const editableElement = getAssistantElementFromTarget(target);
-    if (editableElement) {
-        content_currentInputElement = editableElement;
-        try {
-            await showFillingAssistantPopup(content_currentInputElement);
-        }
-        catch (error) {
-            console.warn('Freak Filler: Unable to show popup, extension context may be invalid');
-            contextInvalidated = true;
-            removePopup();
-        }
-    }
-}
-// Handle context menu to track target element
-function handleContextMenu(event) {
-    const mouseEvent = event;
-    const initial = document.elementFromPoint(mouseEvent.clientX, mouseEvent.clientY) || event.target;
-    lastContextMenuTarget = null;
-    lastContextMenuTargetType = null;
-    // First priority: editable controls, including contenteditable HTML editors.
-    const editable = getAssistantElementFromTarget(initial);
-    if (editable) {
-        lastContextMenuTarget = editable;
-        lastContextMenuTargetType = 'editable';
-    }
-    else {
-        // Second priority: data-testid on the exact element or its ancestors
-        const dataTestEl = initial.closest('[data-testid]');
-        if (dataTestEl) {
-            lastContextMenuTarget = dataTestEl;
-            lastContextMenuTargetType = 'data-testid';
-        }
-        else if (initial.id) {
-            // Third priority: use nearest ancestor with id
-            const idEl = initial.closest('[id]');
-            lastContextMenuTarget = idEl || initial;
-            lastContextMenuTargetType = 'id';
-        }
-        else {
-            // Label-associated controls
-            const label = initial.closest('label');
-            if (label) {
-                const forId = label.getAttribute('for');
-                if (forId) {
-                    const associated = document.getElementById(forId);
-                    if (associated) {
-                        lastContextMenuTarget = associated;
-                        lastContextMenuTargetType = 'label-associated';
-                    }
-                }
-                else {
-                    const inner = label.querySelector(`input, textarea, select, ${HTML_EDITOR_SELECTOR}`);
-                    if (inner) {
-                        lastContextMenuTarget = inner;
-                        lastContextMenuTargetType = 'label-associated';
-                    }
-                }
-            }
-            // Clickable or media elements
-            if (!lastContextMenuTarget) {
-                const clickEl = initial.closest('button, a, img');
-                if (clickEl) {
-                    lastContextMenuTarget = clickEl;
-                    lastContextMenuTargetType = clickEl.tagName.toLowerCase();
-                }
-            }
-            // Fallback to the initial element
-            if (!lastContextMenuTarget) {
-                lastContextMenuTarget = initial;
-                lastContextMenuTargetType = initial.tagName.toLowerCase();
-            }
-        }
-    }
-    // Log helpful debug info
-    const best = lastContextMenuTarget;
-    const testId = best?.getAttribute('data-testid');
-    const id = best?.id;
-    const name = (best?.name) || null;
-    console.log('Context menu target selected:', { tag: best?.tagName, contextType: lastContextMenuTargetType, testId, id, name });
-}
-// Handle input focus out
-function handleInputFocusOut(event) {
-    // Delay removal to allow clicking popup buttons
-    const activeElement = document.activeElement;
-    const relatedTarget = event.relatedTarget;
-    // Don't remove if mouse is over popup or if clicking inside popup
-    if (isMouseOverPopup)
-        return;
-    if (autoFillPopup && autoFillPopup.contains(activeElement))
-        return;
-    if (autoFillPopup && relatedTarget && autoFillPopup.contains(relatedTarget))
-        return;
-    removePopup();
-}
 // Show auto-fill popup
 async function showFillingAssistantPopup(inputElement) {
-    if (!isExtensionContextValid()) {
+    if (!actions.isExtensionContextValid()) {
         return;
     }
-    removePopup();
+    actions.removePopup();
     // Set current input element for the modules
     setCurrentInputElement(inputElement);
     // Get page data
     const currentUrl = window.location.href;
     const pageData = await StorageService.getCurrentPageData(currentUrl);
-    // Show toast if save/import enabled but no page profile
-    if (!pageData && (currentSettings?.enableSaveValue || currentSettings?.enableImportValue) &&
-        (!currentSettings?.enableRandomStringInAssistant &&
-            !currentSettings?.enableLocatorRetriever &&
-            !currentSettings?.enableRegexPattern)) {
-        showNotification('No page profile found. Please create a page profile for this website to use save and import features.');
-        return;
-    }
     // Check if any features are enabled
-    const hasFeatures = currentSettings?.enableRandomStringInAssistant ||
-        currentSettings?.enableSaveValue ||
-        currentSettings?.enableImportValue ||
-        currentSettings?.enableLocatorRetriever ||
-        currentSettings?.enableRegexPattern;
+    const hasFeatures = state.currentSettings?.enableRandomStringInAssistant ||
+        state.currentSettings?.enableSaveValue ||
+        state.currentSettings?.enableImportValue ||
+        state.currentSettings?.enableLocatorRetriever ||
+        state.currentSettings?.enableRegexPattern;
     if (!hasFeatures) {
         return;
     }
     const allowTextSections = allowsTextActions(inputElement);
-    const popup = createPopup(pageData, allowTextSections);
-    autoFillPopup = popup;
-    // Append to body first to calculate height
-    document.body.appendChild(popup);
+    const popup = actions.createPopup(pageData, allowTextSections);
+    preparePopupForMount(popup);
+    state.autoFillPopup = popup;
+    // Append hidden first so sections can be measured before revealing.
+    if (!mountPopup(popup)) {
+        state.autoFillPopup = null;
+        console.warn('Filling Assistant popup could not be attached to the page');
+        return;
+    }
     // Locator copy buttons use plain text 'Copy' (no SVG icons)
-    // Position popup below input with 5px margin
-    const rect = inputElement.getBoundingClientRect();
-    popup.style.position = 'absolute';
-    popup.style.top = `${rect.bottom + window.scrollY + 5}px`;
-    popup.style.left = `${rect.left + window.scrollX}px`;
-    popup.style.zIndex = '2147483647'; // Maximum z-index
     // Setup sections
-    if (pageData && currentSettings?.enableSaveValue) {
+    if (pageData && state.currentSettings?.enableSaveValue) {
         await setupSaveSection(popup, inputElement, pageData);
     }
-    if (pageData && currentSettings?.enableImportValue) {
+    if (pageData && state.currentSettings?.enableImportValue) {
         await setupImportSection(popup, inputElement, pageData, () => {
             showNotification('Value imported into the field.');
         });
     }
-    if (currentSettings?.enableRandomStringInAssistant && allowTextSections) {
-        setupRandomStringSection(popup, inputElement);
+    if (state.currentSettings?.enableRandomStringInAssistant && allowTextSections) {
+        actions.setupRandomStringSection(popup, inputElement);
     }
-    if (currentSettings?.enableLocatorRetriever) {
-        setupLocatorRetrieverSection(popup, inputElement);
+    if (state.currentSettings?.enableLocatorRetriever) {
+        actions.setupLocatorRetrieverSection(popup, inputElement);
     }
-    if (currentSettings?.enableRegexPattern && allowTextSections) {
-        setupRegexPatternSection(popup, inputElement);
+    if (state.currentSettings?.enableRegexPattern && allowTextSections) {
+        actions.setupRegexPatternSection(popup, inputElement);
     }
+    positionPopup(inputElement, popup);
+    keepPopupMounted(inputElement, popup);
     // Make locator copy buttons keyboard-accessible where present
     try {
         const copyTestBtn = popup.querySelector('.copy-testid-btn');
@@ -2143,11 +2395,12 @@ async function showFillingAssistantPopup(inputElement) {
 // Create popup element
 function createPopup(pageData, allowTextSections = false) {
     // Check which features are enabled and page data exists
-    const showSaveValue = currentSettings?.enableSaveValue && !!pageData;
-    const showImportValue = currentSettings?.enableImportValue && !!pageData;
-    const showRandomString = (currentSettings?.enableRandomStringInAssistant ?? false) && allowTextSections;
-    const showLocatorRetriever = currentSettings?.enableLocatorRetriever ?? false;
-    const showRegexPattern = (currentSettings?.enableRegexPattern ?? false) && allowTextSections;
+    const showSaveValue = state.currentSettings?.enableSaveValue && !!pageData;
+    const showImportValue = state.currentSettings?.enableImportValue && !!pageData;
+    const showMissingPageProfile = !pageData && (state.currentSettings?.enableSaveValue || state.currentSettings?.enableImportValue);
+    const showRandomString = (state.currentSettings?.enableRandomStringInAssistant ?? false) && allowTextSections;
+    const showLocatorRetriever = state.currentSettings?.enableLocatorRetriever ?? false;
+    const showRegexPattern = (state.currentSettings?.enableRegexPattern ?? false) && allowTextSections;
     const popup = document.createElement('div');
     popup.className = 'form-filler-popup';
     popup.innerHTML = `
@@ -2155,6 +2408,13 @@ function createPopup(pageData, allowTextSections = false) {
       <span>Filling Assistant</span>
     </div>
     <div class="popup-body">
+      ${showMissingPageProfile ? `
+      <div class="page-profile-missing-section assistant-section">
+        <div class="note-message">
+          No page profile found for this URL. Save and Import are unavailable until a page profile exists.
+        </div>
+      </div>
+      ` : ''}
       ${showSaveValue ? `
       <div class="save-section assistant-section">
         <div class="input-row">
@@ -2267,10 +2527,10 @@ function createPopup(pageData, allowTextSections = false) {
   `;
     // Add mouse event listeners to track when mouse is over popup
     popup.addEventListener('mouseenter', () => {
-        isMouseOverPopup = true;
+        state.isMouseOverPopup = true;
     });
     popup.addEventListener('mouseleave', () => {
-        isMouseOverPopup = false;
+        state.isMouseOverPopup = false;
     });
     // Prevent popup from losing focus when clicked (except on input fields)
     popup.addEventListener('mousedown', (e) => {
@@ -2285,87 +2545,19 @@ function createPopup(pageData, allowTextSections = false) {
 }
 // Remove popup
 function removePopup() {
-    if (autoFillPopup) {
+    if (state.autoFillPopup) {
         // Remove popup from parent
-        autoFillPopup.remove();
-        autoFillPopup = null;
+        state.autoFillPopup.remove();
+        state.autoFillPopup = null;
     }
-    isMouseOverPopup = false;
+    state.isMouseOverPopup = false;
     setCurrentInputElement(null);
 }
-// Listen for messages from popup/background
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'applypreset') {
-        applypresetToPage(request.formData);
-        sendResponse({ success: true });
-    }
-    else if (request.action === 'scanFormFields') {
-        const fields = scanFormFields();
-        sendResponse({ success: true, fields });
-    }
-    else if (request.action === 'showAssistantFromContextMenu') {
-        // Show assistant for the element that was right-clicked
-        StorageService.getSettings().then((settings) => {
-            const enabled = settings?.enableSaveValue ||
-                settings?.enableImportValue ||
-                settings?.enableLiveAssistant ||
-                settings?.enableRandomStringInAssistant ||
-                settings?.enableLocatorRetriever ||
-                settings?.enableRegexPattern;
-            if (!enabled) {
-                sendResponse({ success: false, error: 'Assistant disabled in settings' });
-                return;
-            }
-            if (lastContextMenuTarget && isAssistantElement(lastContextMenuTarget)) {
-                content_currentInputElement = lastContextMenuTarget;
-                showFillingAssistantPopup(content_currentInputElement).then(() => {
-                    sendResponse({ success: true });
-                }).catch((error) => {
-                    sendResponse({ success: false, error: error.message });
-                });
-            }
-            else {
-                sendResponse({ success: false, error: 'No editable target element' });
-            }
-        }).catch(err => {
-            console.warn('Failed to read settings before showing assistant', err);
-            sendResponse({ success: false, error: 'Failed to read settings' });
-        });
-        return true; // Keep channel open for async
-    }
-    else if (request.action === 'getElementSelector') {
-        // Get selector for the element that was right-clicked
-        console.log('getElementSelector request received, target:', lastContextMenuTarget);
-        if (lastContextMenuTarget) {
-            const selector = getElementSelector(lastContextMenuTarget);
-            console.log('Selector generated:', selector);
-            if (!selector) {
-                console.warn('Selector could not be generated for target:', lastContextMenuTarget);
-                showNotification('Unable to generate selector for the selected element');
-                sendResponse({ success: false, error: 'Unable to generate selector' });
-                return false;
-            }
-            // Copy to clipboard directly in content script
-            navigator.clipboard.writeText(selector).then(() => {
-                console.log('Selector copied to clipboard');
-                // Show a temporary notification
-                showNotification(`Selector copied: ${selector}`);
-                sendResponse({ success: true, selector });
-            }).catch((error) => {
-                console.error('Failed to copy to clipboard:', error);
-                showNotification('Failed to copy selector');
-                sendResponse({ success: false, error: error.message });
-            });
-            return true; // Keep channel open for async
-        }
-        else {
-            console.warn('No lastContextMenuTarget available');
-            sendResponse({ success: false, error: 'No target element' });
-            return false;
-        }
-    }
-    return true;
-});
+
+;// ./src/content/content-script/field-scan.ts
+
+
+
 // Helper to decode HTML entities safely
 function decodeHtmlEntities(text) {
     try {
@@ -2401,7 +2593,7 @@ function scanFormFields() {
     };
     const getInputValue = (element) => {
         const value = getEditableValue(element);
-        return isPlaceholderValue(element, value) ? '' : value;
+        return actions.isPlaceholderValue(element, value) ? '' : value;
     };
     // Scan search before the broader text selector so it keeps its specific type.
     scanElements('input[type="search"]', getInputValue, 'search');
@@ -2463,6 +2655,10 @@ function isPlaceholderValue(element, value) {
         return true;
     return element instanceof HTMLInputElement && element.type === 'date' && value === '02/06/2026';
 }
+
+;// ./src/content/content-script/field-fill.ts
+
+
 // Show temporary notification
 // Notifications handled by src/utils/notification.ts (listens for formFiller:notify events)
 function simulateClick(element) {
@@ -2484,35 +2680,35 @@ function simulateClick(element) {
 // Apply preset data to page
 async function applypresetToPage(formData) {
     for (const field of formData) {
-        await applyFieldToPage(field);
+        await actions.applyFieldToPage(field);
     }
 }
 // Apply single field to page
 async function applyFieldToPage(field) {
-    const element = findFieldElement(field);
+    const element = actions.findFieldElement(field);
     if (!element) {
         return;
     }
     if (field.type === 'checkbox') {
-        applyCheckboxField(element, field);
+        actions.applyCheckboxField(element, field);
         return;
     }
     if (field.type === 'radio') {
-        applyRadioField(element, field);
+        actions.applyRadioField(element, field);
         return;
     }
     if (field.type === 'clickable') {
-        await waitFor(parseInt(String(field.value), 10) || 0);
-        simulateClick(element);
-        blurAfterFill(element, field);
+        await actions.waitFor(parseInt(String(field.value), 10) || 0);
+        actions.simulateClick(element);
+        actions.blurAfterFill(element, field);
         return;
     }
     const value = field.type === 'dynamicDate'
-        ? getDynamicDateValue(field.value)
-        : getFieldValueForFill(field);
+        ? actions.getDynamicDateValue(field.value)
+        : actions.getFieldValueForFill(field);
     setEditableValue(element, value);
-    blurAfterFill(element, field);
-    await waitFor(field.fillDelay);
+    actions.blurAfterFill(element, field);
+    await actions.waitFor(field.fillDelay);
 }
 function findFieldElement(field) {
     let element = null;
@@ -2531,14 +2727,14 @@ function findFieldElement(field) {
 }
 function getFieldValueForFill(field) {
     const value = String(field.value ?? '');
-    return field.type === 'htmlEditor' ? value : decodeHtmlEntities(value);
+    return field.type === 'htmlEditor' ? value : actions.decodeHtmlEntities(value);
 }
 function applyCheckboxField(element, field) {
     const shouldBeChecked = field.value === true || field.value === 'true';
     if (element instanceof HTMLInputElement && element.checked !== shouldBeChecked) {
-        simulateClick(element);
+        actions.simulateClick(element);
     }
-    blurAfterFill(element, field);
+    actions.blurAfterFill(element, field);
 }
 function applyRadioField(element, field) {
     if (!(element instanceof HTMLInputElement)) {
@@ -2547,23 +2743,23 @@ function applyRadioField(element, field) {
     const radios = document.querySelectorAll(`input[type="radio"][name="${element.name}"]`);
     radios.forEach(radio => {
         if (radio.value === String(field.value)) {
-            simulateClick(radio);
+            actions.simulateClick(radio);
             if (!radio.checked) {
                 radio.checked = true;
             }
         }
     });
     dispatchValueEvents(element);
-    blurAfterFill(element, field);
+    actions.blurAfterFill(element, field);
 }
 function getDynamicDateValue(value) {
     try {
         const offsets = JSON.parse(String(value));
-        return formatDateWithOffsets(offsets.years || 0, offsets.months || 0, offsets.days || 0);
+        return actions.formatDateWithOffsets(offsets.years || 0, offsets.months || 0, offsets.days || 0);
     }
     catch (e) {
         console.error('Failed to parse dynamicDate value:', e);
-        return formatDateWithOffsets(0, 0, 0);
+        return actions.formatDateWithOffsets(0, 0, 0);
     }
 }
 function formatDateWithOffsets(years, months, days) {
@@ -2584,6 +2780,14 @@ function blurAfterFill(element, field) {
 function waitFor(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+;// ./src/content/content-script/assistant-sections.ts
+
+
+
+
+
+
 // Setup random string section
 function setupRandomStringSection(popup, inputElement) {
     const charsetSelect = popup.querySelector('.charset-select');
@@ -2594,11 +2798,11 @@ function setupRandomStringSection(popup, inputElement) {
         return;
     }
     // Load settings
-    if (currentSettings?.randomStringCharset) {
-        charsetSelect.value = currentSettings.randomStringCharset;
+    if (state.currentSettings?.randomStringCharset) {
+        charsetSelect.value = state.currentSettings.randomStringCharset;
     }
     // Determine length based on priority: length config > element length attribute > default settings
-    let determinedLength = currentSettings?.randomStringLength || DEFAULTS.RANDOM_STRING_LENGTH;
+    let determinedLength = state.currentSettings?.randomStringLength || DEFAULTS.RANDOM_STRING_LENGTH;
     // Check element's length attribute
     const elementLength = inputElement.getAttribute('maxlength') || inputElement.getAttribute('length');
     if (elementLength) {
@@ -2754,8 +2958,106 @@ function setupRegexPatternSection(popup, inputElement) {
         buttonsContainer.innerHTML = '<div class="no-data small">Failed to load patterns</div>';
     });
 }
-// Initialize on load
-init();
+
+;// ./src/content/content-script/bootstrap.ts
+
+
+
+
+function bootstrap() {
+    // Listen for messages from popup/background
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.action === 'applypreset') {
+            actions.applypresetToPage(request.formData);
+            sendResponse({ success: true });
+        }
+        else if (request.action === 'scanFormFields') {
+            const fields = actions.scanFormFields();
+            sendResponse({ success: true, fields });
+        }
+        else if (request.action === 'showAssistantFromContextMenu') {
+            // Show assistant for the element that was right-clicked
+            StorageService.getSettings().then((settings) => {
+                const enabled = settings?.enableSaveValue ||
+                    settings?.enableImportValue ||
+                    settings?.enableLiveAssistant ||
+                    settings?.enableRandomStringInAssistant ||
+                    settings?.enableLocatorRetriever ||
+                    settings?.enableRegexPattern;
+                if (!enabled) {
+                    sendResponse({ success: false, error: 'Assistant disabled in settings' });
+                    return;
+                }
+                if (state.lastContextMenuTarget && isAssistantElement(state.lastContextMenuTarget)) {
+                    state.currentInputElement = state.lastContextMenuTarget;
+                    actions.showFillingAssistantPopup(state.currentInputElement).then(() => {
+                        sendResponse({ success: true });
+                    }).catch((error) => {
+                        sendResponse({ success: false, error: error.message });
+                    });
+                }
+                else {
+                    sendResponse({ success: false, error: 'No editable target element' });
+                }
+            }).catch(err => {
+                console.warn('Failed to read settings before showing assistant', err);
+                sendResponse({ success: false, error: 'Failed to read settings' });
+            });
+            return true; // Keep channel open for async
+        }
+        else if (request.action === 'getElementSelector') {
+            // Get selector for the element that was right-clicked
+            console.log('getElementSelector request received, target:', state.lastContextMenuTarget);
+            if (state.lastContextMenuTarget) {
+                const selector = getElementSelector(state.lastContextMenuTarget);
+                console.log('Selector generated:', selector);
+                if (!selector) {
+                    console.warn('Selector could not be generated for target:', state.lastContextMenuTarget);
+                    showNotification('Unable to generate selector for the selected element');
+                    sendResponse({ success: false, error: 'Unable to generate selector' });
+                    return false;
+                }
+                // Copy to clipboard directly in content script
+                navigator.clipboard.writeText(selector).then(() => {
+                    console.log('Selector copied to clipboard');
+                    // Show a temporary notification
+                    showNotification(`Selector copied: ${selector}`);
+                    sendResponse({ success: true, selector });
+                }).catch((error) => {
+                    console.error('Failed to copy to clipboard:', error);
+                    showNotification('Failed to copy selector');
+                    sendResponse({ success: false, error: error.message });
+                });
+                return true; // Keep channel open for async
+            }
+            else {
+                console.warn('No lastContextMenuTarget available');
+                sendResponse({ success: false, error: 'No target element' });
+                return false;
+            }
+        }
+        return true;
+    });
+    // Initialize on load
+    actions.init();
+}
+
+;// ./src/content/content-script/index.ts
+
+
+
+
+
+
+
+Object.assign(actions, startup_listeners_namespaceObject, assistant_popup_namespaceObject, field_scan_namespaceObject, field_fill_namespaceObject, assistant_sections_namespaceObject);
+function startContentScript() {
+    bootstrap();
+}
+
+;// ./src/content/content.ts
+
+startContentScript();
 
 /******/ })()
 ;
